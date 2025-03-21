@@ -2951,6 +2951,14 @@
                 }
                 return shopCounters[skinName];
             }
+            function sortSkinsByEpisode(order = "asc") {
+                skins.sort((a, b) => {
+                    return order === "asc" ? a.episode - b.episode : b.episode - a.episode;
+                });
+
+                displaySkins(skins); // 정렬 후 UI 업데이트
+            }
+            
            function applyFilters() {
                 let sortBy = document.getElementById("sort-by-date").value;
 
