@@ -500,7 +500,7 @@
                     margin-bottom: 15px;
                     padding: 10px;
                 }
-            
+
                 .filter-section select {
                     flex: 1; /* 🔥 너비 자동 조정 */
                     min-width: 120px; /* 너무 작아지지 않도록 최소 크기 설정 */
@@ -545,8 +545,8 @@
 
                 .favorites-popup,
                 .shop-counter-popup {
-                    width: 80%;                   
-                    max-height: 70vh;              
+                    width: 80%;
+                    max-height: 70vh;
                     padding: 15px;
                 }
 
@@ -616,7 +616,7 @@
             }
 
             .pagination button {
-                background-color: #FF4655;
+                background-color: #ff4655;
                 color: white;
                 border: none;
                 padding: 5px 10px;
@@ -649,12 +649,12 @@
 
             /* ✅ 숫자에 마우스 올리면 색상 변경 */
             .pagination .page-number:hover {
-                color: #FF4655;
+                color: #ff4655;
             }
 
             /* ✅ 현재 페이지 강조 */
             .pagination .page-number.active {
-                color: #FF4655;
+                color: #ff4655;
                 font-weight: bold;
             }
 
@@ -2882,7 +2882,7 @@
             let shopHistory = [];
 
             document.addEventListener("DOMContentLoaded", () => {
-                // 🔥 localStorage에서 날짜 세기 기능을 복원
+                // 🔥 날짜 세기 기능 복원
                 const storedCounters = localStorage.getItem("shopCounters");
                 if (storedCounters) {
                     shopCounters = JSON.parse(storedCounters);
@@ -2902,8 +2902,15 @@
                     });
                 }
 
+                // 🔥 즐겨찾기(favorites) 데이터 복원 추가
+                const storedFavorites = localStorage.getItem("favorites");
+                if (storedFavorites) {
+                    favorites = new Set(JSON.parse(storedFavorites)); // Set 객체로 변환
+                }
+
                 // 🔥 필터 적용 후 페이지 로드
-                applyFilters(); // 사이트 처음 들어갔을 때 필터 반영해서 표시
+                applyFilters(); // 필터 적용
+                fillFavoritesList(); // 즐겨찾기 목록 업데이트
             });
 
             function openSkinDetails(name) {
@@ -2949,15 +2956,19 @@
             }
 
             function toggleFavorite() {
-                const skinName = document.getElementById("favorite-btn").getAttribute("data-skin");
+                const favoriteBtn = document.getElementById("favorite-btn");
+                const skinName = favoriteBtn.getAttribute("data-skin");
 
                 if (favorites.has(skinName)) {
                     favorites.delete(skinName);
-                    document.getElementById("favorite-btn").textContent = "즐겨찾기";
+                    favoriteBtn.textContent = "즐겨찾기";
                 } else {
                     favorites.add(skinName);
-                    document.getElementById("favorite-btn").textContent = "즐겨찾기 취소";
+                    favoriteBtn.textContent = "즐겨찾기 취소";
                 }
+
+                // 🔥 변경된 favorites를 localStorage에 저장
+                localStorage.setItem("favorites", JSON.stringify([...favorites]));
             }
 
             function fillMenuList() {
