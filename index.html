@@ -2736,15 +2736,19 @@
                 }
                 return shopCounters[skinName];
             }
-            function applyFilters() {
-                let dateSortOrder = document.getElementById("sort-by-date").value;
+           function applyFilters() {
+                let sortBy = document.getElementById("sort-by-date").value;
 
-                if (dateSortOrder === "asc" || dateSortOrder === "desc") {
-                    sortSkinsByDate(dateSortOrder);
+                if (sortBy === "asc" || sortBy === "desc") {
+                    if (skins[0].episode !== undefined) {
+                        sortSkinsByEpisode(sortBy); // 에피소드 정렬
+                    } else if (skins[0].releaseDate !== undefined) {
+                        sortSkinsByDate(sortBy); // 출시 날짜 정렬
+                    }
                 }
             }
 
-            function sortSkinsByDate(order) {
+            function sortSkinsByDate(order = "asc") {
                 skins.sort((a, b) => {
                     let dateA = new Date(a.releaseDate);
                     let dateB = new Date(b.releaseDate);
