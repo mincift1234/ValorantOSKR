@@ -656,7 +656,7 @@
                     <option value="outlaw">아웃로</option>
                 </select>
                 <select id="price-sort" onchange="applyFilters()">
-                    <option value="none">가격</option>
+                    <option value="none">가격 순 정렬렬</option>
                     <option value="high">가격 높은 순</option>
                     <option value="low">가격 낮은 순</option>
                 </select>
@@ -888,7 +888,8 @@
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EB%91%90%EB%93%A4%20%EB%B2%84%EC%A6%88/Doodle_Buds_Ares.webp",
                     tier: "premium",
                     type: "ares",
-                    price: 1775
+                    price: 1775,
+                    episode: 4.07
                 },
                 {
                     name: "두들 버즈 마샬",
@@ -1768,7 +1769,8 @@
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%95%BD%ED%83%88%EC%9E%90/Reaver_Vandal.webp",
                     tier: "premium",
                     type: "vandal",
-                    price: 1775
+                    price: 1775,
+                    episode: 1.11
                 },
                 {
                     name: "약탈자 카람빗",
@@ -2952,15 +2954,7 @@
                 }
                 return shopCounters[skinName];
             }
-            function sortSkinsByEpisode(order = "asc") {
-                skins.sort((a, b) => {
-                    return order === "asc" ? a.episode - b.episode : b.episode - a.episode;
-                });
-
-                displaySkins(skins); // 정렬 후 UI 업데이트
-            }
-            
-           function applyFilters() {
+            function applyFilters() {
                 let sortBy = document.getElementById("sort-by-date").value;
 
                 if (sortBy === "asc" || sortBy === "desc") {
@@ -2970,6 +2964,24 @@
                         sortSkinsByDate(sortBy); // 출시 날짜 정렬
                     }
                 }
+            }
+
+            function sortSkinsByEpisode(order = "asc") {
+                skins.sort((a, b) => {
+                    return order === "asc" ? a.episode - b.episode : b.episode - a.episode;
+                });
+
+                displaySkins(skins); // 정렬된 데이터로 UI 업데이트
+            }
+
+            function sortSkinsByDate(order = "asc") {
+                skins.sort((a, b) => {
+                    let dateA = new Date(a.releaseDate);
+                    let dateB = new Date(b.releaseDate);
+                    return order === "asc" ? dateA - dateB : dateB - dateA;
+                });
+
+                displaySkins(skins); // 정렬 후 UI 업데이트
             }
         </script>
         <footer class="taskbar">
