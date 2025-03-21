@@ -484,9 +484,13 @@
                 transform: scale(0.95);
             }
 
-            @media screen and (max-width: 480px) {
+            @media screen and (max-width: 768px) {
                 body {
                     overflow-x: hidden; /* 가로 스크롤 방지 */
+                }
+                .container {
+                    width: 100%;
+                    padding: 15px;
                 }
                 /* 팝업 전체 크기 */
                 .popup {
@@ -546,6 +550,15 @@
                     border: none;
                     background: #333;
                     color: #fff;
+                }
+                .taskbar-item a {
+                    color: #00aaff; /* 이메일 주소를 파란색으로 */
+                    text-decoration: none;
+                    margin-left: 5px;
+                }
+                
+                .taskbar-item a:hover {
+                    text-decoration: underline; /* 마우스 올릴 때 강조 */
                 }
             }
             .taskbar {
