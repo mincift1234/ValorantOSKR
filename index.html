@@ -2875,6 +2875,31 @@
 
             let shopHistory = [];
 
+            document.addEventListener("DOMContentLoaded", () => {
+                // 🔥 localStorage에서 날짜 세기 기능을 복원
+                const storedCounters = localStorage.getItem("shopCounters");
+                if (storedCounters) {
+                    shopCounters = JSON.parse(storedCounters);
+                    Object.entries(shopCounters).forEach(([skinName, data]) => {
+                        if (data.startDate) {
+                            data.startDate = new Date(data.startDate);
+                        }
+                    });
+                }
+
+                const storedHistory = localStorage.getItem("shopHistory");
+                if (storedHistory) {
+                    shopHistory = JSON.parse(storedHistory);
+                    shopHistory.forEach((item) => {
+                        item.startDate = new Date(item.startDate);
+                        item.endDate = new Date(item.endDate);
+                    });
+                }
+
+                // 🔥 필터 적용 후 페이지 로드
+                applyFilters(); // 사이트 처음 들어갔을 때 필터 반영해서 표시
+            });
+
             function openSkinDetails(name) {
                 const skin = skins.find((s) => s.name === name);
                 if (!skin) return;
