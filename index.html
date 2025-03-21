@@ -2651,40 +2651,40 @@
                 const type = document.getElementById("type-filter").value;
                 const sort = document.getElementById("price-sort").value;
                 const searchKeyword = document.getElementById("search-box").value.trim().toLowerCase();
-                const sortByDate = document.getElementById("sort-by-date").value; // 날짜 정렬 필터
+                const sortByDate = document.getElementById("sort-by-date").value;
 
-                let filteredSkins = skins.filter(
-                    (skin) =>
-                        (tier === "all" || skin.tier === tier) &&
-                        (type === "all" || skin.type === type) &&
-                        (searchKeyword === "" || skin.name.toLowerCase().includes(searchKeyword))
-                );
+                // 필터링 먼저 적용
+                let filteredSkins = skins.filter((skin) => {
+                    if (tier !== "all" && skin.tier !== tier) return false;
+                    if (type !== "all" && skin.type !== type) return false;
+                    if (searchKeyword && !skin.name.toLowerCase().includes(searchKeyword)) return false;
+                    return true;
+                });
 
-                // 가격 정렬 적용
+                // 가격 정렬
                 if (sort === "high") {
                     filteredSkins.sort((a, b) => b.price - a.price);
-                } else {
+                } else if (sort === "low") {
                     filteredSkins.sort((a, b) => a.price - b.price);
                 }
 
-                // 날짜 정렬 추가
-                if (sortByDate === "asc" || sortByDate === "desc") {
-                    if (filteredSkins.length > 0) {
-                        if (filteredSkins[0].episode !== undefined) {
-                            filteredSkins.sort((a, b) =>
-                                sortByDate === "asc" ? a.episode - b.episode : b.episode - a.episode
-                            );
-                        } else if (filteredSkins[0].releaseDate !== undefined) {
-                            filteredSkins.sort((a, b) => {
-                                let dateA = new Date(a.releaseDate);
-                                let dateB = new Date(b.releaseDate);
-                                return sortByDate === "asc" ? dateA - dateB : dateB - dateA;
-                            });
-                        }
+                // 날짜 정렬 (필터링된 데이터가 있을 때만)
+                if (filteredSkins.length > 0 && (sortByDate === "asc" || sortByDate === "desc")) {
+                    if (filteredSkins[0].episode !== undefined) {
+                        filteredSkins.sort((a, b) =>
+                            sortByDate === "asc" ? a.episode - b.episode : b.episode - a.episode
+                        );
+                    } else if (filteredSkins[0].releaseDate !== undefined) {
+                        filteredSkins.sort((a, b) => {
+                            let dateA = new Date(a.releaseDate);
+                            let dateB = new Date(b.releaseDate);
+                            return sortByDate === "asc" ? dateA - dateB : dateB - dateA;
+                        });
                     }
                 }
 
-                displaySkins(filteredSkins);
+                // 화면 업데이트
+                requestAnimationFrame(() => displaySkins(filteredSkins));
             }
             
             function displaySkins(skins) {
