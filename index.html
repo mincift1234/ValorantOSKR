@@ -487,8 +487,9 @@
             @media screen and (max-width: 768px) {
                 /* 팝업 전체 크기 */
                 .container {
-                    width: 100%;
+                    max-width: 100%; /* 🔥 가로 폭을 강제하지 않음 */
                     padding: 15px;
+                    margin: 0 auto; /* 중앙 정렬 */
                 }
                 .popup {
                     width: 80%; /* 화면 폭의 90% */
