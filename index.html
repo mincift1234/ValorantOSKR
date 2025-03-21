@@ -542,17 +542,21 @@
                     padding: 6px 10px;
                 }
                 .filter-section {
-                    display: flex;
-                    justify-content: center;
-                    gap: 10px;
-                    margin-bottom: 10px;
+                    flex-direction: column; /* 세로 정렬 */
+                    align-items: center; /* 가운데 정렬 */
+                    gap: 8px; /* 간격 조절 */
+                    margin-bottom: 15px;
                 }
+                
                 .filter-section select {
-                    padding: 10px;
-                    border-radius: 5px;
-                    border: none;
-                    background: #333;
+                    width: 90%; /* 가로 너비 확장 */
+                    padding: 12px;
+                    font-size: 14px; /* 모바일 가독성 향상 */
+                    border-radius: 8px;
+                    border: 1px solid #444;
+                    background: #444;
                     color: #fff;
+                    text-align: center;
                 }
                 .taskbar-item a {
                     color: #00aaff; /* 이메일 주소를 파란색으로 */
