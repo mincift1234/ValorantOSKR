@@ -633,7 +633,7 @@
                     <div id="favorites-list"></div>
                 </div>
             </div>
-
+            <div id="skin-container"></div>
             <div id="popup" class="popup">
                 <div class="popup-content">
                     <span class="close-btn" onclick="closePopup()">&times;</span>
@@ -3047,6 +3047,34 @@
                 }
                 return shopCounters[skinName];
             }
+            window.addEventListener("scroll", () => {
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                    loadMoreSkins();
+                }
+            });
+
+            let skinsPerPage = 20;  // 한 번에 불러올 스킨 개수
+            let currentPage = 1;
+            
+            function loadMoreSkins() {
+                let startIndex = (currentPage - 1) * skinsPerPage;
+                let endIndex = startIndex + skinsPerPage;
+                let skinsToShow = skins.slice(startIndex, endIndex);
+                
+                skinsToShow.forEach(skin => {
+                    let img = document.createElement("img");
+                    img.src = skin.img;
+                    img.alt = skin.name;
+                    img.classList.add("skin-image"); // 스타일 적용을 위해 클래스 추가
+                    document.getElementById("skin-container").appendChild(img);
+                });
+                
+                currentPage++;
+            }
+            
+            document.addEventListener("DOMContentLoaded", () => {
+                loadMoreSkins(); // 페이지 로드 시 첫 번째 스킨 그룹 표시
+            });
         </script>
         <footer class="taskbar">
             <div class="taskbar-item">
