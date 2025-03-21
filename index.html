@@ -512,23 +512,26 @@
                     font-size: 14px;
                 }
                 .popup {
+                    position: fixed; /* 화면에 고정 */
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%); /* 완벽한 중앙 정렬 */
+                    
                     width: 80%; /* 화면 폭의 80% */
                     max-height: 70vh; /* 화면 높이의 70%까지만 사용 */
-                    padding: 15px; /* 모바일에서 조금 더 작은 패딩 */
+                    padding: 15px;
                 
-                    /* 🌟 가로 스크롤 방지 */
-                    overflow-x: hidden; 
-                    word-wrap: break-word; /* 긴 단어 자동 줄바꿈 */
+                    background: white; /* 팝업 배경 */
+                    border-radius: 10px; /* 둥근 모서리 */
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+                    
+                    overflow-y: auto; /* 내용이 많으면 세로 스크롤 */
+                    overflow-x: hidden; /* 가로 스크롤 방지 */
                     box-sizing: border-box; /* 패딩 포함 크기 유지 */
                 }
                 
-                .popup-content {
-                    max-width: 100%; /* 팝업 내부 콘텐츠가 팝업을 넘지 않도록 */
-                    overflow-x: auto; /* 내부 요소가 너무 크면 개별적으로 스크롤 */
-                }
-                
                 body {
-                    overflow-x: hidden; /* 페이지 전체에 가로 스크롤 방지 */
+                    overflow: hidden; /* 페이지 전체 스크롤 방지 (팝업 뜰 때) */
                 }
                 .favorites-popup,
                 .shop-counter-popup {
