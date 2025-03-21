@@ -484,8 +484,12 @@
                 transform: scale(0.95);
             }
 
-            @media screen and (max-width: 1000px) {
+            @media screen and (max-width: 768px) {
                 /* 팝업 전체 크기 */
+                .container {
+                    width: 100%;
+                    padding: 15px;
+                }
                 .popup {
                     width: 80%; /* 화면 폭의 90% */
                     max-height: 70vh; /* 화면 높이의 70%까지만 사용 */
