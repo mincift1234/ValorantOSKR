@@ -2599,6 +2599,54 @@
                     price: 4350,
                     episode: 2.02
                 },
+                {
+                    name: "글리치팝 밴달",
+                    img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EA%B8%80%EB%A6%AC%EC%B9%98%ED%8C%9D/Glitchpop_Vandal.webp",
+                    tier: "exclusive",
+                    type: "vandal",
+                    price: 2175,
+                    episode: 7.04
+                },
+                {
+                    name: "글리치팝 밴달",
+                    img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EA%B8%80%EB%A6%AC%EC%B9%98%ED%8C%9D/Glitchpop_Vandal.webp",
+                    tier: "exclusive",
+                    type: "vandal",
+                    price: 2175,
+                    episode: 7.04
+                },
+                {
+                    name: "글리치팝 밴달",
+                    img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EA%B8%80%EB%A6%AC%EC%B9%98%ED%8C%9D/Glitchpop_Vandal.webp",
+                    tier: "exclusive",
+                    type: "vandal",
+                    price: 2175,
+                    episode: 7.04
+                },
+                {
+                    name: "글리치팝 밴달",
+                    img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EA%B8%80%EB%A6%AC%EC%B9%98%ED%8C%9D/Glitchpop_Vandal.webp",
+                    tier: "exclusive",
+                    type: "vandal",
+                    price: 2175,
+                    episode: 7.04
+                },
+                {
+                    name: "글리치팝 밴달",
+                    img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EA%B8%80%EB%A6%AC%EC%B9%98%ED%8C%9D/Glitchpop_Vandal.webp",
+                    tier: "exclusive",
+                    type: "vandal",
+                    price: 2175,
+                    episode: 7.04
+                },
+                {
+                    name: "글리치팝 도끼",
+                    img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EA%B8%80%EB%A6%AC%EC%B9%98%ED%8C%9D/Glitchpop_Axe.webp",
+                    tier: "exclusive",
+                    type: "knife",
+                    price: 4350,
+                    episode: 7.04
+                },
                 
             ];
 
@@ -2611,6 +2659,7 @@
                 const type = document.getElementById("type-filter").value;
                 const sort = document.getElementById("price-sort").value;
                 const searchKeyword = document.getElementById("search-box").value.trim().toLowerCase();
+                const sortByDate = document.getElementById("sort-by-date").value; // 날짜 정렬 필터
 
                 let filteredSkins = skins.filter(
                     (skin) =>
@@ -2619,15 +2668,33 @@
                         (searchKeyword === "" || skin.name.toLowerCase().includes(searchKeyword))
                 );
 
+                // 가격 정렬 적용
                 if (sort === "high") {
                     filteredSkins.sort((a, b) => b.price - a.price);
                 } else {
                     filteredSkins.sort((a, b) => a.price - b.price);
                 }
 
+                // 날짜 정렬 추가
+                if (sortByDate === "asc" || sortByDate === "desc") {
+                    if (filteredSkins.length > 0) {
+                        if (filteredSkins[0].episode !== undefined) {
+                            filteredSkins.sort((a, b) =>
+                                sortByDate === "asc" ? a.episode - b.episode : b.episode - a.episode
+                            );
+                        } else if (filteredSkins[0].releaseDate !== undefined) {
+                            filteredSkins.sort((a, b) => {
+                                let dateA = new Date(a.releaseDate);
+                                let dateB = new Date(b.releaseDate);
+                                return sortByDate === "asc" ? dateA - dateB : dateB - dateA;
+                            });
+                        }
+                    }
+                }
+
                 displaySkins(filteredSkins);
             }
-
+            
             function displaySkins(skins) {
                 const container = document.getElementById("skins-container");
                 container.innerHTML = "";
@@ -2987,35 +3054,6 @@
                     };
                 }
                 return shopCounters[skinName];
-            }
-            function applyFilters() {
-                let sortBy = document.getElementById("sort-by-date").value;
-
-                if (sortBy === "asc" || sortBy === "desc") {
-                    if (skins[0].episode !== undefined) {
-                        sortSkinsByEpisode(sortBy); // 에피소드 정렬
-                    } else if (skins[0].releaseDate !== undefined) {
-                        sortSkinsByDate(sortBy); // 출시 날짜 정렬
-                    }
-                }
-            }
-
-            function sortSkinsByEpisode(order = "asc") {
-                skins.sort((a, b) => {
-                    return order === "asc" ? a.episode - b.episode : b.episode - a.episode;
-                });
-
-                displaySkins(skins); // 정렬된 데이터로 UI 업데이트
-            }
-
-            function sortSkinsByDate(order = "asc") {
-                skins.sort((a, b) => {
-                    let dateA = new Date(a.releaseDate);
-                    let dateB = new Date(b.releaseDate);
-                    return order === "asc" ? dateA - dateB : dateB - dateA;
-                });
-
-                displaySkins(skins); // 정렬 후 UI 업데이트
             }
         </script>
         <footer class="taskbar">
