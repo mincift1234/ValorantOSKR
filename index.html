@@ -544,7 +544,7 @@
                     gap: 5px; /* 간격 조절 */
                     margin-bottom: 15px;
                 }
-                
+
                 .filter-section select {
                     flex: 1 1 calc(25% - 10px); /* 4개가 한 줄에 들어가도록 설정 */
                     min-width: 80px; /* 너무 작아지는 것 방지 */
@@ -561,7 +561,7 @@
                     text-decoration: none;
                     margin-left: 5px;
                 }
-                
+
                 .taskbar-item a:hover {
                     text-decoration: underline; /* 마우스 올릴 때 강조 */
                 }
@@ -591,8 +591,35 @@
             .taskbar-item a:hover {
                 text-decoration: underline; /* 마우스 올릴 때 강조 */
             }
+            .pagination {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .pagination button {
+                background-color: #FF4655; /* 발로란트 스타일 */
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                margin: 5px;
+                cursor: pointer;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+
+            .pagination button:disabled {
+                background-color: #888; /* 비활성화 버튼 */
+                cursor: not-allowed;
+            }
+
+            .pagination .active {
+                background-color: #D73C50; /* 선택된 페이지 강조 */
+                font-weight: bold;
+            }
         </style>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9796621187080220"
+        <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9796621187080220"
             crossorigin="anonymous"></script>
     </head>
     <body>
@@ -700,6 +727,11 @@
                 </select>
             </div>
             <div class="skins-grid" id="skins-container"></div>
+            <div class="pagination">
+                <button id="prevPage" onclick="changePage(currentPage - 1)">이전</button>
+                <span id="pageNumbers"></span>
+                <button id="nextPage" onclick="changePage(currentPage + 1)">다음</button>
+            </div>
         </div>
         <script>
             const vpIcon =
@@ -719,7 +751,7 @@
                 {
                     name: "에이몬디어 셰리프",
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%90%EC%9D%B4%EB%AA%AC%EB%94%94%EC%96%B4/Aemondir_Sheriff.webp",
-                    tier: "premium", 
+                    tier: "premium",
                     type: "sheriff",
                     price: 1775,
                     episode: 8.11
@@ -1282,7 +1314,7 @@
                     tier: "premium",
                     type: "operator",
                     price: 1775,
-                    episode: 3.10
+                    episode: 3.1
                 },
                 {
                     name: "메이지펑크 팬텀",
@@ -1290,7 +1322,7 @@
                     tier: "premium",
                     type: "phantom",
                     price: 1775,
-                    episode: 6.10
+                    episode: 6.1
                 },
                 {
                     name: "메이지펑크 셰리프",
@@ -1298,7 +1330,7 @@
                     tier: "premium",
                     type: "sheriff",
                     price: 1775,
-                    episode: 3.10
+                    episode: 3.1
                 },
                 {
                     name: "메이지펑크 쇼크 건틀릿",
@@ -1306,7 +1338,7 @@
                     tier: "exclusive",
                     type: "knife",
                     price: 3550,
-                    episode: 3.10
+                    episode: 3.1
                 },
                 {
                     name: "메이지펑크 아레스",
@@ -1314,7 +1346,7 @@
                     tier: "premium",
                     type: "ares",
                     price: 1775,
-                    episode: 3.10
+                    episode: 3.1
                 },
                 {
                     name: "메이지펑크 버키",
@@ -1338,7 +1370,7 @@
                     tier: "premium",
                     type: "guardian",
                     price: 1775,
-                    episode: 3.10
+                    episode: 3.1
                 },
                 {
                     name: "메이지펑크 일렉트로블레이드",
@@ -1362,7 +1394,7 @@
                     tier: "premium",
                     type: "vandal",
                     price: 1775,
-                    episode: 6.10
+                    episode: 6.1
                 },
                 {
                     name: "메이지펑크 스파크스위치",
@@ -1370,7 +1402,7 @@
                     tier: "exclusive",
                     type: "knife",
                     price: 3550,
-                    episode: 6.10
+                    episode: 6.1
                 },
                 {
                     name: "네뷸라 아레스",
@@ -1434,7 +1466,7 @@
                     tier: "premium",
                     type: "guardian",
                     price: 1775,
-                    episode: 4.10
+                    episode: 4.1
                 },
                 {
                     name: "넵튠 오딘",
@@ -1450,7 +1482,7 @@
                     tier: "exclusive",
                     type: "knife",
                     price: 3550,
-                    episode: 4.10
+                    episode: 4.1
                 },
                 {
                     name: "넵튠 팬텀",
@@ -1466,7 +1498,7 @@
                     tier: "premium",
                     type: "shorty",
                     price: 1775,
-                    episode: 4.10
+                    episode: 4.1
                 },
                 {
                     name: "넵튠 스펙터",
@@ -1474,7 +1506,7 @@
                     tier: "premium",
                     type: "spectre",
                     price: 1775,
-                    episode: 4.10
+                    episode: 4.1
                 },
                 {
                     name: "넵튠 밴달",
@@ -1482,7 +1514,7 @@
                     tier: "premium",
                     type: "vandal",
                     price: 1775,
-                    episode: 4.10
+                    episode: 4.1
                 },
                 {
                     name: "넵튠 후크",
@@ -1498,7 +1530,7 @@
                     tier: "premium",
                     type: "ares",
                     price: 1775,
-                    episode: 4.10,
+                    episode: 4.1,
                     episode: 6.04
                 },
                 {
@@ -2484,7 +2516,7 @@
                     tier: "exclusive",
                     type: "outlaw",
                     price: 2175,
-                    episode: 10.00
+                    episode: 10.0
                 },
                 {
                     name: "EX.O 셰리프",
@@ -2492,7 +2524,7 @@
                     tier: "exclusive",
                     type: "sheriff",
                     price: 2175,
-                    episode: 10.00
+                    episode: 10.0
                 },
                 {
                     name: "EX.O 스펙터",
@@ -2500,7 +2532,7 @@
                     tier: "exclusive",
                     type: "spectre",
                     price: 2175,
-                    episode: 10.00
+                    episode: 10.0
                 },
                 {
                     name: "EX.O 밴달",
@@ -2508,7 +2540,7 @@
                     tier: "exclusive",
                     type: "vandal",
                     price: 2175,
-                    episode: 10.00
+                    episode: 10.0
                 },
                 {
                     name: "EX.O 에지",
@@ -2516,7 +2548,7 @@
                     tier: "exclusive",
                     type: "knife",
                     price: 5350,
-                    episode: 10.00
+                    episode: 10.0
                 },
                 {
                     name: "글리치팝 불독",
@@ -2637,13 +2669,13 @@
                     type: "knife",
                     price: 4350,
                     episode: 7.04
-                },
-                
+                }
             ];
 
-            document.addEventListener("DOMContentLoaded", function () {
-                displaySkins(skins);
-            });
+            let filteredSkins = []; // 🔥 필터링된 데이터를 저장하는 전역 변수
+            let skinsPerPage = 25; // 한 페이지당 표시할 스킨 개수
+            let currentPage = 1; // 현재 페이지
+            let totalPages = 1; // 전체 페이지 수
 
             function applyFilters() {
                 const tier = document.getElementById("tier-filter").value;
@@ -2653,7 +2685,7 @@
                 const sortByDate = document.getElementById("sort-by-date").value;
 
                 // 필터링 먼저 적용
-                let filteredSkins = skins.filter((skin) => {
+                filteredSkins = skins.filter((skin) => {
                     if (tier !== "all" && skin.tier !== tier) return false;
                     if (type !== "all" && skin.type !== type) return false;
                     if (searchKeyword && !skin.name.toLowerCase().includes(searchKeyword)) return false;
@@ -2682,14 +2714,31 @@
                     }
                 }
 
-                // 화면 업데이트
-                requestAnimationFrame(() => displaySkins(filteredSkins));
+                // 페이지네이션 반영
+                currentPage = 1; // 필터링 후 첫 페이지로 이동
+                totalPages = Math.ceil(filteredSkins.length / skinsPerPage); // 필터링된 데이터 기준으로 페이지 개수 다시 계산
+                updateFilteredData(); // 페이지네이션과 함께 데이터 적용
             }
-            
-            function displaySkins(skins) {
+
+            function updateFilteredData() {
+                let startIndex = (currentPage - 1) * skinsPerPage;
+                let endIndex = startIndex + skinsPerPage;
+                let skinsToShow = filteredSkins.slice(startIndex, endIndex); // 현재 페이지 데이터
+
+                displaySkins(skinsToShow); // 필터링된 데이터 표시
+                updatePagination(); // 페이지네이션 UI 업데이트
+            }
+
+            function displaySkins(skinList) {
                 const container = document.getElementById("skins-container");
                 container.innerHTML = "";
-                skins.forEach((skin) => {
+
+                if (skinList.length === 0) {
+                    container.innerHTML = "<p>스킨이 없습니다.</p>"; // 🔥 스킨이 없을 경우 메시지 표시
+                    return;
+                }
+
+                skinList.forEach((skin) => {
                     container.innerHTML += `
             <div class="skin-card" onclick="openSkinDetails('${skin.name}')" style="transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                 <div class="price-info">
@@ -2706,38 +2755,42 @@
                 });
             }
 
+            function updatePagination() {
+                let pageNumbers = document.getElementById("pageNumbers");
+                pageNumbers.innerHTML = ""; // 기존 페이지 번호 초기화
+
+                for (let i = 1; i <= totalPages; i++) {
+                    let pageBtn = document.createElement("button");
+                    pageBtn.textContent = i;
+                    if (i === currentPage) pageBtn.classList.add("active"); // 현재 페이지 강조
+                    pageBtn.onclick = () => changePage(i);
+                    pageNumbers.appendChild(pageBtn);
+                }
+
+                // "이전" 버튼 활성화/비활성화
+                document.getElementById("prevPage").disabled = currentPage === 1;
+                document.getElementById("nextPage").disabled = currentPage === totalPages;
+            }
+
+            function changePage(page) {
+                if (page >= 1 && page <= totalPages) {
+                    currentPage = page;
+                    updateFilteredData(); // 페이지 이동 후 필터링된 데이터 적용
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                filteredSkins = [...skins]; // 🔥 초기에는 모든 스킨을 필터링된 데이터로 설정
+                totalPages = Math.ceil(filteredSkins.length / skinsPerPage); // 전체 페이지 수 설정
+                currentPage = 1; // 🔥 첫 페이지로 설정
+                updateFilteredData(); // 첫 번째 페이지의 데이터만 표시
+            });
+
             let favorites = new Set();
 
             let shopCounters = {};
 
             let shopHistory = [];
-
-            document.addEventListener("DOMContentLoaded", function () {
-                // shopCounters 불러오기
-                const storedCounters = localStorage.getItem("shopCounters");
-                if (storedCounters) {
-                    shopCounters = JSON.parse(storedCounters);
-
-                    Object.entries(shopCounters).forEach(([skinName, data]) => {
-                        if (data.startDate) {
-                            data.startDate = new Date(data.startDate);
-                        }
-                    });
-                }
-
-                // shopHistory 불러오기
-                const storedHistory = localStorage.getItem("shopHistory");
-                if (storedHistory) {
-                    shopHistory = JSON.parse(storedHistory);
-
-                    shopHistory.forEach((item) => {
-                        item.startDate = new Date(item.startDate);
-                        item.endDate = new Date(item.endDate);
-                    });
-                }
-
-                displaySkins(skins);
-            });
 
             function openSkinDetails(name) {
                 const skin = skins.find((s) => s.name === name);
