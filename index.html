@@ -2970,16 +2970,6 @@
                     }
                 }
             }
-
-            function sortSkinsByDate(order = "asc") {
-                skins.sort((a, b) => {
-                    let dateA = new Date(a.releaseDate);
-                    let dateB = new Date(b.releaseDate);
-                    return order === "asc" ? dateA - dateB : dateB - dateA;
-                });
-
-                displaySkins(skins); // 정렬 후 UI 업데이트
-            }
         </script>
         <footer class="taskbar">
             <div class="taskbar-item">
