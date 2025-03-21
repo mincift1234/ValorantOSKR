@@ -512,9 +512,23 @@
                     font-size: 14px;
                 }
                 .popup {
-                    width: 80%; /* 화면 폭의 90% */
+                    width: 80%; /* 화면 폭의 80% */
                     max-height: 70vh; /* 화면 높이의 70%까지만 사용 */
                     padding: 15px; /* 모바일에서 조금 더 작은 패딩 */
+                
+                    /* 🌟 가로 스크롤 방지 */
+                    overflow-x: hidden; 
+                    word-wrap: break-word; /* 긴 단어 자동 줄바꿈 */
+                    box-sizing: border-box; /* 패딩 포함 크기 유지 */
+                }
+                
+                .popup-content {
+                    max-width: 100%; /* 팝업 내부 콘텐츠가 팝업을 넘지 않도록 */
+                    overflow-x: auto; /* 내부 요소가 너무 크면 개별적으로 스크롤 */
+                }
+                
+                body {
+                    overflow-x: hidden; /* 페이지 전체에 가로 스크롤 방지 */
                 }
                 .favorites-popup,
                 .shop-counter-popup {
