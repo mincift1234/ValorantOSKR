@@ -580,41 +580,82 @@
                 font-size: 14px;
                 font-family: Arial, sans-serif;
                 border-top: 1px solid #444; /* 상단에 얇은 선 추가 */
+                z-index: 10; /* 🔥 필요하면 낮추거나 조정 */
             }
 
             .taskbar-item a {
                 color: #00aaff; /* 이메일 주소를 파란색으로 */
                 text-decoration: none;
                 margin-left: 5px;
+                position: relative; /* 🔥 아래 바보다 위로 올라오게 설정 */
+                z-index: 20;
             }
 
             .taskbar-item a:hover {
                 text-decoration: underline; /* 마우스 올릴 때 강조 */
             }
+
+            /* 🔥 버튼이 가려지지 않도록 콘텐츠 아래쪽에 여백 추가 */
+            .main-content {
+                padding-bottom: 50px; /* 🔥 taskbar 높이(35px)보다 약간 크게 설정 */
+            }
+
             .pagination {
-                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
                 margin-top: 20px;
+                min-height: 44px;
             }
 
             .pagination button {
-                background-color: #FF4655; /* 발로란트 스타일 */
+                background-color: #FF4655;
                 color: white;
                 border: none;
-                padding: 10px 15px;
-                margin: 5px;
+                padding: 5px 10px;
                 cursor: pointer;
                 border-radius: 5px;
                 font-size: 14px;
+                min-width: 40px;
+                height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
 
             .pagination button:disabled {
-                background-color: #888; /* 비활성화 버튼 */
+                background-color: #888;
                 cursor: not-allowed;
             }
 
-            .pagination .active {
-                background-color: #D73C50; /* 선택된 페이지 강조 */
+            /* ✅ 숫자 버튼 배경 제거 */
+            .pagination .page-number {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 14px;
+                cursor: pointer;
+                padding: 5px;
+                min-width: 30px;
+                text-align: center;
+            }
+
+            /* ✅ 숫자에 마우스 올리면 색상 변경 */
+            .pagination .page-number:hover {
+                color: #FF4655;
+            }
+
+            /* ✅ 현재 페이지 강조 */
+            .pagination .page-number.active {
+                color: #FF4655;
                 font-weight: bold;
+            }
+
+            /* ✅ '...' 스타일 */
+            .pagination .ellipsis {
+                color: #888;
+                cursor: default;
             }
         </style>
         <script
@@ -2759,13 +2800,48 @@
                 let pageNumbers = document.getElementById("pageNumbers");
                 pageNumbers.innerHTML = ""; // 기존 페이지 번호 초기화
 
-                for (let i = 1; i <= totalPages; i++) {
-                    let pageBtn = document.createElement("button");
-                    pageBtn.textContent = i;
-                    if (i === currentPage) pageBtn.classList.add("active"); // 현재 페이지 강조
-                    pageBtn.onclick = () => changePage(i);
-                    pageNumbers.appendChild(pageBtn);
+                const maxPagesToShow = 5; // 표시할 최대 페이지 개수
+                let pages = [];
+
+                if (totalPages <= maxPagesToShow) {
+                    // 페이지 수가 적을 때는 모두 표시
+                    for (let i = 1; i <= totalPages; i++) {
+                        pages.push(i);
+                    }
+                } else {
+                    // 1, 2, 현재 페이지, 마지막 전 페이지, 마지막 페이지만 표시
+                    pages = [1, 2];
+
+                    if (currentPage > 3) {
+                        pages.push("...");
+                    }
+
+                    if (currentPage > 2 && currentPage < totalPages - 1) {
+                        pages.push(currentPage);
+                    }
+
+                    if (currentPage < totalPages - 2) {
+                        pages.push("...");
+                    }
+
+                    pages.push(totalPages - 1, totalPages);
                 }
+
+                // 페이지 버튼 생성
+                pages.forEach((page) => {
+                    let pageBtn = document.createElement("span");
+                    pageBtn.textContent = page;
+                    pageBtn.classList.add("page-number");
+
+                    if (page === "...") {
+                        pageBtn.classList.add("ellipsis");
+                    } else {
+                        if (page === currentPage) pageBtn.classList.add("active");
+                        pageBtn.onclick = () => changePage(page);
+                    }
+
+                    pageNumbers.appendChild(pageBtn);
+                });
 
                 // "이전" 버튼 활성화/비활성화
                 document.getElementById("prevPage").disabled = currentPage === 1;
