@@ -512,27 +512,14 @@
                     font-size: 14px;
                 }
                 .popup {
-                    position: fixed; /* 화면에 고정 */
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%); /* 완벽한 중앙 정렬 */
-                    
-                    width: 80%; /* 화면 폭의 80% */
+                    width: 80%; /* 화면 폭의 90% */
                     max-height: 70vh; /* 화면 높이의 70%까지만 사용 */
-                    padding: 15px;
-                
-                    background: white; /* 팝업 배경 */
-                    border-radius: 10px; /* 둥근 모서리 */
-                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
-                    
-                    overflow-y: auto; /* 내용이 많으면 세로 스크롤 */
-                    overflow-x: hidden; /* 가로 스크롤 방지 */
-                    box-sizing: border-box; /* 패딩 포함 크기 유지 */
+                    padding: 15px; /* 모바일에서 조금 더 작은 패딩 */
                 }
-                
-                body {
-                    overflow: hidden; /* 페이지 전체 스크롤 방지 (팝업 뜰 때) */
+                .popup-content {
+                    max-width: 100%; /* 팝업 내부 콘텐츠가 팝업을 넘지 않도록 */
                 }
+
                 .favorites-popup,
                 .shop-counter-popup {
                     width: 80%;
@@ -2554,7 +2541,7 @@
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/EX.O/EX.O_Outlaw.webp",
                     tier: "exclusive",
                     type: "outlaw",
-                    price: 2175,
+                    price: 2375,
                     episode: 10.0
                 },
                 {
@@ -2562,7 +2549,7 @@
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/EX.O/EX.O_Sheriff.webp",
                     tier: "exclusive",
                     type: "sheriff",
-                    price: 2175,
+                    price: 2375,
                     episode: 10.0
                 },
                 {
@@ -2570,7 +2557,7 @@
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/EX.O/EX.O_Spectre.webp",
                     tier: "exclusive",
                     type: "spectre",
-                    price: 2175,
+                    price: 2375,
                     episode: 10.0
                 },
                 {
@@ -2578,7 +2565,7 @@
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/EX.O/EX.O_Vandal.webp",
                     tier: "exclusive",
                     type: "vandal",
-                    price: 2175,
+                    price: 2375,
                     episode: 10.0
                 },
                 {
@@ -2714,7 +2701,7 @@
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%BF%A0%EB%A1%9C%EB%82%98%EB%AF%B8/Kuronami_Marshal.webp",
                     tier: "exclusive",
                     type: "marshal",
-                    price: 2175,
+                    price: 2375,
                     episode: 8.0
                 },
                 {
@@ -2722,7 +2709,7 @@
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%BF%A0%EB%A1%9C%EB%82%98%EB%AF%B8/Kuronami_Sheriff.webp",
                     tier: "exclusive",
                     type: "sheriff",
-                    price: 2175,
+                    price: 2375,
                     episode: 8.0
                 },
                 {
@@ -2730,7 +2717,7 @@
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%BF%A0%EB%A1%9C%EB%82%98%EB%AF%B8/Kuronami_Spectre.webp",
                     tier: "exclusive",
                     type: "spectre",
-                    price: 2175,
+                    price: 2375,
                     episode: 8.0
                 },
                 {
@@ -2738,7 +2725,7 @@
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%BF%A0%EB%A1%9C%EB%82%98%EB%AF%B8/Kuronami_Vandal.webp",
                     tier: "exclusive",
                     type: "vandal",
-                    price: 2175,
+                    price: 2375,
                     episode: 8.0
                 },
                 {
