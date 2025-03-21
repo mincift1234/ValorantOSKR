@@ -2686,6 +2686,14 @@
                 // 화면 업데이트
                 requestAnimationFrame(() => displaySkins(filteredSkins));
             }
+
+            let debounceTimer;
+            document.getElementById("search-box").addEventListener("input", function () {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    applyFilters();
+                }, 300); // 0.3초 후 실행
+            });
             
             function displaySkins(skins) {
                 const container = document.getElementById("skins-container");
