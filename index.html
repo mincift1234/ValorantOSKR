@@ -2736,7 +2736,7 @@
                     price: 2175,
                     episode: 8.0
                 },
-                    {
+                {
                     name: "쿠로나미 스펙터",
                     img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%BF%A0%EB%A1%9C%EB%82%98%EB%AF%B8/Kuronami_Spectre.webp",
                     tier: "exclusive",
@@ -2799,13 +2799,13 @@
                     type: "knife",
                     price: 4350,
                     episode: 8.08
-                },
+                }
             ];
 
             document.addEventListener("DOMContentLoaded", function () {
                 displaySkins(skins);
             });
-            
+
             let filteredSkins = []; // 🔥 필터링된 데이터를 저장하는 전역 변수
             let skinsPerPage = 25; // 한 페이지당 표시할 스킨 개수
             let currentPage = 1; // 현재 페이지
@@ -2818,7 +2818,7 @@
                 const searchKeyword = document.getElementById("search-box").value.trim().toLowerCase();
                 const sortByDate = document.getElementById("sort-by-date").value;
 
-                // 필터링 먼저 적용
+                // ✅ 필터링 먼저 적용
                 filteredSkins = skins.filter((skin) => {
                     if (tier !== "all" && skin.tier !== tier) return false;
                     if (type !== "all" && skin.type !== type) return false;
@@ -2826,14 +2826,7 @@
                     return true;
                 });
 
-                // 가격 정렬
-                if (sort === "high") {
-                    filteredSkins.sort((a, b) => b.price - a.price);
-                } else if (sort === "low") {
-                    filteredSkins.sort((a, b) => a.price - b.price);
-                }
-
-                // 날짜 정렬 (필터링된 데이터가 있을 때만)
+                // ✅ 날짜 정렬 먼저 수행
                 if (filteredSkins.length > 0 && (sortByDate === "asc" || sortByDate === "desc")) {
                     if (filteredSkins[0].episode !== undefined) {
                         filteredSkins.sort((a, b) =>
@@ -2848,11 +2841,19 @@
                     }
                 }
 
-                // 페이지네이션 반영
-                currentPage = 1; // 필터링 후 첫 페이지로 이동
-                totalPages = Math.ceil(filteredSkins.length / skinsPerPage); // 필터링된 데이터 기준으로 페이지 개수 다시 계산
-                updateFilteredData(); // 페이지네이션과 함께 데이터 적용
+                // ✅ 가격 정렬을 가장 마지막에 적용 (덮어씌워지지 않도록)
+                if (sort === "high") {
+                    filteredSkins.sort((a, b) => b.price - a.price);
+                } else if (sort === "low") {
+                    filteredSkins.sort((a, b) => a.price - b.price);
+                }
+
+                // ✅ 페이지네이션 반영
+                currentPage = 1;
+                totalPages = Math.ceil(filteredSkins.length / skinsPerPage);
+                updateFilteredData();
             }
+
             function updateFilteredData() {
                 let startIndex = (currentPage - 1) * skinsPerPage;
                 let endIndex = startIndex + skinsPerPage;
