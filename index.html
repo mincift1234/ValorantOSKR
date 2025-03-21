@@ -2646,46 +2646,43 @@
                 displaySkins(skins);
             });
 
+             // 📌 Web Worker 초기화 (한 번만 실행)
+            const worker = new Worker("worker.js");
+
             function applyFilters() {
                 const tier = document.getElementById("tier-filter").value;
                 const type = document.getElementById("type-filter").value;
                 const sort = document.getElementById("price-sort").value;
                 const searchKeyword = document.getElementById("search-box").value.trim().toLowerCase();
-                const sortByDate = document.getElementById("sort-by-date").value;
 
-                // 필터링 먼저 적용
-                let filteredSkins = skins.filter((skin) => {
-                    if (tier !== "all" && skin.tier !== tier) return false;
-                    if (type !== "all" && skin.type !== type) return false;
-                    if (searchKeyword && !skin.name.toLowerCase().includes(searchKeyword)) return false;
-                    return true;
+                // Web Worker에 데이터 전달
+                worker.postMessage({
+                    skins,
+                    tier,
+                    type,
+                    sort,
+                    searchKeyword
                 });
-
-                // 가격 정렬
-                if (sort === "high") {
-                    filteredSkins.sort((a, b) => b.price - a.price);
-                } else if (sort === "low") {
-                    filteredSkins.sort((a, b) => a.price - b.price);
-                }
-
-                // 날짜 정렬 (필터링된 데이터가 있을 때만)
-                if (filteredSkins.length > 0 && (sortByDate === "asc" || sortByDate === "desc")) {
-                    if (filteredSkins[0].episode !== undefined) {
-                        filteredSkins.sort((a, b) =>
-                            sortByDate === "asc" ? a.episode - b.episode : b.episode - a.episode
-                        );
-                    } else if (filteredSkins[0].releaseDate !== undefined) {
-                        filteredSkins.sort((a, b) => {
-                            let dateA = new Date(a.releaseDate);
-                            let dateB = new Date(b.releaseDate);
-                            return sortByDate === "asc" ? dateA - dateB : dateB - dateA;
-                        });
-                    }
-                }
-
-                // 화면 업데이트
-                requestAnimationFrame(() => displaySkins(filteredSkins));
             }
+
+            // 📌 Web Worker에서 필터링된 결과 받기
+            worker.onmessage = function (e) {
+                displaySkins(e.data);
+            };
+
+            // 📌 입력 시 렉 방지 (디바운싱 적용)
+            let debounceTimer;
+            document.getElementById("search-box").addEventListener("input", function () {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    applyFilters();
+                }, 300); // 0.3초 후 실행
+            });
+
+            // 📌 필터 변경 시 자동 적용
+            document.getElementById("tier-filter").addEventListener("change", applyFilters);
+            document.getElementById("type-filter").addEventListener("change", applyFilters);
+            document.getElementById("price-sort").addEventListener("change", applyFilters);
 
             let debounceTimer;
             document.getElementById("search-box").addEventListener("input", function () {
