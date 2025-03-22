@@ -3042,3 +3042,42 @@ function getShopCounter(skinName) {
     }
     return shopCounters[skinName];
 }
+
+// Supabase 초기화
+const supabaseUrl = "https://fhqeqwzhmpduehxihonk.supabase.co"; // 네 Supabase 프로젝트 URL로 변경
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZocWVxd3pobXBkdWVoeGlob25rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDE0MzcsImV4cCI6MjA1ODIxNzQzN30.I6y6txWSmU9Jqw6FLK9bUaLYjaol0-c5kfrKicCnE_Y"; // 공개용 API 키
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+// 공지사항 팝업 열기
+function noticePopup() {
+    const noticePopup = document.getElementById("notice-popup");
+    noticePopup.style.display = "block";
+    fetchNotices(); // 공지사항 데이터 불러오기
+}
+
+// 공지사항 팝업 닫기
+function closeNoticePopup() {
+    document.getElementById("notice-popup").style.display = "none";
+}
+
+// Supabase에서 공지사항 가져오기
+async function fetchNotices() {
+    const noticeList = document.getElementById("notice-list");
+    noticeList.innerHTML = "<p>불러오는 중...</p>"; // 로딩 표시
+
+    const { data, error } = await supabase.from("notice").select("*").order("created_at", { ascending: false });
+
+    if (error) {
+        console.error("공지사항 불러오기 오류:", error.message);
+        noticeList.innerHTML = "<p>공지사항을 불러오는 데 실패했습니다.</p>";
+        return;
+    }
+
+    // 공지사항 목록 업데이트
+    noticeList.innerHTML = "";
+    data.forEach(notice => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `<strong>${notice.title}</strong><br>${notice.content}<br><small>${new Date(notice.created_at).toLocaleString()}</small>`;
+        noticeList.appendChild(listItem);
+    });
+}
