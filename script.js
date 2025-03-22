@@ -2868,11 +2868,21 @@ function toggleShopCounting() {
     const counter = getShopCounter(skinName);
 
     if (!counter.isCounting) {
-        // ✅ 날짜 세기 시작 시 startDate를 Date 객체로 저장
+        // ✅ 날짜 세기 시작 시 startDate를 "오늘 아침 9시"로 설정
         counter.isCounting = true;
-        counter.startDate = new Date();
 
-        alert(`"${skinName}" 날짜 세기를 시작합니다 (D+1).`);
+        const now = new Date();
+        const startDate = new Date(now);
+        startDate.setHours(9, 0, 0, 0); // 아침 9시로 설정
+
+        // 만약 지금이 아침 9시 이전이라면, 어제 9시로 설정
+        if (now < startDate) {
+            startDate.setDate(startDate.getDate() - 1);
+        }
+
+        counter.startDate = startDate; // ✅ 아침 9시 기준으로 저장
+
+        alert(`"${skinName}" 날짜 세기를 시작합니다 (D+0).`);
         document.getElementById("shop-counter-btn").textContent = "날짜 세기 중...";
 
         // ✅ localStorage에 반영
@@ -2886,12 +2896,26 @@ function stopShopCounting(skinName) {
     const counter = getShopCounter(skinName);
     if (!counter.isCounting) return; // 이미 멈췄다면 패스
 
+    const startDate = new Date(counter.startDate);
     const now = new Date();
-    const diffMs = now - new Date(counter.startDate);
-    const ONE_DAY_MS = 86400000;
-    const days = Math.floor(diffMs / ONE_DAY_MS) + 1; // D+1
 
-    // 기록 저장
+    // 1. startDate의 시간을 "아침 9시"로 설정
+    startDate.setHours(9, 0, 0, 0);
+
+    // 2. 현재 날짜의 "아침 9시" 기준 시간 구하기
+    const today9AM = new Date();
+    today9AM.setHours(9, 0, 0, 0);
+
+    // 3. 만약 지금이 아침 9시 이전이라면 어제 9시 기준으로 계산
+    if (now < today9AM) {
+        today9AM.setDate(today9AM.getDate() - 1);
+    }
+
+    // 4. 시작일부터 현재까지 아침 9시를 몇 번 지났는지 계산 (D+1부터 시작)
+    const days = Math.floor((today9AM - startDate) / 86400000) + 1;
+
+    // 5. 날짜 기록 (기존 코드 유지)
+    let shopHistory = JSON.parse(localStorage.getItem("shopHistory")) || [];
     shopHistory.push({
         skinName: skinName,
         startDate: counter.startDate,
@@ -2902,12 +2926,12 @@ function stopShopCounting(skinName) {
 
     alert(`"${skinName}" 날짜 세기를 종료합니다.\n총 ${days}일 소요!`);
 
-    // 초기화
+    // 6. 초기화
     counter.isCounting = false;
     counter.startDate = null;
     localStorage.setItem("shopCounters", JSON.stringify(shopCounters));
 
-    // 팝업에 표시된 버튼 텍스트를 "날짜 세기"로 변경
+    // 7. 팝업 버튼 텍스트 변경
     const currentSkinInPopup = document.getElementById("popup-title").textContent;
     if (currentSkinInPopup === skinName) {
         document.getElementById("shop-counter-btn").textContent = "날짜 세기";
