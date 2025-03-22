@@ -513,7 +513,7 @@ body {
         max-width: 100%; /* 팝업 내부 콘텐츠가 팝업을 넘지 않도록 */
     }
 
-    #notice-popup,
+    .notice-popup,
     .favorites-popup,
     .shop-counter-popup {
         width: 80%;
