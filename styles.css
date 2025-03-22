@@ -92,7 +92,6 @@ body {
     flex-grow: 0;
     text-align: center;
     margin: 0;
-    font-weight: bold;
 }
 .price-info {
     position: absolute;
@@ -112,7 +111,6 @@ body {
 }
 .price-info span {
     font-size: 14px;
-    font-weight: bold;
 }
 #menu-button {
     position: fixed;
