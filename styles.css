@@ -15,7 +15,7 @@
 select, option, input, button {
     font-family: "DaeguCatholicUniversity", sans-serif;
 }
-
+/* 제목에 폰트 적용 */
 h1 {
     font-family: "ANDONG264", sans-serif;
 }
@@ -26,7 +26,7 @@ body {
     padding: 0;
     background-color: #121212;
     color: #fff;
-    text-align: center;
+    text-align: center;s
 }
 .container {
     max-width: 1200px;
@@ -96,6 +96,7 @@ body {
     flex-grow: 0;
     text-align: center;
     margin: 0;
+    font-weight: bold;
 }
 .price-info {
     position: absolute;
@@ -115,6 +116,7 @@ body {
 }
 .price-info span {
     font-size: 14px;
+    font-weight: bold;
 }
 #menu-button {
     position: fixed;
@@ -745,9 +747,9 @@ body {
 /* 모바일 화면에서 크기 조정 */
 @media (max-width: 480px) {
     #notice-popup {
-        width: 80%; /* 화면 폭의 90% */
-        max-height: 70vh; /* 화면 높이의 70%까지만 사용 */
-        padding: 15px; /* 모바일에서 조금 더 작은 패딩 */
+        width: 90%;
+        max-height: 60vh;
+        padding: 15px;
     }
     
     #notice-popup h2 {
@@ -772,4 +774,64 @@ body {
         top: 10px;
         right: 10px;
     }
+}
+#store-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: none;
+    text-align: center;
+    z-index: 1000;
+}
+
+#store-popup img {
+    width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+#store-popup p {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+#close-popup {
+    background: #ff4757;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+#close-popup:hover {
+    background: #e84118;
+}
+
+#login-btn {
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+#login-btn:hover {
+    background: #0056b3;
 }
