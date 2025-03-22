@@ -3059,14 +3059,15 @@ async function fetchNotices() {
 }
 
 function displayNotices(notices) {
-    
-    closeMenu();
-    
+    closeMenu(); // 메뉴 닫기
+
     const noticeList = document.getElementById("notice-list");
-    noticeList.innerHTML = "";
+    noticeList.innerHTML = ""; // 기존 공지 초기화
+
     notices.forEach((notice) => {
         const li = document.createElement("li");
-        li.innerHTML = `<strong>${notice.title}</strong><p>${notice.content}</p><small>${notice.date}</small>`;
+        const formattedContent = notice.content.replace(/\n/g, "<br>"); // 줄 바꿈을 <br>로 변환
+        li.innerHTML = `<strong>${notice.title}</strong><p>${formattedContent}</p><small>${notice.date}</small>`;
         noticeList.appendChild(li);
     });
 }
