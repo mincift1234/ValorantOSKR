@@ -3104,3 +3104,70 @@ function noticePopup() {
 function closeNoticePopup() {
     document.getElementById("notice-popup").style.display = "none";
 }
+
+const loginBtn = document.getElementById("login-btn");
+const logoutBtn = document.getElementById("logout-btn");
+
+async function login() {
+    // 로그인 페이지로 이동
+    window.location.href = "https://auth.riotgames.com/authorize?client_id=valorant&redirect_uri=https://valapidocs.techchrism.me/oauth/redirect&response_type=token";
+}
+
+async function fetchStorefront() {
+    const response = await fetch("https://valapidocs.techchrism.me/endpoint/storefront", {
+        credentials: "include" // 세션 쿠키 포함
+    });
+
+    const data = await response.json();
+    if (data.skins) {
+        displayStorefront(data);
+    } else {
+        alert("로그인이 필요합니다.");
+    }
+}
+
+function displayStorefront(data) {
+    const popup = document.getElementById("store-popup");
+    popup.innerHTML = "<h2>오늘의 상점</h2>";
+
+    data.skins.forEach((skin) => {
+        let div = document.createElement("div");
+        div.innerHTML = `
+            <img src="${skin.image}" alt="${skin.name}">
+            <p>${skin.name}</p>
+        `;
+        popup.appendChild(div);
+    });
+
+    let closeButton = document.createElement("button");
+    closeButton.textContent = "닫기";
+    closeButton.onclick = () => (popup.style.display = "none");
+    popup.appendChild(closeButton);
+
+    popup.style.display = "block"; // 팝업 띄우기
+}
+
+async function checkLogin() {
+    const response = await fetch("https://valapidocs.techchrism.me/endpoint/entitlements", {
+        credentials: "include"
+    });
+
+    if (response.ok) {
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "block";
+    } else {
+        loginBtn.style.display = "block";
+        logoutBtn.style.display = "none";
+    }
+}
+
+logoutBtn.addEventListener("click", () => {
+    fetch("https://valapidocs.techchrism.me/logout", { method: "POST", credentials: "include" })
+        .then(() => {
+            loginBtn.style.display = "block";
+            logoutBtn.style.display = "none";
+        });
+});
+
+loginBtn.addEventListener("click", login);
+document.addEventListener("DOMContentLoaded", checkLogin);s
