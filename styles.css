@@ -5,12 +5,19 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: "DaeguCatholicUniversity";
+    src: url("fonts/DaeguCatholicUniversity.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 h1 {
     font-family: "ANDONG264", sans-serif;
 }
 
 body {
-    font-family: "ANDONG264", sans-serif;
+    font-family: "DaeguCatholicUniversity", sans-serif;
     margin: 0;
     padding: 0;
     background-color: #121212;
