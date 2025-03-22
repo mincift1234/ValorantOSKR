@@ -12,6 +12,10 @@
     font-style: normal;
 }
 
+select, option, input, button {
+    font-family: "DaeguCatholicUniversity", sans-serif;
+}
+
 h1 {
     font-family: "ANDONG264", sans-serif;
 }
