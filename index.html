@@ -118,28 +118,6 @@
                 <button id="nextPage" onclick="changePage(currentPage + 1)">다음</button>
             </div>
         </div>
-        <div id="notice-section" class="notice-section">
-            <h2>공지사항</h2>
-            <ul id="notice-list"></ul>
-
-            <div id="admin-controls" style="display: none">
-                <input type="text" id="notice-title-input" placeholder="공지 제목" />
-                <textarea id="notice-content-input" placeholder="공지 내용"></textarea>
-                <button onclick="addNotice()">공지 추가</button>
-            </div>
-        </div>
-
-        <div id="notice-popup" class="notice-popup">
-            <div class="notice-popup-content">
-                <span class="close-notice" onclick="closeNoticePopup()">&times;</span>
-                <h2 id="notice-title"></h2>
-                <p id="notice-content"></p>
-                <button onclick="deleteNotice()">공지 삭제</button>
-            </div>
-        </div>
-
-        <button id="admin-login-btn" onclick="adminLogin()">관리자 로그인</button>
-
         <footer class="taskbar">
             <div class="taskbar-item">
                 <span>문제 및 광고 문의 이메일 :</span>
