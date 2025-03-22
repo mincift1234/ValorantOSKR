@@ -721,9 +721,9 @@ body {
 /* 모바일 화면에서 크기 조정 */
 @media (max-width: 480px) {
     #notice-popup {
-        width: 80%;
-        max-height: 60vh;
-        padding: 15px;
+        width: 80%; /* 화면 폭의 90% */
+        max-height: 70vh; /* 화면 높이의 70%까지만 사용 */
+        padding: 15px; /* 모바일에서 조금 더 작은 패딩 */
     }
     
     #notice-popup h2 {
