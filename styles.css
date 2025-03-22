@@ -512,10 +512,7 @@ body {
     .popup-content {
         max-width: 100%; /* 팝업 내부 콘텐츠가 팝업을 넘지 않도록 */
     }
-    #notice-popup {
-        width: 80%;
-        padding: 15px;
-    }
+
     .favorites-popup,
     .shop-counter-popup {
         width: 80%;
@@ -638,7 +635,6 @@ body {
 body {
     padding-bottom: 50px; /* 🔥 taskbar 높이보다 크게 설정 */
 }
-/* 공지사항 팝업 스타일 */
 #notice-popup {
     display: none;
     position: fixed;
@@ -720,4 +716,36 @@ body {
     font-size: 12px;
     color: #bbb;
     margin-top: 5px;
+}
+
+/* 모바일 화면에서 크기 조정 */
+@media (max-width: 480px) {
+    #notice-popup {
+        width: 90%;
+        max-height: 60vh;
+        padding: 15px;
+    }
+    
+    #notice-popup h2 {
+        font-size: 18px;
+    }
+
+    #notice-list li {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    #notice-list li strong {
+        font-size: 15px;
+    }
+
+    #notice-list li small {
+        font-size: 11px;
+    }
+
+    #notice-popup .close-btn {
+        font-size: 22px;
+        top: 10px;
+        right: 10px;
+    }
 }
