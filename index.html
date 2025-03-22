@@ -18,6 +18,7 @@
                 <ul id="menu-nav">
                     <li onclick="openFavorites()">즐겨찾기</li>
                     <li onclick="openShopCounterPopup()">오늘의 상점 날짜 세기</li>
+                    <li onclick="noticePopup()">공지사항 & 패치노트</li>
                 </ul>
             </div>
             <div id="shop-counter-popup" class="shop-counter-popup">
@@ -43,6 +44,14 @@
                     <span class="close-favorites-popup" onclick="closeFavoritesPopup()">&times;</span>
                     <h2>즐겨찾기 목록</h2>
                     <div id="favorites-list"></div>
+                </div>
+            </div>
+            <div id="notice-popup" class="popup">
+                <div class="popup-content">
+                    <span class="close-btn" onclick="closeNoticePopup()">&times;</span>
+                    <h2>공지사항 & 패치노트</h2>
+                    <ul id="notice-list"></ul>
+                    <!-- 여기에 공지사항 데이터가 들어감 -->
                 </div>
             </div>
             <div id="popup" class="popup">
