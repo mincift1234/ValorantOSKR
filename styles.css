@@ -635,3 +635,86 @@ body {
 body {
     padding-bottom: 50px; /* 🔥 taskbar 높이보다 크게 설정 */
 }
+/* 공지사항 팝업 스타일 */
+#notice-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    max-height: 70vh;
+    overflow-y: auto;
+    background: #222;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+    text-align: left;
+    z-index: 5000;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 공지사항 닫기 버튼 */
+#notice-popup .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#notice-popup .close-btn:hover {
+    color: #ff5555;
+}
+
+/* 공지사항 제목 */
+#notice-popup h2 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #ffffff;
+    border-bottom: 2px solid #444;
+    padding-bottom: 8px;
+}
+
+/* 공지사항 목록 스타일 */
+#notice-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 공지사항 항목 스타일 */
+#notice-list li {
+    background: #333;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: 0.3s;
+}
+
+#notice-list li:hover {
+    background: #444;
+}
+
+/* 공지사항 제목 강조 */
+#notice-list li strong {
+    display: block;
+    font-size: 16px;
+    color: #ffcc00;
+    margin-bottom: 5px;
+}
+
+/* 공지사항 날짜 스타일 */
+#notice-list li small {
+    display: block;
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 5px;
+}
