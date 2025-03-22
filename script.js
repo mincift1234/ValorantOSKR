@@ -3059,6 +3059,9 @@ async function fetchNotices() {
 }
 
 function displayNotices(notices) {
+    
+    closeMenu();
+    
     const noticeList = document.getElementById("notice-list");
     noticeList.innerHTML = "";
     notices.forEach((notice) => {
