@@ -2882,7 +2882,7 @@ function toggleShopCounting() {
 
         counter.startDate = startDate; // ✅ 아침 9시 기준으로 저장
 
-        alert(`"${skinName}" 날짜 세기를 시작합니다 (D+0).`);
+        alert(`"${skinName}" 날짜 세기를 시작합니다 (D+1).`);
         document.getElementById("shop-counter-btn").textContent = "날짜 세기 중...";
 
         // ✅ localStorage에 반영
