@@ -793,7 +793,6 @@ const skins = [
         tier: "premium",
         type: "ares",
         price: 1775,
-        episode: 4.1,
         episode: 6.04
     },
     {
