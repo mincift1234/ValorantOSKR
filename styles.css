@@ -1,3 +1,14 @@
+@font-face {
+    font-family: "ANDONG264";
+    src: url("fonts/ANDONG264.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1 {
+    font-family: "ANDONG264", sans-serif;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
