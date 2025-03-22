@@ -1,115 +1,110 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원가입</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f4f4f4;
-    }
-    .signup-container {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
-    .signup-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .error {
-      color: red;
-      text-align: center;
-      font-size: 14px;
-    }
-  </style>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>회원가입</title>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script>
+            window.SUPABASE_URL = "https://fhqeqwzhmpduehxihonk.supabase.co";
+            window.SUPABASE_ANON_KEY =
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZocWVxd3pobXBkdWVoeGlob25rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDE0MzcsImV4cCI6MjA1ODIxNzQzN30.I6y6txWSmU9Jqw6FLK9bUaLYjaol0-c5kfrKicCnE_Ys";
+        </script>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f4f4f4;
+            }
+            .signup-container {
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                width: 300px;
+            }
+            .signup-container h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            input {
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            button {
+                width: 100%;
+                padding: 10px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+            .error {
+                color: red;
+                text-align: center;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="signup-container">
+            <h2>회원가입</h2>
+            <form id="signupForm">
+                <input type="email" id="email" placeholder="이메일" required />
+                <input type="password" id="password" placeholder="비밀번호" required />
+                <button type="submit">회원가입</button>
+                <p id="errorMessage" class="error"></p>
+            </form>
+        </div>
 
-  <div class="signup-container">
-    <h2>회원가입</h2>
-    <form id="signupForm">
-      <input
-        type="email"
-        id="email"
-        placeholder="이메일"
-        required
-      />
-      <input
-        type="password"
-        id="password"
-        placeholder="비밀번호"
-        required
-      />
-      <button type="submit">회원가입</button>
-      <p id="errorMessage" class="error"></p>
-    </form>
-  </div>
+        <script>
+            const SUPABASE_URL = "https://fhqeqwzhmpduehxihonk.supabase.co";
+            const SUPABASE_ANON_KEY =
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDc3MzUsImV4cCI6MjA1ODIyMzczNX0.tow94JIgEm70XjGrbSkejJk0A2xLTod_qOIYITB2efQs";
+            const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  <script>
-    const SUPABASE_URL = "https://fhqeqwzhmpduehxihonk.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDc3MzUsImV4cCI6MjA1ODIyMzczNX0.tow94JIgEm70XjGrbSkejJk0A2xLTod_qOIYITB2efQs";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            const signupHandler = async (e) => {
+                e.preventDefault();
+                document.getElementById("errorMessage").textContent = ""; // 기존 오류 메시지 초기화
 
-    const signupHandler = async (e) => {
-      e.preventDefault();
-      document.getElementById("errorMessage").textContent = ""; // 기존 오류 메시지 초기화
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+                try {
+                    const { data, error } = await supabase.auth.signUp({
+                        email,
+                        password
+                    });
 
-      try {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-        });
+                    if (error) {
+                        document.getElementById("errorMessage").textContent = error.message;
+                        return;
+                    }
 
-        if (error) {
-          document.getElementById("errorMessage").textContent = error.message;
-          return;
-        }
+                    console.log("회원가입 성공:", data);
+                    alert("회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.");
+                    window.location.href = "/login"; // 로그인 페이지로 이동
+                } catch (error) {
+                    console.error("회원가입 오류:", error);
+                    document.getElementById("errorMessage").textContent = "회원가입 중 문제가 발생했습니다.";
+                }
+            };
 
-        console.log("회원가입 성공:", data);
-        alert("회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.");
-        window.location.href = "/login"; // 로그인 페이지로 이동
-      } catch (error) {
-        console.error("회원가입 오류:", error);
-        document.getElementById("errorMessage").textContent = "회원가입 중 문제가 발생했습니다.";
-      }
-    };
-
-    document.getElementById("signupForm").addEventListener("submit", signupHandler);
-  </script>
-
-</body>
+            document.getElementById("signupForm").addEventListener("submit", signupHandler);
+        </script>
+    </body>
 </html>
