@@ -77,16 +77,17 @@
         import { createClient } from "https://esm.sh/@supabase/supabase-js";
 
         const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw"; // 실제 키로 변경하세요.
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         async function verifyEmail() {
             const params = new URLSearchParams(window.location.search);
             const token = params.get("token");
+            const email = localStorage.getItem("email"); // 저장된 이메일 가져오기
             const loading = document.getElementById("loading");
             const message = document.getElementById("message");
 
-            if (!token) {
+            if (!token || !email) {
                 message.textContent = "잘못된 요청입니다.";
                 message.classList.add("error");
                 loading.classList.add("hidden");
@@ -94,7 +95,11 @@
             }
 
             try {
-                const { error } = await supabase.auth.verifyOtp({ type: "signup", token });
+                const { error } = await supabase.auth.verifyOtp({ 
+                    email: email, 
+                    token: token, 
+                    type: "signup" 
+                });
 
                 if (error) {
                     message.textContent = `인증 실패: ${error.message}`;
