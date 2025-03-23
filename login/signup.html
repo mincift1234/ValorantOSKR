@@ -63,21 +63,11 @@
       .auth-link a:hover {
         text-decoration: underline;
       }
-      #verifyButton {
-        background-color: #28a745;
-      }
-      #verifyButton:hover {
-        background-color: #218838;
-      }
-      #resendLink {
-        color: #007bff;
-        cursor: pointer;
-      }
     </style>
     <script type="module">
       import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-      // Supabase API 키 (직접 입력)
+      // 🔑 Supabase API 키 (직접 입력)
       const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co"; // 여기에 Supabase URL 입력
       const SUPABASE_ANON_KEY =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw"; // 여기에 Supabase 익명 키 입력
@@ -102,7 +92,7 @@
           }
 
           try {
-            // Supabase Auth를 사용해 회원가입 (이메일 인증 메일 자동 발송)
+            // ✅ Supabase Auth를 사용해 회원가입 (이메일 인증 메일 자동 발송)
             const { data, error } = await supabase.auth.signUp({ email, password });
 
             if (error) {
@@ -120,10 +110,10 @@
               return;
             }
 
-            // 이메일을 localStorage에 저장
+            // ✅ 이메일을 localStorage에 저장
             localStorage.setItem("email", email); // 이메일 저장
 
-            // Supabase users 테이블에 추가 정보 저장
+            // ✅ Supabase users 테이블에 추가 정보 저장
             const { error: insertError } = await supabase
               .from("users")
               .insert([{ id: user.id, email: user.email, nickname, email_verified: false }]);
@@ -138,7 +128,7 @@
             console.log("✅ 회원가입 성공");
             alert("회원가입이 완료되었습니다! 이메일을 확인하여 인증을 완료하세요.");
 
-            // 로그인 페이지로 이동 (2초 후)
+            // ✅ 로그인 페이지로 이동 (2초 후)
             setTimeout(() => {
               window.location.href = "login.html";
             }, 2000);
@@ -148,33 +138,6 @@
             signupButton.disabled = false;
           }
         });
-
-        // 인증 이메일 재전송
-        document.getElementById("resendLink").addEventListener("click", async () => {
-          const email = localStorage.getItem("email");
-          if (!email) {
-            document.getElementById("errorMessage").textContent = "이메일을 찾을 수 없습니다. 다시 시도해 주세요.";
-            return;
-          }
-
-          const { error } = await supabase.auth.api.resendVerificationEmail(email);
-          if (error) {
-            document.getElementById("errorMessage").textContent = `⚠️ ${error.message}`;
-          } else {
-            alert("인증 이메일이 다시 발송되었습니다.");
-          }
-        });
-
-        // 인증 확인
-        async function checkEmailVerified() {
-          const user = supabase.auth.user();
-          if (user && user.email_verified) {
-            document.getElementById("verifyButton").textContent = "인증 완료";
-            document.getElementById("verifyButton").disabled = true;
-          }
-        }
-
-        checkEmailVerified(); // 페이지 로드 시 인증 상태 확인
       });
     </script>
   </head>
@@ -188,10 +151,6 @@
         <button type="submit" id="signupButton">회원가입</button>
         <p id="errorMessage" class="error"></p>
       </form>
-      <button id="verifyButton">인증 확인</button>
-      <div class="auth-link">
-        <p>인증 이메일을 다시 받으시겠습니까? <span id="resendLink">재전송</span></p>
-      </div>
       <div class="auth-link">
         <p>이미 계정이 있으신가요? <a href="login.html">로그인</a></p>
       </div>
