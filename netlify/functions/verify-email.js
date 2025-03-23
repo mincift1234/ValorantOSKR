@@ -60,25 +60,3 @@ exports.handler = async (event) => {
     };
   }
 };
-
-try {
-  const decoded = jwt.decode(token);
-  console.log("🔹 JWT Payload:", decoded);
-
-  if (!decoded) {
-    return {
-      statusCode: 400,
-      body: "유효하지 않은 토큰입니다. (디코딩 실패)",
-    };
-  }
-
-  const verified = jwt.verify(token, SECRET_KEY);
-  console.log("🔹 Verified Token:", verified);
-} catch (error) {
-  console.log("🔴 JWT 오류:", error.message);
-  return {
-    statusCode: 400,
-    body: `유효하지 않거나 만료된 토큰입니다. 오류: ${error.message}`,
-  };
-}
-
