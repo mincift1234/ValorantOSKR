@@ -64,6 +64,74 @@
         text-decoration: underline;
       }
     </style>
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+      // ✅ Netlify 환경 변수에서 Supabase 설정 불러오기
+      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+      const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+      if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+        console.error("⚠️ Supabase 환경 변수가 설정되지 않았습니다!");
+      }
+
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("signupForm").addEventListener("submit", async (e) => {
+          e.preventDefault();
+          document.getElementById("errorMessage").textContent = ""; // 오류 메시지 초기화
+          const signupButton = document.getElementById("signupButton");
+          signupButton.disabled = true; // 버튼 비활성화
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const nickname = document.getElementById("nickname").value;
+
+          try {
+            // ✅ Supabase 회원가입 요청 (이메일 인증 메일 자동 발송)
+            const { data, error } = await supabase.auth.signUp({ email, password });
+
+            if (error) {
+              console.error("회원가입 오류:", error);
+              document.getElementById("errorMessage").textContent = error.message;
+              signupButton.disabled = false;
+              return;
+            }
+
+            const user = data.user;
+            if (!user) {
+              console.error("⚠️ 회원가입 성공했지만 사용자 데이터 없음.");
+              document.getElementById("errorMessage").textContent = "회원가입 중 오류가 발생했습니다.";
+              signupButton.disabled = false;
+              return;
+            }
+
+            // ✅ 이메일 인증 안내 메시지
+            alert("회원가입이 완료되었습니다! 이메일을 확인하여 인증을 완료하세요.");
+
+            // ✅ Supabase users 테이블에 닉네임 저장
+            const { error: insertError } = await supabase
+              .from("users")
+              .insert([{ id: user.id, email: user.email, nickname }]);
+
+            if (insertError) {
+              console.error("닉네임 저장 오류:", insertError);
+              document.getElementById("errorMessage").textContent = "닉네임 저장 중 오류가 발생했습니다.";
+              signupButton.disabled = false;
+              return;
+            }
+
+            console.log("✅ 회원가입 성공");
+            window.location.href = "/login"; // 로그인 페이지로 이동
+          } catch (error) {
+            console.error("회원가입 중 문제가 발생:", error);
+            document.getElementById("errorMessage").textContent = "회원가입 중 문제가 발생했습니다.";
+            signupButton.disabled = false;
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="signup-container">
@@ -79,45 +147,5 @@
         <p>이미 계정이 있으신가요? <a href="login.html">로그인</a></p>
       </div>
     </div>
-    <script type="module">
-      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-      
-      // Netlify 환경 변수에서 Supabase 설정 불러오기
-      const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
-
-      const signupHandler = async (e) => {
-        e.preventDefault();
-        document.getElementById("errorMessage").textContent = "";
-        const signupButton = document.getElementById("signupButton");
-        signupButton.disabled = true;
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const nickname = document.getElementById("nickname").value;
-
-        try {
-          // Supabase 회원가입 요청
-          const { data, error } = await supabase.auth.signUp({ email, password });
-          if (error) throw error;
-
-          const user = data.user;
-          if (!user) throw new Error("회원가입 성공했지만 사용자 데이터 없음.");
-
-          alert("회원가입이 완료되었습니다! 이메일을 확인하여 인증을 완료하세요.");
-
-          // users 테이블에 닉네임 저장
-          const { error: insertError } = await supabase.from("users").insert([{ id: user.id, nickname }]);
-          if (insertError) throw insertError;
-
-          window.location.href = "/login";
-        } catch (error) {
-          document.getElementById("errorMessage").textContent = error.message;
-          console.error("회원가입 오류:", error);
-          signupButton.disabled = false;
-        }
-      };
-
-      document.getElementById("signupForm").addEventListener("submit", signupHandler);
-    </script>
   </body>
 </html>
