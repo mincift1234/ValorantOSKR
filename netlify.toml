@@ -1,5 +1,7 @@
+[build]
+  functions = "netlify/functions"  # Netlify에서 서버리스 함수 폴더 설정
+
 [[redirects]]
-from = "/api/*"
-to = "https://valorantoskr.netlify.app/api/:splat"
-status = 200
-force = true
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
