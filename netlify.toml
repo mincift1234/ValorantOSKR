@@ -1,2 +1,5 @@
-[functions]
-  directory = "netlify/functions"
+[[redirects]]
+from = "/api/*"
+to = "https://your-supabase-url.supabase.co/api/:splat"
+status = 200
+force = true
