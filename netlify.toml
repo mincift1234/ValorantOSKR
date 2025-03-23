@@ -1,4 +1,4 @@
 [[redirects]]
   from = "/api/verify-email"
-  to = "login/verify-email.html"
+  to = "/login/verify-email.html"
   status = 200
