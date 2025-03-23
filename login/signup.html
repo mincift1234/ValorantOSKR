@@ -91,6 +91,12 @@
       // Supabase 클라이언트 초기화
       const supabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 
+      // JWT 토큰 생성 함수
+      function generateEmailVerificationLink(email) {
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        return `https://valorantoskr.netlify.app/api/verify-email?token=${token}`;
+      }
+      
       const signupHandler = async (e) => {
         e.preventDefault();
         document.getElementById("errorMessage").textContent = ""; // 기존 오류 메시지 초기화
