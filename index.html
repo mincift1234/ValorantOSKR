@@ -8,13 +8,17 @@
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script>
             window.SUPABASE_URL = "https://fhqeqwzhmpduehxihonk.supabase.co";
-            window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDc3MzUsImV4cCI6MjA1ODIyMzczNX0.tow94JIgEm70XjGrbSkejJk0A2xLTod_qOIYITB2efQ";
+            window.SUPABASE_ANON_KEY =
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDc3MzUsImV4cCI6MjA1ODIyMzczNX0.tow94JIgEm70XjGrbSkejJk0A2xLTod_qOIYITB2efQ";
         </script>
     </head>
     <body>
         <button id="menu-button" onclick="openMenu()">☰</button>
         <!-- (새로 추가) 날짜 세기 버튼 -->
         <div class="container">
+            <a href="login/login.html">
+                <button class="login-button">로그인</button>
+            </a>
             <!-- 예시: 왼쪽 사이드바 -->
             <div id="sideMenu" class="side-menu">
                 <a href="javascript:void(0)" class="close-side-menu" onclick="closeMenu()">&times;</a>
