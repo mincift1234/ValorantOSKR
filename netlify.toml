@@ -1,5 +1,5 @@
 [[redirects]]
 from = "/api/*"
-to = "https://your-supabase-url.supabase.co/api/:splat"
+to = "https://valorantoskr.netlify.app//api/:splat"
 status = 200
 force = true
