@@ -2922,16 +2922,21 @@ function stopShopCounting(skinName) {
         endDate: now,
         days: days
     });
+
+    // 6. localStorage에 업데이트
     localStorage.setItem("shopHistory", JSON.stringify(shopHistory));
+
+    // 7. history 갱신
+    fillShopHistory(); // 카운팅 멈춘 후 바로 갱신
 
     alert(`"${skinName}" 날짜 세기를 종료합니다.\n총 ${days}일 소요!`);
 
-    // 6. 초기화
+    // 8. 초기화
     counter.isCounting = false;
     counter.startDate = null;
     localStorage.setItem("shopCounters", JSON.stringify(shopCounters));
 
-    // 7. 팝업 버튼 텍스트 변경
+    // 9. 팝업 버튼 텍스트 변경
     const currentSkinInPopup = document.getElementById("popup-title").textContent;
     if (currentSkinInPopup === skinName) {
         document.getElementById("shop-counter-btn").textContent = "날짜 세기";
@@ -3011,6 +3016,9 @@ function fillShopHistory() {
     const historyEl = document.getElementById("shop-history");
     historyEl.innerHTML = ""; // 초기화
 
+    // localStorage에서 shopHistory를 새로 불러오기
+    let shopHistory = JSON.parse(localStorage.getItem("shopHistory")) || [];
+
     if (shopHistory.length === 0) {
         historyEl.textContent = "아직 기록이 없습니다.";
         return;
@@ -3067,14 +3075,15 @@ function getShopCounter(skinName) {
 }
 
 const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-const SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDc3MzUsImV4cCI6MjA1ODIyMzczNX0.tow94JIgEm70XjGrbSkejJk0A2xLTod_qOIYITB2efQ";
+const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDc3MzUsImV4cCI6MjA1ODIyMzczNX0.tow94JIgEm70XjGrbSkejJk0A2xLTod_qOIYITB2efQ";
 
 async function fetchNotices() {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/notice?select=*`, {
         method: "GET",
         headers: {
-            apikey: SUPABASE_API_KEY,
-            Authorization: `Bearer ${SUPABASE_API_KEY}`,
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
             "Content-Type": "application/json"
         }
     });
