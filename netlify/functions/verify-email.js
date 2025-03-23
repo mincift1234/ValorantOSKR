@@ -5,7 +5,7 @@ const SUPABASE_URL = "https://fhqeqwzhmpduehxihonk.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const SECRET_KEY = "J/4gNMtWjniVBKeF+pFiorINrdqPVJxB8rlmyq76qP8hzkl7V+BzIXSABCSO9NnfSocHTW+cdPgVMGvekKv3AQ==";
+const SECRET_KEY = "53KySPixjsXwC5VUbgT7G47RyhCxd+wxGfBKMXyTyGXpjv99eo2r7oQlihpL8Y2j0ksIdDL4K4L7iunKBNxl2A==";
 
 exports.handler = async (event) => {
   console.log("🔹 이벤트 객체:", event);
