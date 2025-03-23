@@ -773,3 +773,22 @@ body {
         right: 10px;
     }
 }
+.login-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 6px 12px; /* 버튼 크기 줄임 */
+            background-color: #333; /* 다크모드 색상 */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px; /* 글자 크기 줄임 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+            transition: background-color 0.3s, box-shadow 0.3s; /* 전환 효과 */
+        }
+
+        .login-button:hover {
+            background-color: #555; /* 버튼 호버 시 배경 색상 */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3); /* 호버 시 그림자 더 강하게 */
+        }
