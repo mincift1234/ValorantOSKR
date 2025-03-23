@@ -3053,13 +3053,17 @@ function fillShopHistory() {
     });
 }
 
-// 기록 배열에서 해당 인덱스 항목 제거
 function deleteShopRecord(index) {
+    // shopHistory를 localStorage에서 불러옴
+    let shopHistory = JSON.parse(localStorage.getItem("shopHistory")) || [];
+
     // index번째 기록 제거
     shopHistory.splice(index, 1);
+
     // 다시 목록 새로고침
     fillShopHistory();
 
+    // localStorage에 업데이트된 history 저장
     localStorage.setItem("shopHistory", JSON.stringify(shopHistory));
 }
 
