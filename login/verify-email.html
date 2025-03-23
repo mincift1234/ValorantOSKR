@@ -1,138 +1,156 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이메일 인증</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 350px;
-        }
-
-        h2 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(0, 0, 0, 0.1);
-            border-top: 3px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .message {
-            font-size: 16px;
-            margin-top: 20px;
-            color: #555;
-        }
-
-        .success {
-            color: #27ae60;
-        }
-
-        .error {
-            color: #e74c3c;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
-    <script type="module">
-        import { createClient } from "https://esm.sh/@supabase/supabase-js";
-
-        const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
-        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        async function verifyEmail() {
-            const params = new URLSearchParams(window.location.search);
-            const token = params.get("token");
-            const type = params.get("type") || "signup";  // 기본적으로 signup으로 설정
-            const email = localStorage.getItem("email"); // 회원가입 시 저장된 이메일 가져오기
-
-            const loading = document.getElementById("loading");
-            const message = document.getElementById("message");
-
-            if (!token || !email) {
-                message.textContent = "잘못된 요청입니다.";
-                message.classList.add("error");
-                loading.classList.add("hidden");
-                return;
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>이메일 인증</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family: "Arial", sans-serif;
             }
 
-            try {
-                const { error } = await supabase.auth.verifyOtp({
-                    email: email,
-                    token: token,
-                    type: type
-                });
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f4f4f4;
+            }
 
-                if (error) {
-                    message.textContent = `인증 실패: ${error.message}`;
-                    message.classList.add("error");
-                } else {
-                    message.textContent = "✅ 이메일 인증이 완료되었습니다!";
-                    message.classList.add("success");
+            .container {
+                background: white;
+                padding: 30px;
+                border-radius: 12px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                width: 350px;
+            }
 
-                    // 2초 후 로그인 페이지로 이동
-                    setTimeout(() => {
-                        window.location.href = "/login";
-                    }, 1000);
+            h2 {
+                color: #333;
+                margin-bottom: 15px;
+            }
+
+            .loading {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 20px 0;
+            }
+
+            .spinner {
+                width: 24px;
+                height: 24px;
+                border: 3px solid rgba(0, 0, 0, 0.1);
+                border-top: 3px solid #3498db;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
                 }
-            } catch (err) {
-                message.textContent = "오류가 발생했습니다. 다시 시도해주세요.";
-                message.classList.add("error");
-            } finally {
-                loading.classList.add("hidden");
+                100% {
+                    transform: rotate(360deg);
+                }
             }
-        }
 
-        document.addEventListener("DOMContentLoaded", verifyEmail);
-    </script>
-</head>
-<body>
-    <div class="container">
-        <h2>이메일 인증</h2>
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
+            .message {
+                font-size: 16px;
+                margin-top: 20px;
+                color: #555;
+            }
+
+            .success {
+                color: #27ae60;
+            }
+
+            .error {
+                color: #e74c3c;
+            }
+
+            .hidden {
+                display: none;
+            }
+        </style>
+        <script type="module">
+            import { createClient } from "https://esm.sh/@supabase/supabase-js";
+
+            const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
+            const SUPABASE_ANON_KEY =
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
+            const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            async function verifyEmail() {
+                const params = new URLSearchParams(window.location.search);
+                const token = params.get("token");
+                const type = params.get("type") || "signup"; // 기본적으로 signup으로 설정
+                const email = localStorage.getItem("email"); // 회원가입 시 저장된 이메일 가져오기
+
+                const loading = document.getElementById("loading");
+                const message = document.getElementById("message");
+
+                if (!token || !email) {
+                    message.textContent = "잘못된 요청입니다.";
+                    message.classList.add("error");
+                    loading.classList.add("hidden");
+                    return;
+                }
+
+                try {
+                    const { error } = await supabase.auth.verifyOtp({
+                        email: email,
+                        token: token,
+                        type: type
+                    });
+
+                    if (error) {
+                        message.textContent = `인증 실패: ${error.message}`;
+                        message.classList.add("error");
+                    } else {
+                        message.textContent = "✅ 이메일 인증이 완료되었습니다!";
+                        message.classList.add("success");
+
+                        // 이메일 인증 후 user 테이블의 email_verified 필드를 TRUE로 업데이트
+                        const { data, error: updateError } = await supabase
+                            .from("users")
+                            .update({ email_verified: true })
+                            .eq("email", email);
+
+                        if (updateError) {
+                            message.textContent = `인증 후 상태 업데이트 실패: ${updateError.message}`;
+                            message.classList.add("error");
+                        } else {
+                            console.log("이메일 인증 상태가 성공적으로 업데이트되었습니다.");
+                        }
+
+                        // 2초 후 로그인 페이지로 이동
+                        setTimeout(() => {
+                            window.location.href = "/login";
+                        }, 1000);
+                    }
+                } catch (err) {
+                    message.textContent = "오류가 발생했습니다. 다시 시도해주세요.";
+                    message.classList.add("error");
+                } finally {
+                    loading.classList.add("hidden");
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", verifyEmail);
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <h2>이메일 인증</h2>
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+            </div>
+            <p id="message" class="message">인증 중...</p>
         </div>
-        <p id="message" class="message">인증 중...</p>
-    </div>
-</body>
+    </body>
 </html>
