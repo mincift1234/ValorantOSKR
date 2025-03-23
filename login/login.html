@@ -1,136 +1,178 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>로그인</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f4f4f4;
-    }
-    .login-container {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
-    .login-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .error {
-      color: red;
-      text-align: center;
-      font-size: 14px;
-    }
-    .signup-link {
-      text-align: center;
-      margin-top: 10px;
-    }
-    .signup-link a {
-      color: #007bff;
-      text-decoration: none;
-    }
-    .signup-link a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>로그인 / 회원가입</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f4f4f4;
+            }
+            .auth-container {
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                width: 300px;
+            }
+            .auth-container h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            input {
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            button {
+                width: 100%;
+                padding: 10px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+            .error {
+                color: red;
+                text-align: center;
+                font-size: 14px;
+            }
+            .auth-link {
+                text-align: center;
+                margin-top: 10px;
+            }
+            .auth-link a {
+                color: #007bff;
+                text-decoration: none;
+            }
+            .auth-link a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="auth-container">
+            <h2 id="authTitle">로그인</h2>
+            <form id="authForm">
+                <input type="email" id="email" placeholder="이메일" required />
+                <input type="password" id="password" placeholder="비밀번호" required />
+                <div id="nicknameContainer" style="display: none">
+                    <input type="text" id="nickname" placeholder="닉네임" required />
+                </div>
+                <button type="submit" id="authButton">로그인</button>
+                <p id="errorMessage" class="error"></p>
+            </form>
 
-  <div class="login-container">
-    <h2>로그인</h2>
-    <form id="loginForm">
-      <input
-        type="email"
-        id="email"
-        placeholder="이메일"
-        required
-      />
-      <input
-        type="password"
-        id="password"
-        placeholder="비밀번호"
-        required
-      />
-      <button type="submit" id="loginButton">로그인</button>
-      <p id="errorMessage" class="error"></p>
-    </form>
+            <div class="auth-link">
+                <p id="toggleText">아직 계정이 없으신가요? <a href="signup.html" id="toggleLink">회원가입</a></p>
+                <p><a href="/index.html" id="homeLink">홈으로</a></p>
+                <!-- 홈으로 링크 추가 -->
+            </div>
+        </div>
 
-    <div class="signup-link">
-      <p>아직 계정이 없으신가요? <a href="signup.html">회원가입</a></p>
-    </div>
-  </div>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script>
+            const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
+            const SUPABASE_ANON_KEY =
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDc3MzUsImV4cCI6MjA1ODIyMzczNX0.tow94JIgEm70XjGrbSkejJk0A2xLTod_qOIYITB2efQ";
+            const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDc3MzUsImV4cCI6MjA1ODIyMzczNX0.tow94JIgEm70XjGrbSkejJk0A2xLTod_qOIYITB2efQ";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            let isSignup = false; // 로그인/회원가입 구분
 
-    const loginHandler = async (e) => {
-      e.preventDefault();
-      document.getElementById("errorMessage").textContent = ""; // 기존 오류 메시지 초기화
-      const loginButton = document.getElementById("loginButton");
-      loginButton.disabled = true; // 버튼 비활성화
+            const toggleAuthMode = () => {
+                isSignup = !isSignup;
+                document.getElementById("authTitle").textContent = isSignup ? "회원가입" : "로그인";
+                document.getElementById("authButton").textContent = isSignup ? "회원가입" : "로그인";
+                document.getElementById("toggleText").innerHTML = isSignup
+                    ? '이미 계정이 있으신가요? <a href="#" id="toggleLink">로그인</a>'
+                    : '아직 계정이 없으신가요? <a href="#" id="toggleLink">회원가입</a>';
+                document.getElementById("nicknameContainer").style.display = isSignup ? "block" : "none";
+                document.getElementById("toggleLink").removeEventListener("click", toggleAuthMode);
+                document.getElementById("toggleLink").addEventListener("click", toggleAuthMode);
+            };
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+            const loginHandler = async (e) => {
+                e.preventDefault();
+                document.getElementById("errorMessage").textContent = ""; // 기존 오류 메시지 초기화
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
 
-      try {
-        const { data, error } = await supabase.auth.signIn({
-          email,
-          password,
-        });
+                try {
+                    const { session, error } = await supabase.auth.signInWithPassword({ email, password });
 
-        if (error) {
-          console.error("로그인 오류:", error); // 콘솔 로그에 오류 출력
-          document.getElementById("errorMessage").textContent = error.message;
-          loginButton.disabled = false; // 버튼 다시 활성화
-          return;
-        }
+                    if (error) {
+                        document.getElementById("errorMessage").textContent = error.message;
+                        return;
+                    }
 
-        console.log("로그인 성공:", data);
-        alert("로그인 성공! 홈페이지로 이동합니다.");
-        window.location.href = "/"; // 홈페이지로 이동
-      } catch (error) {
-        console.error("로그인 중 문제가 발생:", error); // 콘솔 로그에 오류 출력
-        document.getElementById("errorMessage").textContent = "로그인 중 문제가 발생했습니다.";
-        loginButton.disabled = false; // 버튼 다시 활성화
-      }
-    };
+                    console.log("로그인 성공:", session);
+                    alert("로그인 성공!");
+                    // 로그인 후 이동할 페이지 지정
+                    window.location.href = "/home";
+                } catch (error) {
+                    console.error("로그인 중 문제가 발생:", error);
+                    document.getElementById("errorMessage").textContent = "로그인 중 문제가 발생했습니다.";
+                }
+            };
 
-    document.getElementById("loginForm").addEventListener("submit", loginHandler);
-  </script>
+            const signupHandler = async (e) => {
+                e.preventDefault();
+                document.getElementById("errorMessage").textContent = ""; // 기존 오류 메시지 초기화
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+                const nickname = document.getElementById("nickname").value;
 
-</body>
+                try {
+                    const { user, error } = await supabase.auth.signUp({
+                        email,
+                        password,
+                        options: {
+                            data: {
+                                nickname: nickname // 사용자 데이터에 닉네임 포함
+                            }
+                        }
+                    });
+
+                    if (error) {
+                        document.getElementById("errorMessage").textContent = error.message;
+                        return;
+                    }
+
+                    // 이메일 인증이 자동으로 발송됩니다.
+                    console.log("회원가입 성공:", user);
+                    alert("회원가입이 완료되었습니다! 인증 이메일을 확인해주세요.");
+                    window.location.href = "/login"; // 로그인 페이지로 이동
+                } catch (error) {
+                    console.error("회원가입 중 문제가 발생:", error);
+                    document.getElementById("errorMessage").textContent = "회원가입 중 문제가 발생했습니다.";
+                }
+            };
+
+            document.getElementById("authForm").addEventListener("submit", (e) => {
+                if (isSignup) {
+                    signupHandler(e);
+                } else {
+                    loginHandler(e);
+                }
+            });
+
+            // 초기 상태는 로그인 페이지
+            document.getElementById("toggleLink").addEventListener("click", toggleAuthMode);
+        </script>
+    </body>
 </html>
