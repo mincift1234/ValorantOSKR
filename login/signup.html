@@ -69,7 +69,8 @@
 
       // 🔑 Supabase API 키 (직접 입력)
       const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co"; // 여기에 Supabase URL 입력
-      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw"; // 여기에 Supabase 익명 키 입력
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw"; // 여기에 Supabase 익명 키 입력
 
       const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -108,6 +109,9 @@
               signupButton.disabled = false;
               return;
             }
+
+            // ✅ 이메일을 localStorage에 저장
+            localStorage.setItem("email", email); // 이메일 저장
 
             // ✅ Supabase users 테이블에 추가 정보 저장
             const { error: insertError } = await supabase
