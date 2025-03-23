@@ -8,7 +8,7 @@
     <script>
       window.SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
       window.SUPABASE_ANON_KEY =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2NDc3MzUsImV4cCI6MjA1ODIyMzczNX0.tow94JIgEm70XjGrbSkejJk0A2xLTod_qOIYITB2efQ";
     </script>
     <style>
       body {
@@ -86,17 +86,21 @@
         <p>이미 계정이 있으신가요? <a href="login.html" id="toggleLink">로그인</a></p>
       </div>
     </div>
-
     <script>
       // Supabase 클라이언트 초기화
       const supabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 
-      // JWT 토큰 생성 함수
-      function generateEmailVerificationLink(email) {
-        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        return `https://valorantoskr.netlify.app/api/verify-email?token=${token}`;
+      async function generateEmailVerificationLink(email) {
+        const response = await fetch("https://valorantoskr.netlify.app/api/generate-token", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+
+        const result = await response.json();
+        return `https://valorantoskr.netlify.app/api/verify-email?token=${result.token}`;
       }
-      
+
       const signupHandler = async (e) => {
         e.preventDefault();
         document.getElementById("errorMessage").textContent = ""; // 기존 오류 메시지 초기화
@@ -109,7 +113,7 @@
 
         try {
           // Supabase 인증을 통한 회원가입
-          const { user, error } = await supabase.auth.signUp({
+          const { data, error } = await supabase.auth.signUp({
             email,
             password
           });
@@ -121,11 +125,21 @@
             return;
           }
 
+          const user = data.user;
+          if (!user) {
+            console.error("회원가입 성공했지만 사용자 데이터 없음.");
+            document.getElementById("errorMessage").textContent = "회원가입 중 오류가 발생했습니다.";
+            signupButton.disabled = false;
+            return;
+          }
+
           // 이메일 인증 안내 메시지
           alert("회원가입이 완료되었습니다! 이메일을 확인하여 인증을 완료하세요.");
 
           // users 테이블에 닉네임 저장
-          const { data, insertError } = await supabase.from("users").insert([{ id: user.id, nickname: nickname }]);
+          const { data: insertData, error: insertError } = await supabase
+            .from("users")
+            .insert([{ id: user.id, nickname: nickname }]);
 
           if (insertError) {
             console.error("닉네임 저장 오류:", insertError);
@@ -134,7 +148,7 @@
             return;
           }
 
-          console.log("회원가입 성공:", data);
+          console.log("회원가입 성공:", insertData);
           window.location.href = "/login"; // 로그인 페이지로 이동
         } catch (error) {
           console.error("회원가입 중 문제가 발생:", error);
