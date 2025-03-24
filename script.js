@@ -3117,3 +3117,70 @@ function noticePopup() {
 function closeNoticePopup() {
     document.getElementById("notice-popup").style.display = "none";
 }
+
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const {
+            data: { session }
+        } = await supabase.auth.getSession();
+
+        if (session && session.user) {
+            // ✅ 로그인 상태 유지됨 (사용자 정보 가져오기)
+            const user = session.user;
+            console.log("✅ 로그인 유지됨:", user);
+
+            // 닉네임 가져오기
+            const { data: userData, error } = await supabase
+                .from("users")
+                .select("nickname")
+                .eq("id", user.id)
+                .maybeSingle();
+
+            if (error) console.error("사용자 정보 불러오기 오류:", error);
+
+            const nickname = userData?.nickname || user.email; // 닉네임 없으면 이메일 표시
+            document.getElementById("user-nickname").textContent = nickname;
+            document.getElementById("user-info").style.display = "flex";
+            document.getElementById("login-button").style.display = "none";
+        } else {
+            // ❌ 로그인 상태가 아님
+            console.log("❌ 로그인되지 않음");
+            document.getElementById("user-info").style.display = "none";
+            document.getElementById("login-button").style.display = "block";
+        }
+    } catch (error) {
+        console.error("로그인 상태 확인 중 오류 발생:", error);
+    }
+});
+
+// 사용자 메뉴 토글 (클릭하면 열리고 닫힘)
+function toggleUserMenu() {
+    const menu = document.getElementById("user-menu");
+    menu.classList.toggle("show");
+}
+
+// 내 정보 페이지 이동
+function goToProfile() {
+    window.location.href = "profile.html"; // 내 정보 페이지 이동
+}
+
+// ✅ 로그아웃 기능 (Supabase 인증 해제 추가)
+async function logout() {
+    try {
+        await supabase.auth.signOut(); // Supabase에서 로그아웃
+        localStorage.clear(); // 모든 로컬 스토리지 데이터 삭제
+        window.location.reload(); // 새로고침하여 로그인 버튼 다시 표시
+    } catch (error) {
+        console.error("로그아웃 중 오류 발생:", error);
+    }
+}
+
+// 페이지 클릭 시 사용자 메뉴 닫기
+document.addEventListener("click", function (event) {
+    const userInfo = document.getElementById("user-info");
+    const userMenu = document.getElementById("user-menu");
+
+    if (!userInfo.contains(event.target) && !userMenu.contains(event.target)) {
+        userMenu.classList.remove("show");
+    }
+});
