@@ -68,7 +68,8 @@
       import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
       const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
 
       const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -76,13 +77,6 @@
         const loginForm = document.getElementById("loginForm");
         const errorMessage = document.getElementById("errorMessage");
         const loginButton = document.getElementById("loginButton");
-
-        // ✅ 자동 로그인 유지 (세션 확인)
-        const { data: sessionData } = await supabase.auth.getSession();
-        if (sessionData?.session) {
-          console.log("✅ 자동 로그인 상태 유지 중:", sessionData);
-          window.location.href = "index.html"; // 자동 로그인 상태면 홈페이지로 이동
-        }
 
         loginForm.addEventListener("submit", async (e) => {
           e.preventDefault();
@@ -99,14 +93,11 @@
           }
 
           try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-              email,
-              password,
-            });
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
             if (error) {
               console.error("로그인 오류:", error);
-              errorMessage.textContent = `⚠️ ${error.message}`;
+              errorMessage.textContent = `⚠️ ${error.message || "로그인에 실패했습니다."}`;
               loginButton.disabled = false;
               return;
             }
@@ -119,15 +110,29 @@
               return;
             }
 
-            // ✅ 로그인 성공 후 로컬 스토리지에 이메일 저장
-            localStorage.setItem("email", email);
+            // ✅ 사용자 정보 가져오기 (닉네임 포함)
+            const { data: userData, error: userError } = await supabase
+              .from("users")
+              .select("nickname")
+              .eq("id", data.user.id)
+              .maybeSingle(); // ❗ 없으면 null 반환하도록 변경
+
+            if (userError) {
+              console.error("사용자 정보 불러오기 오류:", userError);
+            }
+
+            // ✅ 로그인 성공 후 로컬 스토리지에 저장
+            localStorage.setItem("user_id", user.id);
+            localStorage.setItem("email", user.email);
+            localStorage.setItem("nickname", userData?.nickname || "");
+            
             console.log("✅ 로그인 성공:", user);
 
             alert("로그인에 성공했습니다!");
 
             // ✅ 홈페이지로 리디렉션 (2초 후)
             setTimeout(() => {
-              window.location.href = "/index.html";
+              window.location.replace("/index.html");
             }, 1000);
           } catch (error) {
             console.error("로그인 중 문제가 발생:", error);
