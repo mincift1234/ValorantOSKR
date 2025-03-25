@@ -12,7 +12,10 @@
     font-style: normal;
 }
 
-select, option, input, button {
+select,
+option,
+input,
+button {
     font-family: "DaeguCatholicUniversity", sans-serif;
 }
 
@@ -201,7 +204,9 @@ body {
     left: 0;
     background-color: #1e1e1e;
     overflow-x: hidden;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transition:
+        transform 0.3s ease-in-out,
+        opacity 0.3s ease-in-out;
     padding-top: 60px;
     z-index: 10000;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
@@ -749,7 +754,7 @@ body {
         max-height: 70vh; /* 화면 높이의 70%까지만 사용 */
         padding: 15px; /* 모바일에서 조금 더 작은 패딩 */
     }
-    
+
     #notice-popup h2 {
         font-size: 18px;
     }
@@ -773,84 +778,20 @@ body {
         right: 10px;
     }
 }
-/* 로그인 버튼과 사용자 이메일 버튼 위치 조정 */
-#login-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;  /* 로그인 버튼을 위로 */
-}
-
-#user-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999; /* 사용자 이메일 버튼을 아래로 */
-}
-
-/* 사용자 이메일 버튼 스타일 */
-#user-email {
-    background: none;
-    color: #fff;
-    font-size: 16px;
+#user-info {
+    position: fixed;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
-    border: none;
-    padding: 5px 10px;
-    transition: color 0.3s;
 }
-
-#user-email:hover {
-    color: #007bff;
-}
-
-/* 팝업 스타일 */
-#user-popup, #logout-success-popup {
+#logout-popup {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 320px;
-    max-height: 80vh;
-    overflow-y: auto;
-    background: #1e1e1e;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
     padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
-    text-align: center;
-    z-index: 5000;  /* 팝업이 가장 위로 오도록 설정 */
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.popup-content {
-    color: white;
-}
-
-/* 팝업 버튼 스타일 */
-#close-popup, #logout-popup, #close-logout-popup {
-    background-color: #ff5c5c;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 10px;
-}
-
-#close-popup:hover, #logout-popup:hover, #close-logout-popup:hover {
-    background-color: #ff1f1f;
-}
-
-/* 팝업 애니메이션 */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+    border-radius: 8px;
 }
