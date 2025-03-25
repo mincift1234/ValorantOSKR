@@ -3114,100 +3114,65 @@ function closeNoticePopup() {
     document.getElementById("notice-popup").style.display = "none";
 }
 
-// Supabase 클라이언트 초기화
-const supabase = createClient(
-    window.SUPABASE_URL,  // HTML에서 설정한 URL 사용
-    window.SUPABASE_ANON_KEY  // HTML에서 설정한 공개 키 사용
-);
+const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
+const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-console.log(supabase);
+let user = null;
 
-// DOMContentLoaded 이벤트 리스너
-document.addEventListener("DOMContentLoaded", () => {
-    initializeUserInterface();
-});
+// 로그인 페이지로 리디렉션
+function redirectToLoginPage() {
+    window.location.href = "login/login.html"; // login.html 페이지로 이동
+}
 
-// 사용자 인터페이스 초기화
-async function initializeUserInterface() {
-    // Supabase 클라이언트 확인
-    if (typeof supabase === "undefined") {
-        handleSupabaseError();
-        return; // 더 이상 실행하지 않도록 종료
-    }
-
-    // 사용자 정보와 팝업 관련 요소들
-    const loginButton = document.getElementById("login-button"); // 로그인 버튼
-    const userEmailButton = document.getElementById("user-email"); // 사용자 이메일 버튼
-    const userContainer = document.getElementById("user-container"); // 사용자 정보 표시 컨테이너
-    const loginContainer = document.getElementById("login-container"); // 로그인 버튼 컨테이너
-    const userPopup = document.getElementById("user-popup");
-    const closePopupButton = document.getElementById("close-popup");
-    const logoutPopupButton = document.getElementById("logout-popup");
-    const popupEmail = document.getElementById("popup-email");
-    const logoutSuccessPopup = document.getElementById("logout-success-popup");
-    const closeLogoutPopupButton = document.getElementById("close-logout-popup");
-
-    // 로그인된 사용자의 정보 가져오기
-    const user = supabase.auth.user();
+// 로그인 처리
+async function handleLogin() {
+    const { user, error } = await supabase.auth.signInWithOAuth({
+        provider: "google"
+    });
 
     if (user) {
-        const userEmail = user.email;
-        userEmailButton.textContent = userEmail; // 이메일을 버튼에 표시
-        userContainer.classList.remove("hidden"); // 사용자 이메일 버튼 보이기
-        loginContainer.classList.add("hidden"); // 로그인 버튼 숨기기
-    } else {
-        userContainer.classList.add("hidden"); // 사용자 이메일 버튼 숨기기
-        loginContainer.classList.remove("hidden"); // 로그인 버튼 보이기
+        const userName = user.user_metadata.full_name;
+        document.getElementById("user-info").innerText = userName;
+        document.getElementById("login-button").style.display = "none"; // 로그인 버튼 숨김
+    } else if (error) {
+        alert("로그인 실패: " + error.message);
     }
-
-    // 이메일 버튼 클릭 시 팝업 열기
-    userEmailButton.addEventListener("click", () => openUserPopup(user.email, userPopup, popupEmail));
-
-    // 팝업 닫기 버튼 클릭 시 팝업 닫기
-    closePopupButton.addEventListener("click", () => closeUserPopup(userPopup));
-
-    // 로그아웃 버튼 클릭 시 로그아웃 처리
-    logoutPopupButton.addEventListener("click", () => logoutUser(logoutSuccessPopup));
-
-    // 로그아웃 성공 팝업 닫기
-    closeLogoutPopupButton.addEventListener("click", () => {
-        logoutSuccessPopup.style.display = "none"; // 로그아웃 팝업 숨기기
-        window.location.reload(); // 새로고침하여 상태 반영
-    });
 }
 
-// Supabase 초기화 오류 처리
-function handleSupabaseError() {
-    console.error("⚠️ Supabase 클라이언트가 초기화되지 않았습니다.");
-    alert("Supabase 클라이언트가 초기화되지 않았습니다. 관리자에게 문의하세요.");
-}
+// 로그인 상태 확인 및 사용자 정보 표시
+async function checkUser() {
+    const {
+        data: { user }
+    } = await supabase.auth.getUser();
 
-// 팝업 열기
-function openUserPopup(userEmail, userPopup, popupEmail) {
-    popupEmail.textContent = userEmail; // 팝업에 이메일 표시
-    userPopup.style.display = "block"; // 팝업 보이기
-}
-
-// 팝업 닫기
-function closeUserPopup(userPopup) {
-    userPopup.style.display = "none"; // 팝업 숨기기
+    if (user) {
+        document.getElementById("user-info").innerText = user.user_metadata.full_name;
+        document.getElementById("login-button").style.display = "none";
+    } else {
+        document.getElementById("user-info").innerText = "";
+        document.getElementById("login-button").style.display = "block";
+    }
 }
 
 // 로그아웃 처리
-async function logoutUser(logoutSuccessPopup) {
-    try {
-        const { error } = await supabase.auth.signOut(); // Supabase에서 로그아웃
-        if (error) {
-            throw new Error(error.message); // 오류 발생 시 예외 처리
-        }
-
-        // 로그아웃 성공 시
-        logoutSuccessPopup.style.display = "block"; // 로그아웃 성공 팝업 보이기
-        setTimeout(() => {
-            logoutSuccessPopup.style.display = "none"; // 팝업 자동으로 닫기
-        }, 3000); // 3초 후에 팝업 숨기기
-    } catch (err) {
-        console.error("로그아웃 실패:", err.message); // 오류 로그 출력
-        alert("로그아웃 중 문제가 발생했습니다. 다시 시도해주세요."); // 오류 메시지 표시
-    }
+async function logout() {
+    await supabase.auth.signOut();
+    document.getElementById("user-info").innerText = "";
+    document.getElementById("login-button").style.display = "block";
+    document.getElementById("logout-popup").style.display = "none";
 }
+
+// 팝업 닫기
+function closePopup() {
+    document.getElementById("logout-popup").style.display = "none";
+}
+
+// 사용자 정보 클릭 시 팝업 표시
+document.getElementById("user-info").addEventListener("click", function () {
+    document.getElementById("logout-popup").style.display = "block";
+});
+
+// 페이지 로드 시 로그인 상태 확인
+checkUser();
