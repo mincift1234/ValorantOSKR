@@ -853,14 +853,6 @@ body {
 .hidden {
     display: none;
 }
-/* account-popup-wrapper (부모 요소에 그림자 추가) */
-.account-popup-wrapper {
-    position: relative; /* 자식 요소 위치 설정 */
-    display: inline-block; /* 팝업을 감싸는 블록 요소로 설정 */
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
-    border-radius: 12px; /* 옵션: 부모 요소에도 둥근 테두리 적용 */
-}
-
 /* account-popup (기존 팝업 스타일 유지) */
 .account-popup {
     display: none;
