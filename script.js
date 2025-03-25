@@ -3143,7 +3143,7 @@ async function handleLogin() {
 async function checkUser() {
     const {
         data: { user }
-    } = await supabase.auth.getUser();
+    } = await supabase.auth.getSession();
 
     if (user) {
         document.getElementById("user-info").innerText = user.user_metadata.full_name;
