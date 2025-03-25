@@ -1,160 +1,855 @@
-<!doctype html>
-<html lang="ko">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>오늘부터 1일</title>
-        <link rel="stylesheet" href="styles.css" />
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0-beta.2/dist/umd/supabase.min.js"></script>
-        <script>
-            window.SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-            window.SUPABASE_ANON_KEY =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
-        </script>
-    </head>
-    <body>
-        <button id="menu-button" onclick="openMenu()">☰</button>
-        <div class="container">
-            <div id="auth-container" class="auth-container">
-                <!-- 로그인 버튼 (로그인 상태가 아닐 경우 표시) -->
-                <div id="login-container" class="auth-item">
-                    <a href="login/login.html" id="login-button">로그인</a>
-                </div>
+@font-face {
+    font-family: "ANDONG264";
+    src: url("fonts/ANDONG264.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
 
-                <!-- 로그인 후 사용자 정보 (로그인 상태일 경우 표시) -->
-                <div id="user-container" class="auth-item hidden">
-                    <button id="user-info" class="user-info-btn"></button>
-                    <!-- 사용자 정보 (구글 사용자명) -->
-                    <div id="logout-options" class="logout-options hidden">
-                        <button id="logout-btn" class="logout-btn">로그아웃</button>
-                    </div>
-                </div>
-            </div>
-            <!-- 메뉴 버튼 -->
-            <div id="sideMenu" class="side-menu">
-                <a href="javascript:void(0)" class="close-side-menu" onclick="closeMenu()">&times;</a>
-                <h2>메뉴</h2>
-                <ul id="menu-nav">
-                    <li onclick="openFavorites()">즐겨찾기</li>
-                    <li onclick="openShopCounterPopup()">오늘의 상점 날짜 세기</li>
-                    <li onclick="noticePopup()">공지사항 & 패치노트</li>
-                </ul>
-            </div>
-            <div id="shop-counter-popup" class="shop-counter-popup">
-                <div class="shop-counter-content">
-                    <span class="close-shop-counter" onclick="closeShopCounterPopup()">&times;</span>
-                    <h2>오늘의 상점 날짜 세기</h2>
+@font-face {
+    font-family: "DaeguCatholicUniversity";
+    src: url("fonts/DaeguCatholicUniversity.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
 
-                    <!-- 현재 카운트 중인 스킨 정보 표시 -->
-                    <div id="shop-current" class="shop-current">
-                        <!-- 예: 스킨 이름, D+일수, 멈추기 버튼 -->
-                    </div>
+select,
+option,
+input,
+button {
+    font-family: "DaeguCatholicUniversity", sans-serif;
+}
 
-                    <!-- 기록(History) 섹션 -->
-                    <div class="shop-history-section">
-                        <button onclick="toggleShopHistory()" id="shop-history-btn">기록 보기</button>
-                        <div id="shop-history" class="shop-history" style="display: none"></div>
-                    </div>
-                </div>
-            </div>
-            <!-- 즐겨찾기 목록 팝업 -->
-            <div id="favorites-popup" class="favorites-popup">
-                <div class="favorites-popup-content">
-                    <span class="close-favorites-popup" onclick="closeFavoritesPopup()">&times;</span>
-                    <h2>즐겨찾기 목록</h2>
-                    <div id="favorites-list"></div>
-                </div>
-            </div>
+h1 {
+    font-family: "ANDONG264", sans-serif;
+}
 
-            <div id="notice-popup" class="popup">
-                <div class="popup-content">
-                    <span class="close-btn" onclick="closeNoticePopup()">&times;</span>
-                    <h2>공지사항 & 패치노트</h2>
-                    <ul id="notice-list"></ul>
-                </div>
-            </div>
+body {
+    font-family: "DaeguCatholicUniversity", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #fff;
+    text-align: center;
+}
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+.search-section {
+    margin-bottom: 20px;
+}
+.search-section input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+.filter-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.filter-section select {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: #333;
+    color: #fff;
+}
+.skins-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+.skin-card {
+    background: #1e1e1e;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+.skin-card img {
+    width: 180px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+.skin-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 8px;
+    width: 100%;
+}
+.skin-info img {
+    width: 24px;
+    height: 24px;
+}
+.skin-info p {
+    flex-grow: 0;
+    text-align: center;
+    margin: 0;
+}
+.price-info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    background: transparent;
+}
+.price-info img {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+.price-info span {
+    font-size: 14px;
+}
+#menu-button {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: transparent;
+    color: white;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    z-index: 6000;
+}
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    z-index: 5000;
+    animation: fadeIn 0.3s ease-in-out;
+}
 
-            <!-- 스킨 카드 팝업 -->
-            <div id="popup" class="popup">
-                <div class="popup-content">
-                    <span class="close-btn" onclick="closePopup()">&times;</span>
+.popup-skin-card {
+    /* 팝업 안에서 스킨 카드가 너무 크거나 작다면 이곳에서 조정 */
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    box-shadow: none !important;
+}
+#favorite-btn {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: gold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px; /* 추가 부분 */
+    color: black; /* 버튼 배경이 gold이므로 텍스트는 검은색으로 */
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 3); /* 약간의 흰색 그림자 */
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 20px;
+    cursor: pointer;
+    color: white; /*애니메이션(호버/클릭) 효과 */
+    transition: transform 0.2s ease;
+    z-index: 9999;
+}
 
-                    <!-- 스킨 카드 -->
-                    <div id="popup-skin-card" class="skin-card popup-skin-card">
-                        <div class="price-info" id="popup-price-info">
-                            <!-- VP 아이콘과 가격이 들어갈 예정 -->
-                        </div>
-                        <img id="popup-img" alt="스킨 이미지" />
-                        <div class="skin-info">
-                            <img id="popup-tier" alt="스킨 등급" />
-                            <p id="popup-title"></p>
-                        </div>
-                    </div>
-                    <button id="favorite-btn" onclick="toggleFavorite()">즐겨찾기</button>
-                    <button id="shop-counter-btn" onclick="toggleShopCounting()">날짜 세기</button>
-                </div>
-            </div>
+.close-btn:hover {
+    transform: scale(1.1); /* 마우스 올라가면 살짝 커짐 */
+}
 
-            <h1>오늘부터 1일</h1>
-            <div class="search-section">
-                <input type="text" id="search-box" placeholder="스킨 이름 검색..." oninput="applyFilters()" />
-            </div>
-            <div class="filter-section">
-                <select id="tier-filter" onchange="applyFilters()">
-                    <option value="all">모든 등급</option>
-                    <option value="select">셀렉트</option>
-                    <option value="deluxe">디럭스</option>
-                    <option value="premium">프리미엄</option>
-                    <option value="exclusive">익스클루시브</option>
-                    <option value="ultra">울트라</option>
-                </select>
-                <select id="type-filter" onchange="applyFilters()">
-                    <option value="all">모든 종류</option>
-                    <option value="phantom">팬텀</option>
-                    <option value="vandal">밴달</option>
-                    <option value="sheriff">셰리프</option>
-                    <option value="operator">오퍼레이터</option>
-                    <option value="stinger">스팅어</option>
-                    <option value="ghost">고스트</option>
-                    <option value="odin">오딘</option>
-                    <option value="marshal">마샬</option>
-                    <option value="bucky">버키</option>
-                    <option value="judge">져지</option>
-                    <option value="frenzy">프렌지</option>
-                    <option value="classic">클래식</option>
-                    <option value="shorty">쇼티</option>
-                    <option value="ares">아레스</option>
-                    <option value="bulldog">불독</option>
-                    <option value="knife">칼</option>
-                    <option value="guardian">가디언</option>
-                    <option value="outlaw">아웃로</option>
-                </select>
-                <select id="price-sort" onchange="applyFilters()">
-                    <option value="none">가격 순 정렬</option>
-                    <option value="high">가격 높은 순</option>
-                    <option value="low">가격 낮은 순</option>
-                </select>
-                <select id="sort-by-date" class="sort-dropdown" onchange="applyFilters()">
-                    <option value="none">출시 순 정렬</option>
-                    <option value="asc">오래된 순</option>
-                    <option value="desc">최신 순</option>
-                </select>
-            </div>
-            <div class="skins-grid" id="skins-container"></div>
-            <div class="pagination">
-                <button id="prevPage" onclick="changePage(currentPage - 1)">이전</button>
-                <span id="pageNumbers"></span>
-                <button id="nextPage" onclick="changePage(currentPage + 1)">다음</button>
-            </div>
-        </div>
-        <footer class="taskbar">
-            <div class="taskbar-item">
-                <span>문제 및 광고 문의 이메일 :</span>
-                <a href="mailto:valorantoskr@gmail.com">valorantoskr@gmail.com</a>
-            </div>
-        </footer>
-        <!-- 메인 스크립트 실행 -->
-        <script src="script.js"></script>
-    </body>
-</html>
+.close-btn:active {
+    transform: scale(0.9);
+    /* 클릭(눌렀을 때)하면 살짝 작아짐 */
+}
+
+.side-menu {
+    height: 100%;
+    width: 250px; /* 고정된 너비 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #1e1e1e;
+    overflow-x: hidden;
+    transition:
+        transform 0.3s ease-in-out,
+        opacity 0.3s ease-in-out;
+    padding-top: 60px;
+    z-index: 10000;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    transform: translateX(-100%); /* 처음엔 숨김 상태 */
+    opacity: 0; /* 처음엔 투명 */
+}
+
+.side-menu.open {
+    width: 250px; /* 열렸을 때 폭 */
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.close-side-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#menu-nav {
+    display: flex;
+    flex-direction: column; /* 항목을 위에서 아래로 배치 */
+    align-items: center; /* 자식 항목(li)을 수평 중앙 정렬 */
+    list-style-type: none; /* 점(불릿) 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+#menu-nav li {
+    width: 80%; /* 항목(및 구분선) 전체 너비 */
+    margin: 0 auto; /* 수평 중앙 정렬 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    border-bottom: 1px solid #333;
+    padding: 10px 0;
+}
+
+#menu-nav li:last-child {
+    border-bottom: none; /* 마지막 항목은 구분선 제거 */
+}
+
+/* 호버 시 배경 강조 (선택 사항) */
+#menu-nav li:hover {
+    background-color: #333;
+}
+
+.favorites-popup {
+    display: none; /* 처음엔 숨김 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    z-index: 9998; /* 스킨 팝업이 9999라면, 그 아래나 위로 조정 가능 */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.favorites-popup-content {
+    position: relative;
+}
+
+.close-favorites-popup {
+    position: absolute;
+    top: -30px;
+    right: -2px;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.2s ease;
+}
+
+.close-favorites-popup:hover {
+    transform: scale(1.1);
+}
+
+.close-favorites-popup:active {
+    transform: scale(0.9);
+}
+
+#favorites-list {
+    margin-top: 20px;
+    /* 스킨 목록을 자유롭게 스타일링, 아래는 예시 */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 스킨 항목 아이템 스타일 (즐겨찾기 목록에서) */
+.favorite-item {
+    background: #2c2c2c;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.favorite-item:hover {
+    transform: scale(1.02);
+}
+
+.shop-counter-popup {
+    display: none;
+    font-size: 18px;
+    margin: 0 0 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    z-index: 9998;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.shop-counter-content {
+    position: relative;
+}
+
+.close-shop-counter {
+    position: absolute;
+    top: -30px;
+    right: 1px;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.2s ease;
+}
+
+.close-shop-counter:hover {
+    transform: scale(1.1);
+}
+
+.close-shop-counter:active {
+    transform: scale(0.9);
+}
+
+.shop-current {
+    margin-top: 16px;
+    margin: 0 0 8px;
+}
+
+.shop-history-section {
+    margin-top: 15px;
+}
+
+#shop-history-btn {
+    margin-bottom: 10px;
+}
+
+.shop-history {
+    background: #2c2c2c;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.shop-history-item {
+    background: #333;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+#shop-counter-btn {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: gold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    color: black; /* 버튼 배경이 gold 이므로 텍스트는 검은색 */
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 3); /* 약간의 흰색 그림자 */
+}
+
+#favorite-btn,
+#shop-counter-btn {
+    margin: 5px;
+    font-weight: bold;
+}
+
+#shop-history-btn {
+    background: gold;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px; /* 필요 시 조정 */
+    padding: 8px 12px;
+    margin-bottom: 10px; /* 아래쪽 간격 */
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* "오늘의 상점 날짜 세기" 팝업 내에서 가로 배치 컨테이너 */
+.shop-counter-row {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */ /* 필요하면 이름과 버튼을 좌우로 띄워 배치 */
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+    background: #2c2c2c; /* 살짝 어두운 배경 */
+    padding: 10px; /* 내부 여백 */
+    border-radius: 8px; /* 둥근 모서리 */
+    border: 1px solid #444; /* 옅은 테두리 */
+}
+
+#shop-current {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수직 정렬(열 방향이므로 가로 중앙) */
+    gap: 15px; /* 여러 row 사이 간격 */
+}
+
+.shop-counter-name,
+.shop-counter-days,
+.shop-counter-stop-btn {
+    padding: 5px 8px;
+    position: relative;
+}
+
+/* shop-counter-name 뒤에 구분선 */
+.shop-counter-name::after {
+    content: "";
+    display: inline-block;
+    width: 1px; /* 선 두께 */
+    height: 20px; /* 선 길이 */
+    background-color: #666;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* shop-counter-days 뒤에도 선을 넣고 싶다면 */
+.shop-counter-days::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 20px;
+    background-color: #666;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 항목들이 여러 개 있을 때 아래 간격 */
+.shop-counter-row:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+/* 스킨 이름 / D+일 텍스트 */
+.shop-counter-name {
+    font-size: 14px; /* 너무 커서 밀리는 현상이 있으면 조금 줄임 */
+    font-weight: bold;
+    /* etc... */
+}
+
+.shop-counter-days {
+    font-size: 14px;
+    /* etc... */
+}
+
+/* "멈추기" 버튼 */
+.shop-counter-stop-btn {
+    background: gold;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 6px 10px;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
+    transition: transform 0.2s ease;
+}
+
+.shop-counter-stop-btn:hover {
+    transform: scale(1.05);
+}
+
+.shop-counter-stop-btn:active {
+    transform: scale(0.95);
+}
+
+@media screen and (max-width: 768px) {
+    /* 팝업 전체 크기 */
+    .container {
+        max-width: 100%; /* 🔥 가로 폭을 강제하지 않음 */
+        padding: 15px;
+        margin: 0 auto; /* 중앙 정렬 */
+    }
+
+    .filter-section {
+        display: flex;
+        flex-wrap: wrap; /* 🔥 화면이 좁으면 자동 줄바꿈 */
+        justify-content: center;
+        gap: 8px; /* 🔥 간격 조정 */
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+
+    .filter-section select {
+        flex: 1; /* 🔥 너비 자동 조정 */
+        min-width: 120px; /* 너무 작아지지 않도록 최소 크기 설정 */
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+        background: #333;
+        color: #fff;
+        font-size: 14px;
+    }
+    .popup {
+        width: 80%; /* 화면 폭의 90% */
+        max-height: 70vh; /* 화면 높이의 70%까지만 사용 */
+        padding: 15px; /* 모바일에서 조금 더 작은 패딩 */
+    }
+    .popup-content {
+        max-width: 100%; /* 팝업 내부 콘텐츠가 팝업을 넘지 않도록 */
+    }
+
+    .favorites-popup,
+    .shop-counter-popup {
+        width: 80%;
+        max-height: 70vh;
+        padding: 15px;
+    }
+    /* 닫기 버튼 */
+    .close-btn {
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        z-index: 9999;
+    }
+
+    /* 즐겨찾기 버튼 크기 축소 */
+    #favorite-btn #shop-counter-btn {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+    .taskbar-item a {
+        color: #00aaff; /* 이메일 주소를 파란색으로 */
+        text-decoration: none;
+        margin-left: 5px;
+    }
+    .taskbar-item a:hover {
+        text-decoration: underline; /* 마우스 올릴 때 강조 */
+    }
+}
+.taskbar {
+    position: fixed; /* 항상 하단에 고정 */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 35px; /* 윈도우 작업표시줄과 유사한 높이 */
+    background: #2c2c2c; /* 다크 그레이 색상 */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 가운데 정렬 */
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    border-top: 1px solid #444; /* 상단에 얇은 선 추가 */
+    z-index: 10; /* 🔥 필요하면 낮추거나 조정 */
+}
+
+.taskbar-item a {
+    color: #00aaff; /* 이메일 주소를 파란색으로 */
+    text-decoration: none;
+    margin-left: 5px;
+    position: relative; /* 🔥 아래 바보다 위로 올라오게 설정 */
+    z-index: 20;
+}
+
+.taskbar-item a:hover {
+    text-decoration: underline; /* 마우스 올릴 때 강조 */
+}
+
+/* 🔥 버튼이 가려지지 않도록 콘텐츠 아래쪽에 여백 추가 */
+.main-content {
+    padding-bottom: 50px; /* 🔥 taskbar 높이(35px)보다 약간 크게 설정 */
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    min-height: 44px;
+}
+
+.pagination button {
+    background-color: #ff4655;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination button:disabled {
+    background-color: #888;
+    cursor: not-allowed;
+}
+
+/* ✅ 숫자 버튼 배경 제거 */
+.pagination .page-number {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* ✅ 숫자에 마우스 올리면 색상 변경 */
+.pagination .page-number:hover {
+    color: #ff4655;
+}
+
+/* ✅ 현재 페이지 강조 */
+.pagination .page-number.active {
+    color: #ff4655;
+    font-weight: bold;
+}
+
+/* ✅ '...' 스타일 */
+.pagination .ellipsis {
+    color: #888;
+    cursor: default;
+}
+body {
+    padding-bottom: 50px; /* 🔥 taskbar 높이보다 크게 설정 */
+}
+#notice-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    max-height: 70vh;
+    overflow-y: auto;
+    background: #222;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+    text-align: left;
+    z-index: 5000;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 공지사항 닫기 버튼 */
+#notice-popup .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#notice-popup .close-btn:hover {
+    color: #ff5555;
+}
+
+/* 공지사항 제목 */
+#notice-popup h2 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #ffffff;
+    border-bottom: 2px solid #444;
+    padding-bottom: 8px;
+}
+
+/* 공지사항 목록 스타일 */
+#notice-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 공지사항 항목 스타일 */
+#notice-list li {
+    background: #333;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: 0.3s;
+}
+
+#notice-list li:hover {
+    background: #444;
+}
+
+/* 공지사항 제목 강조 */
+#notice-list li strong {
+    display: block;
+    font-size: 16px;
+    color: #ffcc00;
+    margin-bottom: 5px;
+}
+
+/* 공지사항 날짜 스타일 */
+#notice-list li small {
+    display: block;
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 5px;
+}
+
+/* 모바일 화면에서 크기 조정 */
+@media (max-width: 480px) {
+    #notice-popup {
+        width: 80%; /* 화면 폭의 90% */
+        max-height: 70vh; /* 화면 높이의 70%까지만 사용 */
+        padding: 15px; /* 모바일에서 조금 더 작은 패딩 */
+    }
+
+    #notice-popup h2 {
+        font-size: 18px;
+    }
+
+    #notice-list li {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    #notice-list li strong {
+        font-size: 15px;
+    }
+
+    #notice-list li small {
+        font-size: 11px;
+    }
+
+    #notice-popup .close-btn {
+        font-size: 22px;
+        top: 10px;
+        right: 10px;
+    }
+}
+/* 로그인 버튼 위치 설정 */
+.auth-container {
+    position: fixed; /* 고정 위치 */
+    top: 20px; /* 상단에 조금 떨어뜨림 */
+    right: 20px; /* 우측에 약간 여유를 둠 */
+    z-index: 999;
+}
+
+/* 로그인 버튼 스타일 */
+.auth-item {
+    margin-left: 20px;
+}
+
+#login-button {
+    text-decoration: none;
+    color: #007BFF; /* 파란색 텍스트 */
+    font-size: 14px; /* 텍스트 크기 줄임 */
+    font-weight: bold;
+    padding: 6px 12px; /* 패딩 줄임 */
+    border-radius: 5px;
+    border: 2px solid #007BFF; /* 파란색 테두리 추가 */
+    background-color: transparent; /* 배경을 투명하게 */
+}
+
+#login-button:hover {
+    background-color: #007BFF;
+    color: white;
+}
+
+/* 로그인 후 사용자 정보 버튼 스타일 */
+.user-info-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.user-info-btn:hover {
+    color: #007BFF;
+}
+
+/* 로그아웃 옵션 스타일 */
+.logout-options {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: none;
+    border-radius: 5px;
+}
+
+.logout-btn {
+    background-color: #ff4d4d;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #e60000;
+}
+
+/* 로그인 후 사용자 정보 및 로그아웃 옵션을 숨기는 클래스 */
+.hidden {
+    display: none;
+}
