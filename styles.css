@@ -863,7 +863,7 @@ body {
 
 /* account-popup (기존 팝업 스타일 유지) */
 .account-popup {
-    display: none; /* 기본적으로 숨기기 */
+    display: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -898,14 +898,4 @@ body {
 
 .account-popup-item:hover {
     background-color: #444;
-}
-
-/* 로그아웃 버튼 */
-.logout-btn {
-    color: red;
-}
-
-/* 팝업 숨기기 */
-.hidden {
-    display: none;
 }
