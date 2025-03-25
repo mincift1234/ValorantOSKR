@@ -3078,10 +3078,6 @@ function getShopCounter(skinName) {
     return shopCounters[skinName];
 }
 
-const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
-
 async function fetchNotices() {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/notice?select=*`, {
         method: "GET",
@@ -3118,69 +3114,100 @@ function closeNoticePopup() {
     document.getElementById("notice-popup").style.display = "none";
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+// Supabase 클라이언트 초기화
+const supabase = createClient(
+    window.SUPABASE_URL,  // HTML에서 설정한 URL 사용
+    window.SUPABASE_ANON_KEY  // HTML에서 설정한 공개 키 사용
+);
+
+console.log(supabase);
+
+// DOMContentLoaded 이벤트 리스너
+document.addEventListener("DOMContentLoaded", () => {
+    initializeUserInterface();
+});
+
+// 사용자 인터페이스 초기화
+async function initializeUserInterface() {
+    // Supabase 클라이언트 확인
+    if (typeof supabase === "undefined") {
+        handleSupabaseError();
+        return; // 더 이상 실행하지 않도록 종료
+    }
+
+    // 사용자 정보와 팝업 관련 요소들
+    const loginButton = document.getElementById("login-button"); // 로그인 버튼
+    const userEmailButton = document.getElementById("user-email"); // 사용자 이메일 버튼
+    const userContainer = document.getElementById("user-container"); // 사용자 정보 표시 컨테이너
+    const loginContainer = document.getElementById("login-container"); // 로그인 버튼 컨테이너
+    const userPopup = document.getElementById("user-popup");
+    const closePopupButton = document.getElementById("close-popup");
+    const logoutPopupButton = document.getElementById("logout-popup");
+    const popupEmail = document.getElementById("popup-email");
+    const logoutSuccessPopup = document.getElementById("logout-success-popup");
+    const closeLogoutPopupButton = document.getElementById("close-logout-popup");
+
+    // 로그인된 사용자의 정보 가져오기
+    const user = supabase.auth.user();
+
+    if (user) {
+        const userEmail = user.email;
+        userEmailButton.textContent = userEmail; // 이메일을 버튼에 표시
+        userContainer.classList.remove("hidden"); // 사용자 이메일 버튼 보이기
+        loginContainer.classList.add("hidden"); // 로그인 버튼 숨기기
+    } else {
+        userContainer.classList.add("hidden"); // 사용자 이메일 버튼 숨기기
+        loginContainer.classList.remove("hidden"); // 로그인 버튼 보이기
+    }
+
+    // 이메일 버튼 클릭 시 팝업 열기
+    userEmailButton.addEventListener("click", () => openUserPopup(user.email, userPopup, popupEmail));
+
+    // 팝업 닫기 버튼 클릭 시 팝업 닫기
+    closePopupButton.addEventListener("click", () => closeUserPopup(userPopup));
+
+    // 로그아웃 버튼 클릭 시 로그아웃 처리
+    logoutPopupButton.addEventListener("click", () => logoutUser(logoutSuccessPopup));
+
+    // 로그아웃 성공 팝업 닫기
+    closeLogoutPopupButton.addEventListener("click", () => {
+        logoutSuccessPopup.style.display = "none"; // 로그아웃 팝업 숨기기
+        window.location.reload(); // 새로고침하여 상태 반영
+    });
+}
+
+// Supabase 초기화 오류 처리
+function handleSupabaseError() {
+    console.error("⚠️ Supabase 클라이언트가 초기화되지 않았습니다.");
+    alert("Supabase 클라이언트가 초기화되지 않았습니다. 관리자에게 문의하세요.");
+}
+
+// 팝업 열기
+function openUserPopup(userEmail, userPopup, popupEmail) {
+    popupEmail.textContent = userEmail; // 팝업에 이메일 표시
+    userPopup.style.display = "block"; // 팝업 보이기
+}
+
+// 팝업 닫기
+function closeUserPopup(userPopup) {
+    userPopup.style.display = "none"; // 팝업 숨기기
+}
+
+// 로그아웃 처리
+async function logoutUser(logoutSuccessPopup) {
     try {
-        const {
-            data: { session }
-        } = await supabase.auth.getSession();
-
-        if (session && session.user) {
-            // ✅ 로그인 상태 유지됨 (사용자 정보 가져오기)
-            const user = session.user;
-            console.log("✅ 로그인 유지됨:", user);
-
-            // 닉네임 가져오기
-            const { data: userData, error } = await supabase
-                .from("users")
-                .select("nickname")
-                .eq("id", user.id)
-                .maybeSingle();
-
-            if (error) console.error("사용자 정보 불러오기 오류:", error);
-
-            const nickname = userData?.nickname || user.email; // 닉네임 없으면 이메일 표시
-            document.getElementById("user-nickname").textContent = nickname;
-            document.getElementById("user-info").style.display = "flex";
-            document.getElementById("login-button").style.display = "none";
-        } else {
-            // ❌ 로그인 상태가 아님
-            console.log("❌ 로그인되지 않음");
-            document.getElementById("user-info").style.display = "none";
-            document.getElementById("login-button").style.display = "block";
+        const { error } = await supabase.auth.signOut(); // Supabase에서 로그아웃
+        if (error) {
+            throw new Error(error.message); // 오류 발생 시 예외 처리
         }
-    } catch (error) {
-        console.error("로그인 상태 확인 중 오류 발생:", error);
-    }
-});
 
-// 사용자 메뉴 토글 (클릭하면 열리고 닫힘)
-function toggleUserMenu() {
-    const menu = document.getElementById("user-menu");
-    menu.classList.toggle("show");
-}
-
-// 내 정보 페이지 이동
-function goToProfile() {
-    window.location.href = "profile.html"; // 내 정보 페이지 이동
-}
-
-// ✅ 로그아웃 기능 (Supabase 인증 해제 추가)
-async function logout() {
-    try {
-        await supabase.auth.signOut(); // Supabase에서 로그아웃
-        localStorage.clear(); // 모든 로컬 스토리지 데이터 삭제
-        window.location.reload(); // 새로고침하여 로그인 버튼 다시 표시
-    } catch (error) {
-        console.error("로그아웃 중 오류 발생:", error);
+        // 로그아웃 성공 시
+        logoutSuccessPopup.style.display = "block"; // 로그아웃 성공 팝업 보이기
+        setTimeout(() => {
+            logoutSuccessPopup.style.display = "none"; // 팝업 자동으로 닫기
+        }, 3000); // 3초 후에 팝업 숨기기
+    } catch (err) {
+        console.error("로그아웃 실패:", err.message); // 오류 로그 출력
+        alert("로그아웃 중 문제가 발생했습니다. 다시 시도해주세요."); // 오류 메시지 표시
     }
 }
-
-// 페이지 클릭 시 사용자 메뉴 닫기
-document.addEventListener("click", function (event) {
-    const userInfo = document.getElementById("user-info");
-    const userMenu = document.getElementById("user-menu");
-
-    if (!userInfo.contains(event.target) && !userMenu.contains(event.target)) {
-        userMenu.classList.remove("show");
-    }
-});
