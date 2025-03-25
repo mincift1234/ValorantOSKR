@@ -3124,26 +3124,24 @@ function closeNoticePopup() {
 
 // 로그인 처리
 async function handleLogin() {
-    const { user, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
         provider: "google"
     });
 
-    if (user) {
-        const userName = user.user_metadata.full_name;
-        document.getElementById("user-info").innerText = userName;
-        document.getElementById("login-button").style.display = "none"; // 로그인 버튼 숨김
-        document.getElementById("user-container").classList.remove("hidden"); // 사용자 정보 표시
-        window.location.href = "index.html"; // 로그인 후 메인 페이지로 이동
-    } else if (error) {
+    if (error) {
         alert("로그인 실패: " + error.message);
+        console.error("로그인 오류:", error);
     }
 }
 
 // 로그인 상태 확인 및 UI 업데이트
 async function checkUser() {
-    const {
-        data: { user }
-    } = await supabase.auth.getSession();
+    const { data: { user }, error } = await supabase.auth.getUser();
+
+    if (error) {
+        console.error("로그인 확인 실패:", error.message);
+        return;
+    }
 
     if (user) {
         document.getElementById("user-info").innerText = user.user_metadata.full_name;
@@ -3156,6 +3154,19 @@ async function checkUser() {
     }
 }
 
+// 로그인 상태 변경 감지 (자동 업데이트)
+supabase.auth.onAuthStateChange((event, session) => {
+    if (session?.user) {
+        document.getElementById("user-info").innerText = session.user.user_metadata.full_name;
+        document.getElementById("login-button").style.display = "none"; // 로그인 버튼 숨김
+        document.getElementById("user-container").classList.remove("hidden"); // 사용자 정보 표시
+    } else {
+        document.getElementById("user-info").innerText = "";
+        document.getElementById("login-button").style.display = "block"; // 로그인 버튼 표시
+        document.getElementById("user-container").classList.add("hidden"); // 사용자 정보 숨김
+    }
+});
+
 // 로그아웃 처리
 async function logout() {
     await supabase.auth.signOut();
@@ -3164,20 +3175,8 @@ async function logout() {
     document.getElementById("user-container").classList.add("hidden"); // 사용자 정보 숨김
 }
 
-// 팝업 닫기
-function closePopup() {
-    document.getElementById("logout-options").classList.add("hidden"); // 로그아웃 옵션 숨기기
-}
-
-// 사용자 정보 클릭 시 로그아웃 옵션 표시
-document.getElementById("user-info")?.addEventListener("click", function () {
-    document.getElementById("logout-options").classList.toggle("hidden");
-});
-
 // 페이지 로드 시 로그인 상태 확인
-document.addEventListener("DOMContentLoaded", function () {
-    checkUser();
-});
+document.addEventListener("DOMContentLoaded", checkUser);
 
 // 로그아웃 버튼 클릭 시 로그아웃 처리
 document.getElementById("logout-btn")?.addEventListener("click", function () {
