@@ -3176,14 +3176,14 @@ async function logout() {
 }
 
 // 팝업 닫기
-function closePopup() {
+function closeAccountPopup() {
     document.getElementById("account-popup").classList.add("hidden"); // 로그아웃 옵션 숨기기
 }
 
 // 로그아웃 버튼 클릭 시 로그아웃 처리
 document.getElementById("logout-btn")?.addEventListener("click", function () {
     logout();
-    closePopup(); // 로그아웃 후 팝업 닫기
+    closeAccountPopup(); // 로그아웃 후 팝업 닫기
 });
 
 // 페이지 로드 시 로그인 상태 확인
