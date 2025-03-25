@@ -1,10 +1,10 @@
 const { createClient } = window.supabase;  // Supabase 라이브러리에서 createClient 가져옴
 
-const supabaseUrl = "https://frvwihvhouctuvrulzte.supabase.co";
-const supabaseAnonKey =
+const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
+const SUPABASE_ANON_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const vpIcon = "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/Valorant_Points.png";
 
