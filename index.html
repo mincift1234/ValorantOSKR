@@ -16,12 +16,22 @@
     <body>
         <button id="menu-button" onclick="openMenu()">☰</button>
         <div class="container">
-            <button id="login-button" onclick="redirectToLoginPage()">로그인</button>
-            <div id="user-info"></div>
-            <div id="logout-popup">
-                <p>로그아웃 하시겠습니까?</p>
-                <button onclick="logout()">예</button>
-                <button onclick="closePopup()">아니요</button>
+            <div id="auth-container">
+                <div id="login-container" class="auth-item">
+                    <a href="login/login.html" id="login-button">로그인</a>
+                </div>
+                <div id="user-container" class="auth-item hidden">
+                    <span id="user-info">사용자 정보</span>
+                </div>
+            </div>
+
+            <!-- 로그아웃 팝업 -->
+            <div id="logout-popup" class="popup">
+                <div class="popup-content">
+                    <h2>로그아웃 되었습니다.</h2>
+                    <button onclick="logout()">로그아웃</button>
+                    <button onclick="closePopup()">닫기</button>
+                </div>
             </div>
             <!-- 메뉴 버튼 -->
             <div id="sideMenu" class="side-menu">
