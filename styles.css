@@ -849,7 +849,40 @@ body {
     background-color: #e60000;
 }
 
-/* 로그인 후 사용자 정보 및 로그아웃 옵션을 숨기는 클래스 */
+/* 팝업 디자인 */
+.account-popup {
+    display: none; /* 기본적으로 숨겨짐 */
+}
+
+.account-popup:not(.hidden) {
+    display: block; /* 팝업이 표시될 때 */
+}
+
+/* 구분선 */
+.account-popup-divider {
+    height: 1px;
+    background-color: #444;
+    margin: 10px 0;
+}
+
+/* 팝업 항목 */
+.account-popup-item {
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.account-popup-item:hover {
+    background-color: #444;
+}
+
+/* 로그아웃 버튼 스타일 */
+.logout-btn {
+    color: white; /* 글자 색을 흰색으로 변경 */
+}
+
 .hidden {
-    display: none;
+    display: none; /* 숨기기 */
 }
