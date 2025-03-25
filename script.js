@@ -3144,11 +3144,11 @@ async function checkUser() {
     }
 
     if (user) {
-        document.getElementById("user-info-btn").innerText = user.user_metadata.full_name;
+        document.getElementById("user-info").innerText = user.user_metadata.full_name;
         document.getElementById("login-button").style.display = "none"; // 로그인 버튼 숨김
         document.getElementById("user-container").classList.remove("hidden"); // 사용자 정보 표시
     } else {
-        document.getElementById("user-info-btn").innerText = "";
+        document.getElementById("user-info").innerText = "";
         document.getElementById("login-button").style.display = "block"; // 로그인 버튼 표시
         document.getElementById("user-container").classList.add("hidden"); // 사용자 정보 숨김
     }
@@ -3157,11 +3157,11 @@ async function checkUser() {
 // 로그인 상태 변경 감지 (자동 업데이트)
 supabase.auth.onAuthStateChange((event, session) => {
     if (session?.user) {
-        document.getElementById("user-info-btn").innerText = session.user.user_metadata.full_name;
+        document.getElementById("user-info").innerText = session.user.user_metadata.full_name;
         document.getElementById("login-button").style.display = "none"; // 로그인 버튼 숨김
         document.getElementById("user-container").classList.remove("hidden"); // 사용자 정보 표시
     } else {
-        document.getElementById("user-info-btn").innerText = "";
+        document.getElementById("user-info").innerText = "";
         document.getElementById("login-button").style.display = "block"; // 로그인 버튼 표시
         document.getElementById("user-container").classList.add("hidden"); // 사용자 정보 숨김
     }
@@ -3170,7 +3170,7 @@ supabase.auth.onAuthStateChange((event, session) => {
 // 로그아웃 처리 (이전 코드로 수정)
 async function logout() {
     await supabase.auth.signOut();
-    document.getElementById("user-info-btn").innerText = "";
+    document.getElementById("user-info").innerText = "";
     document.getElementById("login-button").style.display = "block"; // 로그인 버튼 표시
     document.getElementById("user-container").classList.add("hidden"); // 사용자 정보 숨김
 }
@@ -3192,7 +3192,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // 사용자 정보 클릭 시 팝업 표시
-document.getElementById("user-info-btn")?.addEventListener("click", function () {
+document.getElementById("user-info")?.addEventListener("click", function () {
     const popup = document.getElementById("account-popup");
     popup.classList.toggle("hidden"); // 팝업 표시/숨기기
 });
