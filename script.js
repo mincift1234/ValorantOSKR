@@ -3136,6 +3136,8 @@ async function handleLogin() {
         const userName = user.user_metadata.full_name;
         document.getElementById("user-info").innerText = userName;
         document.getElementById("login-button").style.display = "none"; // 로그인 버튼 숨김
+        // 로그인 후 리디렉션
+        window.location.href = "index.html"; // 예: 메인 페이지로 이동
     } else if (error) {
         alert("로그인 실패: " + error.message);
     }
@@ -3170,9 +3172,11 @@ function closePopup() {
 }
 
 // 사용자 정보 클릭 시 팝업 표시
-document.getElementById("user-info").addEventListener("click", function () {
+document.getElementById("user-info")?.addEventListener("click", function () {
     document.getElementById("logout-popup").style.display = "block";
 });
 
 // 페이지 로드 시 로그인 상태 확인
-checkUser();
+document.addEventListener("DOMContentLoaded", function() {
+    checkUser();
+});
