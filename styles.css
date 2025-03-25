@@ -773,86 +773,84 @@ body {
         right: 10px;
     }
 }
-/* 로그인 버튼 */
-.login-button {
+/* 로그인 버튼과 사용자 이메일 버튼 위치 조정 */
+#login-container {
     position: absolute;
-    top: 12px;
-    right: 24px;
-    font-size: 14px;
-    color: #fff;
-    background: linear-gradient(135deg, #4a90e2, #007aff);
-    padding: 8px 14px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    top: 20px;
+    right: 20px;
+    z-index: 1000;  /* 로그인 버튼을 위로 */
 }
 
-.login-button:hover {
-    background: linear-gradient(135deg, #3a78c2, #0066cc);
-    transform: scale(1.05);
-}
-
-/* 사용자 닉네임 표시 */
-.user-info {
+#user-container {
     position: absolute;
-    top: 12px;
-    right: 24px;
+    top: 20px;
+    right: 20px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
+    justify-content: center;
+    z-index: 999; /* 사용자 이메일 버튼을 아래로 */
+}
+
+/* 사용자 이메일 버튼 스타일 */
+#user-email {
+    background: none;
     color: #fff;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 10px 16px;
-    border-radius: 10px;
+    font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: none;
+    padding: 5px 10px;
+    transition: color 0.3s;
 }
 
-.user-info:hover {
-    background: rgba(0, 0, 0, 0.8);
+#user-email:hover {
+    color: #007bff;
 }
 
-/* 사용자 메뉴 (팝업) */
-.user-menu {
+/* 팝업 스타일 */
+#user-popup, #logout-success-popup {
     display: none;
-    position: absolute;
-    top: 50px;
-    right: 24px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    width: 150px;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* 사용자 메뉴 보이기 */
-.user-menu.show {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* 사용자 메뉴 항목 */
-.user-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.user-menu li {
-    padding: 12px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
     text-align: center;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s ease;
+    z-index: 5000;  /* 팝업이 가장 위로 오도록 설정 */
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-.user-menu li:hover {
-    background: #f5f5f5;
-    font-weight: bold;
+.popup-content {
+    color: white;
+}
+
+/* 팝업 버튼 스타일 */
+#close-popup, #logout-popup, #close-logout-popup {
+    background-color: #ff5c5c;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+#close-popup:hover, #logout-popup:hover, #close-logout-popup:hover {
+    background-color: #ff1f1f;
+}
+
+/* 팝업 애니메이션 */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
