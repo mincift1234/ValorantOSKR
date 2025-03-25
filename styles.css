@@ -897,3 +897,12 @@ body {
 .logout-btn {
     color: red;
 }
+
+.account-popup {
+    display: none;
+}
+
+/* 팝업을 보이게 할 때 */
+.account-popup:not(.hidden) {
+    display: block;
+}
