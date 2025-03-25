@@ -3167,7 +3167,7 @@ supabase.auth.onAuthStateChange((event, session) => {
     }
 });
 
-// 로그아웃 처리
+// 로그아웃 처리 (이전 코드로 수정)
 async function logout() {
     await supabase.auth.signOut();
     document.getElementById("user-info").innerText = "";
@@ -3175,10 +3175,24 @@ async function logout() {
     document.getElementById("user-container").classList.add("hidden"); // 사용자 정보 숨김
 }
 
-// 페이지 로드 시 로그인 상태 확인
-document.addEventListener("DOMContentLoaded", checkUser);
+// 팝업 닫기
+function closePopup() {
+    document.getElementById("account-popup").classList.add("hidden"); // 로그아웃 옵션 숨기기
+}
 
 // 로그아웃 버튼 클릭 시 로그아웃 처리
 document.getElementById("logout-btn")?.addEventListener("click", function () {
     logout();
+    closePopup(); // 로그아웃 후 팝업 닫기
+});
+
+// 페이지 로드 시 로그인 상태 확인
+document.addEventListener("DOMContentLoaded", function () {
+    checkUser();
+});
+
+// 사용자 정보 클릭 시 팝업 표시
+document.getElementById("user-info")?.addEventListener("click", function () {
+    const popup = document.getElementById("account-popup");
+    popup.classList.toggle("hidden"); // 팝업 표시/숨기기
 });
