@@ -884,7 +884,7 @@ body {
 
 /* 팝업 항목 */
 .account-popup-item {
-    padding: 12px;
+    padding: 15px;
     color: white;
     text-align: center;
 }
@@ -900,4 +900,25 @@ body {
 
 .hidden {
     display: none; /* 숨기기 */
+}
+
+/* .close-shop-counter: 팝업 닫기 버튼 스타일 */
+.close-account-popup {
+    position: absolute; /* 절대 위치 설정 */
+    top: -30px; /* 팝업 상단에서 30px 위로 위치 */
+    right: 1px; /* 팝업 오른쪽에서 1px 위치 */
+    font-size: 24px; /* 글자 크기 설정 */
+    cursor: pointer; /* 커서를 손 모양으로 변경 */
+    color: white; /* 글자 색상 흰색 */
+    transition: transform 0.2s ease; /* 클릭 및 호버 애니메이션 효과 */
+}
+
+/* .close-shop-counter:hover: 버튼 위에 마우스가 올라갔을 때의 스타일 */
+.close-account-popup:hover {
+    transform: scale(1.1); /* 버튼 크기를 1.1배 키움 */
+}
+
+/* .close-shop-counter:active: 버튼을 클릭했을 때의 스타일 */
+.close-account-popup:active {
+    transform: scale(0.9); /* 버튼 크기를 0.9배 줄임 */
 }
