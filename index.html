@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>오늘부터 1일</title>
         <link rel="stylesheet" href="styles.css" />
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script>
             window.SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
@@ -14,9 +15,8 @@
     </head>
     <body>
         <button id="menu-button" onclick="openMenu()">☰</button>
-        <!-- (새로 추가) 날짜 세기 버튼 -->
         <div class="container">
-            <!-- 예시: 왼쪽 사이드바 -->
+            <!-- 메뉴 버튼 -->
             <div id="sideMenu" class="side-menu">
                 <a href="javascript:void(0)" class="close-side-menu" onclick="closeMenu()">&times;</a>
                 <h2>메뉴</h2>
@@ -24,23 +24,6 @@
                     <li onclick="openFavorites()">즐겨찾기</li>
                     <li onclick="openShopCounterPopup()">오늘의 상점 날짜 세기</li>
                     <li onclick="noticePopup()">공지사항 & 패치노트</li>
-                </ul>
-            </div>
-            <!-- 로그인 버튼 (기본 상태) -->
-            <a href="login/login.html" id="login-button">
-                <button class="login-button">로그인</button>
-            </a>
-
-            <!-- 사용자 정보 (로그인 시 나타남) -->
-            <div id="user-info" class="user-info" onclick="toggleUserMenu()" style="display: none">
-                <span id="user-nickname"></span>
-            </div>
-
-            <!-- 사용자 메뉴 (팝업) -->
-            <div id="user-menu" class="user-menu">
-                <ul>
-                    <li onclick="goToProfile()">내 정보</li>
-                    <li onclick="logout()">로그아웃</li>
                 </ul>
             </div>
             <div id="shop-counter-popup" class="shop-counter-popup">
@@ -58,6 +41,29 @@
                         <button onclick="toggleShopHistory()" id="shop-history-btn">기록 보기</button>
                         <div id="shop-history" class="shop-history" style="display: none"></div>
                     </div>
+                </div>
+            </div>
+            <div id="auth-container">
+                <div id="login-container" class="auth-item">
+                    <a href="login/login.html" id="login-button" class="login-button">로그인</a>
+                </div>
+                <div id="user-container" class="auth-item hidden">
+                    <button id="user-email">사용자 이메일</button>
+                </div>
+            </div>
+            <div id="user-popup" class="hidden">
+                <div class="popup-content">
+                    <h2>사용자 정보</h2>
+                    <p>이메일: <span id="popup-email"></span></p>
+                    <button id="logout-popup">로그아웃</button>
+                    <button id="close-popup">닫기</button>
+                </div>
+            </div>
+            <!-- 로그아웃 성공 메시지 팝업 -->
+            <div id="logout-success-popup" class="popup">
+                <div class="popup-content">
+                    <h2>로그아웃 되었습니다.</h2>
+                    <button id="close-logout-popup">닫기</button>
                 </div>
             </div>
             <!-- 즐겨찾기 목록 팝업 -->
@@ -155,6 +161,7 @@
                 <a href="mailto:valorantoskr@gmail.com">valorantoskr@gmail.com</a>
             </div>
         </footer>
+        <!-- 메인 스크립트 실행 -->
         <script src="script.js"></script>
     </body>
 </html>
