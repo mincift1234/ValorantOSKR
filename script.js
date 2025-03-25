@@ -3182,7 +3182,7 @@ async function logout() {
 
 // 팝업 닫기
 function closeAccountPopup() {
-    document.getElementById("account-popup").classList.add("hidden"); // 로그아웃 옵션 숨기기
+    document.getElementById("account-popup").style.display = "none"; // 로그아웃 옵션 숨기기
 }
 
 // 로그아웃 버튼 클릭 시 로그아웃 처리
