@@ -16,14 +16,16 @@
                     <a href="login/login.html" id="login-button">로그인</a>
                 </div>
 
-                <!-- 로그인 후 사용자 정보 (로그인 상태일 경우 표시) -->
                 <div id="user-container" class="auth-item hidden">
                     <button id="user-info" class="user-info-btn"></button>
                     <!-- 사용자 정보 (구글 사용자명) -->
-                    <div id="account-popup" class="account-popup">
-                        <div class="account-popup-item" id="my-profile">내 정보</div>
-                        <div class="account-popup-divider"></div>
-                        <div class="account-popup-item logout-btn" id="logout-btn">로그아웃</div>
+                    <div id="account-popup-wrapper" class="account-popup-wrapper">
+                        <div id="account-popup" class="account-popup hidden">
+                            <!-- 기본적으로 숨겨두기 -->
+                            <div class="account-popup-item" id="my-profile">내 정보</div>
+                            <div class="account-popup-divider"></div>
+                            <div class="account-popup-item logout-btn" id="logout-btn">로그아웃</div>
+                        </div>
                     </div>
                 </div>
             </div>
