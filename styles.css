@@ -256,7 +256,7 @@ body {
     background: #181818;
     padding: 24px;
     border-radius: 16px;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
     text-align: center;
     z-index: 5000;
     animation: fadeIn 0.3s ease-in-out;
@@ -1018,7 +1018,7 @@ body {
     width: 100%;
     height: 1px;
     background-color: #444; /* 원하는 색상으로 변경 가능 */
-    margin: 1px 0; /* 위아래 여백 */
+    margin: 3px 1; /* 위아래 여백 */
 }
 
 /* 모바일 반응형 개선 */
@@ -1049,28 +1049,6 @@ body {
         font-size: 14px;
     }
 
-    .skins-grid {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* 가운데 정렬 */
-        gap: 16px; /* 카드 간 간격 */
-        margin-top: 10px;
-    }
-
-    .skin-card {
-        width: 90%;
-        max-width: 350px; /* 적당한 카드 최대 너비 */
-        background: #1e1e1e;
-        padding: 10px;
-        border-radius: 8px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-
     .popup,
     .favorites-popup,
     .shop-counter-popup,
@@ -1091,11 +1069,6 @@ body {
     .shop-history-item button,
     #favorite-btn,
     #shop-counter-btn {
-        font-size: 13px;
-        padding: 6px 10px;
-    }
-
-    .popup-content button {
         font-size: 13px;
         padding: 6px 10px;
     }
