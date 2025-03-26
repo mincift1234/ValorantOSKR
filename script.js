@@ -3126,6 +3126,7 @@ async function logout() {
     console.log("로그아웃됨");
     alert("로그아웃되었습니다.");
     updateUI(null);
+    location.reload(); 
 }
 
 // 팝업 닫기
