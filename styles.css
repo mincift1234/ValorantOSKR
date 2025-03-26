@@ -929,14 +929,19 @@ body {
         gap: 16px;
     }
 
-    .skin-card {
-        width: 90%;
-        max-width: 350px;
+    .skin-info {
+        margin-top: 10px;
     }
 
-    .popup {
-        width: 90%;
-        padding: 16px;
+    #popup-price-info {
+        top: 8px;
+        left: 8px;
+    }
+
+    .skin-card img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
     }
 
     .favorites-popup,
@@ -971,7 +976,9 @@ body {
     #favorite-btn,
     #shop-counter-btn {
         font-size: 13px;
-        padding: 6px 10px;
+        padding: 8px 14px;
+        margin: 8px 5px 0;
+        border-radius: 6px;
     }
 
     .popup-content button {
@@ -1015,27 +1022,29 @@ body {
         font-size: 13px;
     }
 
-    .popup-content {
-        max-height: 70vh;
-        overflow-y: auto;
-    }
-
     .popup,
     .favorites-popup,
     .shop-counter-popup,
     #notice-popup {
-        width: 90%; /* 전체 화면의 90%로 줄임 */
+        width: 90%;
         max-height: 70vh;
-        overflow-y: auto; /* 내용이 넘치면 스크롤 */
-        max-width: 340px; /* 최대 너비 제한 */
-        padding: 15px; /* 안쪽 여백 줄이기 */
-        font-size: 14px; /* 글자 크기도 조금 축소 */
+        padding: 15px;
+        font-size: 14px;
     }
 
     .popup-content,
     .favorites-popup-content,
     .shop-counter-content {
-        max-width: 100%;
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+
+    .popup-skin-card img {
+        width: 100%;
+        max-width: 280px;
+        height: auto;
+        object-fit: contain;
+        margin-bottom: 10px;
     }
 
     .close-btn,
