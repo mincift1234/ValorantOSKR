@@ -2701,42 +2701,164 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let favorites = new Set();
-
 let shopCounters = {};
-
 let shopHistory = [];
 
-document.addEventListener("DOMContentLoaded", () => {
-    // 🔥 날짜 세기 기능 복원
-    const storedCounters = localStorage.getItem("shopCounters");
-    if (storedCounters) {
-        shopCounters = JSON.parse(storedCounters);
-        Object.entries(shopCounters).forEach(([skinName, data]) => {
-            if (data.startDate) {
-                data.startDate = new Date(data.startDate);
+let userId = null; // 로그인된 사용자 ID
+let userDataId = null; // user_data 테이블의 id (uuid)
+
+// ✅ 로그인 후 사용자 데이터 로드 및 초기화
+async function loadUserData() {
+    const {
+        data: { user },
+        error
+    } = await supabase.auth.getUser();
+    if (error || !user) return;
+
+    userId = user.id;
+
+    const { data, error: fetchError } = await supabase.from("user_data").select("*").eq("user_id", userId).single();
+
+    if (fetchError && fetchError.code === "PGRST116") {
+        // ❗ 데이터가 없으면 새로 생성
+        const { data: newData, error: insertError } = await supabase
+            .from("user_data")
+            .insert([{ user_id: userId, favorites: [], shop_counters: {}, shop_history: [] }])
+            .select()
+            .single();
+
+        if (!insertError) {
+            userDataId = newData.id;
+            favorites = new Set();
+            shopCounters = {};
+            shopHistory = [];
+        }
+    } else if (!fetchError) {
+        userDataId = data.id;
+        favorites = new Set(data.favorites || []);
+        shopCounters = data.shop_counters || {};
+        shopHistory = data.shop_history || [];
+
+        // 날짜 포맷 복원
+        Object.values(shopCounters).forEach((counter) => {
+            if (counter.startDate) {
+                counter.startDate = new Date(counter.startDate);
             }
         });
-    }
-
-    const storedHistory = localStorage.getItem("shopHistory");
-    if (storedHistory) {
-        shopHistory = JSON.parse(storedHistory);
-        shopHistory.forEach((item) => {
-            item.startDate = new Date(item.startDate);
-            item.endDate = new Date(item.endDate);
+        shopHistory.forEach((record) => {
+            record.startDate = new Date(record.startDate);
+            record.endDate = new Date(record.endDate);
         });
     }
 
-    // 🔥 즐겨찾기(favorites) 데이터 복원 추가
-    const storedFavorites = localStorage.getItem("favorites");
-    if (storedFavorites) {
-        favorites = new Set(JSON.parse(storedFavorites)); // Set 객체로 변환
+    applyFilters(); // 필터 적용
+    fillFavoritesList(); // 즐겨찾기 목록 채우기
+}
+
+// ✅ Supabase에 변경된 user_data 저장
+async function saveUserData() {
+    if (!userDataId) return;
+    await supabase
+        .from("user_data")
+        .update({
+            favorites: Array.from(favorites),
+            shop_counters: shopCounters,
+            shop_history: shopHistory
+        })
+        .eq("id", userDataId);
+}
+
+// ✅ 즐겨찾기 토글
+function toggleFavorite() {
+    const skinName = document.getElementById("favorite-btn").getAttribute("data-skin");
+
+    if (favorites.has(skinName)) {
+        favorites.delete(skinName);
+        document.getElementById("favorite-btn").textContent = "즐겨찾기";
+    } else {
+        favorites.add(skinName);
+        document.getElementById("favorite-btn").textContent = "즐겨찾기 취소";
     }
 
-    // 🔥 필터 적용 후 페이지 로드
-    applyFilters(); // 필터 적용
-    fillFavoritesList(); // 즐겨찾기 목록 업데이트
-});
+    saveUserData(); // Supabase에 저장
+}
+
+// ✅ 날짜 세기 시작 / 종료
+function toggleShopCounting() {
+    const skinName = document.getElementById("popup-title").textContent;
+    const counter = getShopCounter(skinName);
+
+    if (!counter.isCounting) {
+        const now = new Date();
+        const startDate = new Date(now);
+        startDate.setHours(9, 0, 0, 0);
+        if (now < startDate) startDate.setDate(startDate.getDate() - 1);
+
+        counter.isCounting = true;
+        counter.startDate = startDate;
+        alert(`"${skinName}" 날짜 세기를 시작합니다 (D+1).`);
+        document.getElementById("shop-counter-btn").textContent = "날짜 세기 중...";
+    } else {
+        stopShopCounting(skinName);
+    }
+
+    saveUserData();
+}
+
+function stopShopCounting(skinName) {
+    const counter = getShopCounter(skinName);
+    if (!counter.isCounting) return;
+
+    const startDate = new Date(counter.startDate);
+    startDate.setHours(9, 0, 0, 0);
+    const now = new Date();
+    const today9AM = new Date(now);
+    today9AM.setHours(9, 0, 0, 0);
+    if (now < today9AM) today9AM.setDate(today9AM.getDate() - 1);
+
+    const days = Math.floor((today9AM - startDate) / 86400000) + 1;
+
+    shopHistory.push({ skinName, startDate, endDate: now, days });
+
+    counter.isCounting = false;
+    counter.startDate = null;
+
+    alert(`"${skinName}" 날짜 세기를 종료합니다.\n총 ${days}일 소요!`);
+    document.getElementById("shop-counter-btn").textContent = "날짜 세기";
+
+    fillShopHistory(); // UI 갱신
+    saveUserData();
+}
+
+function getShopCounter(skinName) {
+    if (!shopCounters[skinName]) {
+        shopCounters[skinName] = { isCounting: false, startDate: null };
+    }
+    return shopCounters[skinName];
+}
+
+// ✅ 즐겨찾기 목록 출력
+function fillFavoritesList() {
+    const container = document.getElementById("favorites-list");
+    container.innerHTML = "";
+    const favoriteSkins = skins.filter((skin) => favorites.has(skin.name));
+
+    if (favoriteSkins.length === 0) {
+        container.innerHTML = "<div>즐겨찾기한 스킨이 없습니다.</div>";
+        return;
+    }
+
+    favoriteSkins.forEach((skin) => {
+        const div = document.createElement("div");
+        div.className = "favorite-item";
+        div.textContent = skin.name;
+        div.onclick = () => {
+            closeFavoritesPopup();
+            openSkinDetails(skin.name);
+        };
+        container.appendChild(div);
+    });
+}
 
 function openSkinDetails(name) {
     const skin = skins.find((s) => s.name === name);
@@ -2753,24 +2875,15 @@ function openSkinDetails(name) {
         <span>${skin.price}</span>
     `;
 
-    // 즐겨찾기 상태 확인
+    // 즐겨찾기 버튼 상태
     const favoriteBtn = document.getElementById("favorite-btn");
-    if (favorites.has(skin.name)) {
-        favoriteBtn.textContent = "즐겨찾기 취소";
-    } else {
-        favoriteBtn.textContent = "즐겨찾기";
-    }
     favoriteBtn.setAttribute("data-skin", skin.name);
+    favoriteBtn.textContent = favorites.has(skin.name) ? "즐겨찾기 취소" : "즐겨찾기";
 
-    // 날짜 세기 버튼 상태 설정
-    const shopCounterBtn = document.getElementById("shop-counter-btn");
+    // 날짜 세기 버튼 상태
     const counter = getShopCounter(name);
-
-    if (counter.isCounting) {
-        shopCounterBtn.textContent = "날짜 세기 중...";
-    } else {
-        shopCounterBtn.textContent = "날짜 세기";
-    }
+    const shopCounterBtn = document.getElementById("shop-counter-btn");
+    shopCounterBtn.textContent = counter.isCounting ? "날짜 세기 중..." : "날짜 세기";
 
     // 팝업 열기
     document.getElementById("popup").style.display = "block";
@@ -2780,198 +2893,20 @@ function closePopup() {
     document.getElementById("popup").style.display = "none";
 }
 
-function toggleFavorite() {
-    const favoriteBtn = document.getElementById("favorite-btn");
-    const skinName = favoriteBtn.getAttribute("data-skin");
-
-    if (favorites.has(skinName)) {
-        favorites.delete(skinName);
-        favoriteBtn.textContent = "즐겨찾기";
-    } else {
-        favorites.add(skinName);
-        favoriteBtn.textContent = "즐겨찾기 취소";
-    }
-
-    // 🔥 변경된 favorites를 localStorage에 저장
-    localStorage.setItem("favorites", JSON.stringify([...favorites]));
-}
-
-function fillMenuList() {
-    // sideMenu 안에 스킨 목록을 <li>로 생성
-    const listEl = document.getElementById("menu-nav");
-    listEl.innerHTML = ""; // 기존 항목 초기화
-
-    skins.forEach((skin) => {
-        const li = document.createElement("li");
-        li.textContent = skin.name;
-        li.onclick = () => {
-            // 스킨 클릭하면 팝업 열기
-            openSkinDetails(skin.name);
-            // 필요하면 메뉴도 자동 닫기
-            closeMenu();
-        };
-        listEl.appendChild(li);
-    });
-}
-function openMenu() {
-    document.getElementById("sideMenu").classList.add("open");
-}
-
-function closeMenu() {
-    document.getElementById("sideMenu").classList.remove("open");
-}
-
 function openFavorites() {
-    // 사이드 메뉴 닫기(옵션)
-    closeMenu();
-
-    // 즐겨찾기 목록을 업데이트해서 표시
-    fillFavoritesList();
-
-    // 팝업 열기
-    document.getElementById("favorites-popup").style.display = "block";
+    closeMenu(); // 메뉴 닫기 (선택)
+    fillFavoritesList(); // 즐겨찾기 목록 업데이트
+    document.getElementById("favorites-popup").style.display = "block"; // 팝업 열기
 }
 
 function closeFavoritesPopup() {
     document.getElementById("favorites-popup").style.display = "none";
 }
-
-/**
- * 즐겨찾기 목록 채우기
- */
-function fillFavoritesList() {
-    const listContainer = document.getElementById("favorites-list");
-    listContainer.innerHTML = "";
-
-    // favorites는 스킨 이름만 들어있는 Set이므로, skins 배열에서 찾아와야 함
-    const favoriteSkins = skins.filter((skin) => favorites.has(skin.name));
-
-    if (favoriteSkins.length === 0) {
-        // 즐겨찾기한 스킨이 없으면 메시지 표시
-        const msg = document.createElement("div");
-        msg.textContent = "즐겨찾기한 스킨이 없습니다.";
-        listContainer.appendChild(msg);
-        return;
-    }
-
-    // 즐겨찾기된 각 스킨을 목록에 표시
-    favoriteSkins.forEach((skin) => {
-        // 항목 하나를 만든다 (div 등)
-        const item = document.createElement("div");
-        item.classList.add("favorite-item");
-        item.textContent = skin.name;
-
-        // 클릭 시, 기존 팝업으로 이동해서 해당 스킨 팝업을 열 수 있게
-        item.onclick = () => {
-            closeFavoritesPopup(); // 즐겨찾기 팝업 닫고
-            openSkinDetails(skin.name); // 스킨 팝업 열기
-        };
-
-        listContainer.appendChild(item);
-    });
-}
-
-function toggleShopCounting() {
-    const skinName = document.getElementById("popup-title").textContent;
-    const counter = getShopCounter(skinName);
-
-    if (!counter.isCounting) {
-        // ✅ 날짜 세기 시작 시 startDate를 "오늘 아침 9시"로 설정
-        counter.isCounting = true;
-
-        const now = new Date();
-        const startDate = new Date(now);
-        startDate.setHours(9, 0, 0, 0); // 아침 9시로 설정
-
-        // 만약 지금이 아침 9시 이전이라면, 어제 9시로 설정
-        if (now < startDate) {
-            startDate.setDate(startDate.getDate() - 1);
-        }
-
-        counter.startDate = startDate; // ✅ 아침 9시 기준으로 저장
-
-        alert(`"${skinName}" 날짜 세기를 시작합니다 (D+1).`);
-        document.getElementById("shop-counter-btn").textContent = "날짜 세기 중...";
-
-        // ✅ localStorage에 반영
-        localStorage.setItem("shopCounters", JSON.stringify(shopCounters));
-    } else {
-        stopShopCounting(skinName);
-    }
-}
-
-function stopShopCounting(skinName) {
-    const counter = getShopCounter(skinName);
-    if (!counter.isCounting) return; // 이미 멈췄다면 패스
-
-    const startDate = new Date(counter.startDate);
-    const now = new Date();
-
-    // 1. startDate의 시간을 "아침 9시"로 설정
-    startDate.setHours(9, 0, 0, 0);
-
-    // 2. 현재 날짜의 "아침 9시" 기준 시간 구하기
-    const today9AM = new Date();
-    today9AM.setHours(9, 0, 0, 0);
-
-    // 3. 만약 지금이 아침 9시 이전이라면 어제 9시 기준으로 계산
-    if (now < today9AM) {
-        today9AM.setDate(today9AM.getDate() - 1);
-    }
-
-    // 4. 시작일부터 현재까지 아침 9시를 몇 번 지났는지 계산 (D+1부터 시작)
-    const days = Math.floor((today9AM - startDate) / 86400000) + 1;
-
-    // 5. 날짜 기록 (기존 코드 유지)
-    let shopHistory = JSON.parse(localStorage.getItem("shopHistory")) || [];
-    shopHistory.push({
-        skinName: skinName,
-        startDate: counter.startDate,
-        endDate: now,
-        days: days
-    });
-
-    // 6. localStorage에 업데이트
-    localStorage.setItem("shopHistory", JSON.stringify(shopHistory));
-
-    // 7. history 갱신
-    fillShopHistory(); // 카운팅 멈춘 후 바로 갱신
-
-    alert(`"${skinName}" 날짜 세기를 종료합니다.\n총 ${days}일 소요!`);
-
-    // 8. 초기화
-    counter.isCounting = false;
-    counter.startDate = null;
-    localStorage.setItem("shopCounters", JSON.stringify(shopCounters));
-
-    // 9. 팝업 버튼 텍스트 변경
-    const currentSkinInPopup = document.getElementById("popup-title").textContent;
-    if (currentSkinInPopup === skinName) {
-        document.getElementById("shop-counter-btn").textContent = "날짜 세기";
-    }
-}
-
-function openShopCounterPopup() {
-    // 메뉴 닫기
-    closeMenu();
-
-    // 현재 상태를 표시
-    fillShopCounterInfo();
-
-    // 팝업 열기
-    document.getElementById("shop-counter-popup").style.display = "block";
-}
-
-function closeShopCounterPopup() {
-    document.getElementById("shop-counter-popup").style.display = "none";
-}
-
 function fillShopCounterInfo() {
     const container = document.getElementById("shop-current");
     container.innerHTML = "";
 
-    // 여러 스킨 중에서 세는 중인 것만 찾기
-    const countingSkins = Object.entries(shopCounters).filter(([skinName, data]) => data.isCounting);
+    const countingSkins = Object.entries(shopCounters).filter(([_, data]) => data.isCounting);
 
     if (countingSkins.length === 0) {
         container.textContent = "현재 카운트 중인 스킨이 없습니다.";
@@ -2980,10 +2915,10 @@ function fillShopCounterInfo() {
 
     countingSkins.forEach(([skinName, data]) => {
         const now = new Date();
-        const diffMs = now - data.startDate;
+        const startDate = new Date(data.startDate);
+        const diffMs = now - startDate;
         const days = Math.floor(diffMs / 86400000) + 1;
 
-        // 예: 가로 배치
         const row = document.createElement("div");
         row.classList.add("shop-counter-row");
         row.innerHTML = `
@@ -2991,19 +2926,55 @@ function fillShopCounterInfo() {
             <div class="shop-counter-days">D+${days}</div>
             <button class="shop-counter-stop-btn">멈추기</button>
         `;
-        // 멈추기 이벤트
+
         row.querySelector(".shop-counter-stop-btn").onclick = () => {
             stopShopCounting(skinName);
-            fillShopCounterInfo(); // 다시 갱신
+            fillShopCounterInfo();
         };
 
         container.appendChild(row);
     });
 }
 
-function stopShopCountingUI() {
-    stopShopCounting(); // 기존 날짜 세기 멈추기 로직
-    fillShopCounterInfo(); // 다시 갱신(카운트 중인 스킨 없으면 안내문 표시)
+function openShopCounterPopup() {
+    closeMenu(); // 메뉴 닫기
+    fillShopCounterInfo(); // 날짜 세기 정보 업데이트
+    document.getElementById("shop-counter-popup").style.display = "block"; // 팝업 열기
+}
+
+function closeShopCounterPopup() {
+    document.getElementById("shop-counter-popup").style.display = "none";
+}
+
+// ✅ 날짜 세기 기록 출력
+function fillShopHistory() {
+    const container = document.getElementById("shop-history");
+    container.innerHTML = "";
+
+    if (shopHistory.length === 0) {
+        container.innerHTML = "아직 기록이 없습니다.";
+        return;
+    }
+
+    shopHistory.forEach((record, index) => {
+        const start = new Date(record.startDate).toLocaleDateString("ko-KR");
+        const end = new Date(record.endDate).toLocaleDateString("ko-KR");
+        const div = document.createElement("div");
+        div.className = "shop-history-item";
+        div.innerHTML = `
+            <div><strong>스킨:</strong> ${record.skinName}</div>
+            <div><strong>기간:</strong> ${start} ~ ${end} (총 ${record.days}일)</div>
+        `;
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "기록 삭제";
+        deleteBtn.onclick = () => {
+            shopHistory.splice(index, 1);
+            saveUserData();
+            fillShopHistory();
+        };
+        div.appendChild(deleteBtn);
+        container.appendChild(div);
+    });
 }
 
 function toggleShopHistory() {
@@ -3018,73 +2989,10 @@ function toggleShopHistory() {
     }
 }
 
-// shopHistory: [{ skinName, startDate, endDate, days }, ... ]
-
-function fillShopHistory() {
-    const historyEl = document.getElementById("shop-history");
-    historyEl.innerHTML = ""; // 초기화
-
-    // localStorage에서 shopHistory를 새로 불러오기
-    let shopHistory = JSON.parse(localStorage.getItem("shopHistory")) || [];
-
-    if (shopHistory.length === 0) {
-        historyEl.textContent = "아직 기록이 없습니다.";
-        return;
-    }
-
-    shopHistory.forEach((record, index) => {
-        const item = document.createElement("div");
-        item.classList.add("shop-history-item");
-
-        // 기간 계산
-        const start = new Date(record.startDate);
-        const end = new Date(record.endDate);
-        const startStr = start.toLocaleDateString("ko-KR");
-        const endStr = end.toLocaleDateString("ko-KR");
-
-        // 내부 내용
-        item.innerHTML = `
-            <div><strong>스킨:</strong> ${record.skinName}</div>
-            <div><strong>기간:</strong> ${startStr} ~ ${endStr} (총 ${record.days}일)</div>
-        `;
-
-        // "기록 삭제" 버튼 생성
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "기록 삭제";
-        deleteBtn.style.marginTop = "5px";
-        deleteBtn.onclick = () => {
-            deleteShopRecord(index);
-        };
-        item.appendChild(deleteBtn);
-
-        historyEl.appendChild(item);
-    });
-}
-
-function deleteShopRecord(index) {
-    // shopHistory를 localStorage에서 불러옴
-    let shopHistory = JSON.parse(localStorage.getItem("shopHistory")) || [];
-
-    // index번째 기록 제거
-    shopHistory.splice(index, 1);
-
-    // 다시 목록 새로고침
-    fillShopHistory();
-
-    // localStorage에 업데이트된 history 저장
-    localStorage.setItem("shopHistory", JSON.stringify(shopHistory));
-}
-
-function getShopCounter(skinName) {
-    // shopCounters[skinName]이 없으면 만들어 준다
-    if (!shopCounters[skinName]) {
-        shopCounters[skinName] = {
-            isCounting: false,
-            startDate: null
-        };
-    }
-    return shopCounters[skinName];
-}
+// ✅ 페이지 로드 시 초기화
+document.addEventListener("DOMContentLoaded", () => {
+    loadUserData();
+});
 
 async function fetchNotices() {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/notice?select=*`, {
@@ -3179,6 +3087,13 @@ function updateUI(user) {
         }
         accountPopup.classList.add("hidden");
     }
+}
+
+function openMenu() {
+    document.getElementById("sideMenu").classList.add("open");
+}
+function closeMenu() {
+    document.getElementById("sideMenu").classList.remove("open");
 }
 
 // 로그인 상태 확인 (초기 로딩 시 실행)
