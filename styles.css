@@ -380,11 +380,51 @@ body {
 }
 
 .shop-history-item {
-    background: #333;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 6px;
+    background: #2b2b2b;
+    border-left: 4px solid #ffcc00;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    color: #eee;
+    text-align: left;
+    transition: transform 0.2s ease, background 0.3s ease;
 }
+.shop-history-item:hover {
+    background: #333;
+    transform: scale(1.01);
+}
+
+.shop-history-item div {
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.shop-history-item strong {
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+.shop-history-item small {
+    color: #aaa;
+}
+
+.shop-history-item button {
+    background: #ff5555;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease;
+}
+
+.shop-history-item button:hover {
+    background: #ff2222;
+}
+
 #shop-counter-btn {
     margin-top: 10px;
     padding: 8px 12px;
@@ -415,40 +455,35 @@ body {
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
 }
 
-/* "오늘의 상점 날짜 세기" 팝업 내에서 가로 배치 컨테이너 */
 .shop-counter-row {
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */ /* 필요하면 이름과 버튼을 좌우로 띄워 배치 */
     gap: 10px;
     margin-top: 10px;
     justify-content: center;
-    background: #2c2c2c; /* 살짝 어두운 배경 */
-    padding: 10px; /* 내부 여백 */
-    border-radius: 8px; /* 둥근 모서리 */
-    border: 1px solid #444; /* 옅은 테두리 */
+    background: #2c2c2c;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    position: relative;
 }
 
-#shop-current {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 수직 정렬(열 방향이므로 가로 중앙) */
-    gap: 15px; /* 여러 row 사이 간격 */
-}
-
+/* 각 항목 스타일 */
 .shop-counter-name,
 .shop-counter-days,
 .shop-counter-stop-btn {
     padding: 5px 8px;
     position: relative;
+    font-size: 14px;
+    font-weight: bold;
 }
 
-/* shop-counter-name 뒤에 구분선 */
+/* 이름 뒤에 구분선 */
 .shop-counter-name::after {
     content: "";
     display: inline-block;
-    width: 1px; /* 선 두께 */
-    height: 20px; /* 선 길이 */
+    width: 1px;
+    height: 20px;
     background-color: #666;
     position: absolute;
     right: 0;
@@ -456,7 +491,7 @@ body {
     transform: translateY(-50%);
 }
 
-/* shop-counter-days 뒤에도 선을 넣고 싶다면 */
+/* 날짜 뒤에도 구분선 */
 .shop-counter-days::after {
     content: "";
     display: inline-block;
@@ -469,6 +504,26 @@ body {
     transform: translateY(-50%);
 }
 
+/* 멈추기 버튼 */
+.shop-counter-stop-btn {
+    background: gold;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 6px 10px;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
+    transition: transform 0.2s ease;
+}
+
+.shop-counter-stop-btn:hover {
+    transform: scale(1.05);
+}
+
+.shop-counter-stop-btn:active {
+    transform: scale(0.95);
+}
 /* 항목들이 여러 개 있을 때 아래 간격 */
 .shop-counter-row:not(:last-child) {
     margin-bottom: 10px;
