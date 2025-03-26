@@ -294,6 +294,11 @@ body {
     margin: 5px 10px;
 }
 
+.popup-content {
+    position: relative;
+    padding: 0px px 16px 20px; /* top right bottom left */
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -307,13 +312,12 @@ body {
 
 .close-btn {
     position: absolute;
-    top: 1px;
-    right: 10px;
+    top: -23px;     /* 위에서 12px */
+    right: -14px;   /* 오른쪽에서 12px */
     font-size: 20px;
     cursor: pointer;
     color: white;
-    transition: transform 0.2s ease;
-    z-index: 9999;
+    z-index: 10;
 }
 
 .close-btn:hover {
@@ -842,8 +846,8 @@ body {
 /* 공지사항 닫기 버튼 */
 #notice-popup .close-btn {
     position: absolute;
-    top: 1px;
-    right: 12px;
+    top: -30px;
+    right: -4px;
     font-size: 20px;
     color: #fff;
     cursor: pointer;
