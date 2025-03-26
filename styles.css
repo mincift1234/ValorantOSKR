@@ -922,9 +922,17 @@ body {
     }
 
     .skins-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
     }
 
+    .skin-card {
+        width: 90%;
+        max-width: 350px;
+    }
+    
     .popup {
         width: 90%;
         padding: 16px;
