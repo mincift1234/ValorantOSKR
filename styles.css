@@ -80,7 +80,9 @@ body {
     color: #fff;
     font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition:
+        background-color 0.2s ease,
+        transform 0.1s ease;
 }
 
 #filter-toggle:hover {
@@ -1105,7 +1107,25 @@ body {
     .close-btn,
     .close-favorites-popup,
     .close-shop-counter {
-        font-size: 18px;
+        font-size: 22px;
+    }
+
+    .close-shop-counter{
+        position: absolute;
+        top: -37px;
+        right: -5px;
+    }
+    
+    .close-favorites-popup{
+        position: absolute;
+        top: -38px;
+        right: -6px;
+    }
+    
+    #notice-popup .close-btn {
+        position: absolute;
+        top: 1px;
+        right: 10px;
     }
 
     #menu-button {
@@ -1137,12 +1157,12 @@ body {
         padding: 10px;
         font-size: 13px;
     }
-    
+
     .search-filter-wrapper {
         display: flex;
         flex-direction: row; /* ✅ 가로 정렬 유지 */
         gap: 6px;
-        padding: 22px;
+        padding: 16px;
         margin-bottom: -12px;
     }
 
@@ -1155,9 +1175,9 @@ body {
     #search-box {
         flex: 1;
         font-size: 13px;
-        padding:10px 5px;
+        padding: 10px 5px;
     }
-    
+
     #notice-popup {
         width: 80%;
         padding: 16px;
