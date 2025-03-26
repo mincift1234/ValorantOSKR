@@ -910,6 +910,11 @@ body {
         font-size: 14px;
     }
 
+    .search-section input {
+        width: 90%; /* 필요 시 더 줄여도 됨 */
+        font-size: 14px;
+    }
+
     .filter-section {
         flex-direction: column;
         align-items: stretch;
