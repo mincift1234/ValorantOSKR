@@ -928,19 +928,14 @@ body {
         gap: 16px;
     }
 
-    .skin-info {
-        margin-top: 10px;
+    .skin-card {
+        width: 90%;
+        max-width: 350px;
     }
-
-    #popup-price-info {
-        top: 8px;
-        left: 8px;
-    }
-
-    .skin-card img {
-        max-width: 100%;
-        height: auto;
-        object-fit: contain;
+    
+    .popup {
+        width: 90%;
+        padding: 16px;
     }
 
     .favorites-popup,
@@ -975,9 +970,7 @@ body {
     #favorite-btn,
     #shop-counter-btn {
         font-size: 13px;
-        padding: 8px 14px;
-        margin: 8px 5px 0;
-        border-radius: 6px;
+        padding: 6px 10px;
     }
 
     .popup-content button {
@@ -993,7 +986,7 @@ body {
 
     #menu-button {
         font-size: 20px;
-        top: 10px;
+        top: 8px;
         left: 8px;
     }
 
@@ -1020,30 +1013,21 @@ body {
         padding: 10px;
         font-size: 13px;
     }
-
+    
     .popup,
     .favorites-popup,
     .shop-counter-popup,
     #notice-popup {
-        width: 90%;
-        max-height: 70vh;
-        padding: 15px;
-        font-size: 14px;
+        width: 90%;           /* 전체 화면의 90%로 줄임 */
+        max-width: 340px;     /* 최대 너비 제한 */
+        padding: 15px;        /* 안쪽 여백 줄이기 */
+        font-size: 14px;      /* 글자 크기도 조금 축소 */
     }
 
     .popup-content,
     .favorites-popup-content,
     .shop-counter-content {
-        max-height: 60vh;
-        overflow-y: auto;
-    }
-
-    .popup-skin-card img {
-        width: 100%;
-        max-width: 280px;
-        height: auto;
-        object-fit: contain;
-        margin-bottom: 10px;
+        max-width: 100%;
     }
 
     .close-btn,
@@ -1052,19 +1036,5 @@ body {
         font-size: 20px;
         top: 10px;
         right: 10px;
-    }
-
-    .filter-section {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 6px;
-        padding: 0 10px;
-    }
-
-    .filter-section select {
-        flex: 1 1 45%; /* 한 줄에 2개씩 */
-        min-width: 120px;
-        font-size: 13px;
-        padding: 6px 8px;
     }
 }
