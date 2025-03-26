@@ -806,83 +806,65 @@ body {
     background-color: #007bff;
     color: white;
 }
+/* 로그인 후 사용자 정보 팝업 */
+#user-container {
+    display: none; /* 기본적으로 숨김 */
+    position: relative;
+}
 
-/* 로그인 후 사용자 정보 버튼 스타일 */
+#user-container.hidden {
+    display: block; /* 로그인 후 표시 */
+}
+
+/* 사용자 정보 버튼 스타일 */
 .user-info-btn {
     background: none;
     border: none;
-    color: #fff;
-    font-size: 16px;
+    color: white;
     cursor: pointer;
-    font-weight: bold;
-    padding: 8px 15px;
-    border-radius: 5px;
-    text-transform: uppercase;
+    font-size: 16px;
+    padding: 10px;
+    transition: color 0.3s;
 }
 
 .user-info-btn:hover {
-    color: #007bff;
+    color: #ff5555; /* 버튼에 호버 효과 */
 }
 
-/* 로그아웃 옵션 스타일 */
-.logout-options {
+/* 계정 팝업 */
+.account-popup {
+    display: none;
     position: absolute;
     top: 40px;
     right: 0;
-    background-color: #fff;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: none;
-    border-radius: 5px;
+    background: #222;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+    width: 200px;
+    z-index: 9999;
 }
 
-.logout-btn {
-    background-color: #ff4d4d;
-    color: #fff;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.logout-btn:hover {
-    background-color: #e60000;
-}
-
-/* 팝업 디자인 */
-.account-popup {
-    display: none; /* 기본적으로 숨겨짐 */
-}
-
-.account-popup:not(.hidden) {
-    display: block; /* 팝업이 표시될 때 */
-}
-
-/* 구분선 */
-.account-popup-divider {
-    height: 1px;
-    background-color: #444;
-    margin: 10px 0;
-}
-
-/* 팝업 항목 */
+/* 계정 팝업 항목 */
 .account-popup-item {
-    padding: 10px;
     color: white;
+    padding: 10px;
     cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s;
+    transition: background 0.3s;
 }
 
 .account-popup-item:hover {
-    background-color: #444;
+    background: #444;
 }
 
 /* 로그아웃 버튼 스타일 */
 .logout-btn {
-    color: white; /* 글자 색을 흰색으로 변경 */
+    color: #ff5555;
+    font-weight: bold;
 }
 
-.hidden {
-    display: none; /* 숨기기 */
+/* 계정 팝업 구분선 */
+.account-popup-divider {
+    border-bottom: 1px solid #444;
+    margin: 10px 0;
 }
