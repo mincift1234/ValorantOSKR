@@ -1,4 +1,4 @@
-const { createClient } = window.supabase;  // Supabase 라이브러리에서 createClient 가져옴
+const { createClient } = window.supabase; // Supabase 라이브러리에서 createClient 가져옴
 
 const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
 const SUPABASE_ANON_KEY =
@@ -3122,21 +3122,25 @@ function closeNoticePopup() {
     document.getElementById("notice-popup").style.display = "none";
 }
 
-// 로그인 처리
 async function handleLogin() {
     const { error } = await supabase.auth.signInWithOAuth({
         provider: "google"
     });
 
     if (error) {
-        alert("로그인 실패: " + error.message);
         console.error("로그인 오류:", error);
+        alert("로그인 실패: " + error.message);
+    } else {
+        console.log("로그인 성공");
     }
 }
 
 // 로그인 상태 확인 및 UI 업데이트
 async function checkUser() {
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const {
+        data: { user },
+        error
+    } = await supabase.auth.getUser();
 
     if (error) {
         console.error("로그인 확인 실패:", error.message);
@@ -3171,7 +3175,7 @@ supabase.auth.onAuthStateChange((event, session) => {
     }
 });
 
-// 로그아웃 처리 (이전 코드로 수정)
+// 로그아웃 처리
 async function logout() {
     await supabase.auth.signOut();
     console.log("로그아웃됨"); // 로그아웃 성공 콘솔 출력
@@ -3181,14 +3185,14 @@ async function logout() {
 }
 
 // 팝업 닫기
-function closeAccountPopup() {
-    document.getElementById("account-popup").classList.add("hidden"); // 로그아웃 옵션 숨기기
+function closePopup() {
+    document.getElementById("account-popup").classList.add("hidden"); // 팝업 숨기기
 }
 
 // 로그아웃 버튼 클릭 시 로그아웃 처리
 document.getElementById("logout-btn")?.addEventListener("click", function () {
     logout();
-    closeAccountPopup(); // 로그아웃 후 팝업 닫기
+    closePopup(); // 로그아웃 후 팝업 닫기
 });
 
 // 페이지 로드 시 로그인 상태 확인
