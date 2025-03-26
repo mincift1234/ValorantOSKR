@@ -3163,6 +3163,11 @@ supabase.auth.onAuthStateChange((event, session) => {
         document.getElementById("user-info").innerText = session.user.user_metadata.full_name;
         document.getElementById("login-button").style.display = "none"; // 로그인 버튼 숨김
         document.getElementById("user-container").classList.remove("hidden"); // 사용자 정보 표시
+        
+        // 로그인 후 팝업이 자동으로 뜨지 않도록 수정
+        // 팝업을 자동으로 열지 않도록 하기 위해 제거
+        // document.getElementById("account-popup").classList.remove("hidden");  // 이 부분을 삭제
+
     } else {
         console.log("로그아웃 상태 변경됨"); // 로그아웃된 경우 콘솔 출력
         document.getElementById("user-info").innerText = "";
@@ -3198,6 +3203,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 사용자 정보 클릭 시 팝업 표시
 document.getElementById("user-info")?.addEventListener("click", function () {
-    const closeAccuntPopup = document.getElementById("account-popup");
-    closeAccuntPopup.classList.toggle("hidden"); // 팝업 표시/숨기기
+    const accountPopup = document.getElementById("account-popup");
+    accountPopup.classList.toggle("hidden"); // 팝업 표시/숨기기
 });
