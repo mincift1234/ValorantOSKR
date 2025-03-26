@@ -1142,4 +1142,17 @@ body {
         padding: 10px;
         font-size: 13px;
     }
+    
+    .search-filter-wrapper {
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    #search-box,
+    #filter-toggle {
+        width: 100%;
+        font-size: 14px;
+    }
+    
 }
