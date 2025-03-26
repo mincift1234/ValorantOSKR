@@ -2559,44 +2559,54 @@ let currentPage = 1; // 현재 페이지
 let totalPages = 1; // 전체 페이지 수
 
 function applyFilters() {
-    const tier = document.getElementById("tier-filter").value;
-    const type = document.getElementById("type-filter").value;
-    const sort = document.getElementById("price-sort").value;
-    const searchKeyword = document.getElementById("search-box").value.trim().toLowerCase();
-    const sortByDate = document.getElementById("sort-by-date").value;
+    const tierSelect = document.getElementById("tier-filter");
+    const typeSelect = document.getElementById("type-filter");
+    const priceSort = document.getElementById("price-sort");
+    const dateSort = document.getElementById("sort-by-date");
+    const searchInput = document.getElementById("search-box");
 
-    // ✅ 필터링 먼저 적용
+    const tier = tierSelect?.value || "all";
+    const type = typeSelect?.value || "all";
+    const sort = priceSort?.value || "none";
+    const sortByDate = dateSort?.value || "none";
+    const searchKeyword = searchInput?.value.trim().toLowerCase() || "";
+
+    // 🔍 필터링
     filteredSkins = skins.filter((skin) => {
-        if (tier !== "all" && skin.tier !== tier) return false;
-        if (type !== "all" && skin.type !== type) return false;
-        if (searchKeyword && !skin.name.toLowerCase().includes(searchKeyword)) return false;
-        return true;
+        const matchesTier = tier === "all" || skin.tier === tier;
+        const matchesType = type === "all" || skin.type === type;
+        const matchesSearch = !searchKeyword || skin.name.toLowerCase().includes(searchKeyword);
+        return matchesTier && matchesType && matchesSearch;
     });
 
-    // ✅ 날짜 정렬 먼저 수행
-    if (filteredSkins.length > 0 && (sortByDate === "asc" || sortByDate === "desc")) {
-        if (filteredSkins[0].episode !== undefined) {
-            filteredSkins.sort((a, b) => (sortByDate === "asc" ? a.episode - b.episode : b.episode - a.episode));
-        } else if (filteredSkins[0].releaseDate !== undefined) {
-            filteredSkins.sort((a, b) => {
-                let dateA = new Date(a.releaseDate);
-                let dateB = new Date(b.releaseDate);
-                return sortByDate === "asc" ? dateA - dateB : dateB - dateA;
-            });
-        }
+    // 📅 출시일 정렬
+    if (sortByDate !== "none") {
+        filteredSkins.sort((a, b) => {
+            const dateA = new Date(a.releaseDate || a.episode || 0);
+            const dateB = new Date(b.releaseDate || b.episode || 0);
+            return sortByDate === "asc" ? dateA - dateB : dateB - dateA;
+        });
     }
 
-    // ✅ 가격 정렬을 가장 마지막에 적용 (덮어씌워지지 않도록)
+    // 💰 가격 정렬
     if (sort === "high") {
         filteredSkins.sort((a, b) => b.price - a.price);
     } else if (sort === "low") {
         filteredSkins.sort((a, b) => a.price - b.price);
     }
 
-    // ✅ 페이지네이션 반영
+    // 🔄 페이지 초기화 및 렌더링
     currentPage = 1;
     totalPages = Math.ceil(filteredSkins.length / skinsPerPage);
     updateFilteredData();
+}
+
+function openFilterPopup() {
+    document.getElementById("filter-popup").classList.remove("hidden");
+}
+
+function closeFilterPopup() {
+    document.getElementById("filter-popup").classList.add("hidden");
 }
 
 function updateFilteredData() {
@@ -3126,7 +3136,7 @@ async function logout() {
     console.log("로그아웃됨");
     alert("로그아웃되었습니다.");
     updateUI(null);
-    location.reload(); 
+    location.reload();
 }
 
 // 팝업 닫기
