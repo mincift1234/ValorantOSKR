@@ -848,23 +848,6 @@ body {
 .logout-btn:hover {
     background-color: #e60000;
 }
-.account-popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 320px;
-    max-height: 80vh;
-    overflow-y: auto;
-    background: #1e1e1e;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
-    text-align: center;
-    z-index: 5000;
-    animation: fadeIn 0.3s ease-in-out;
-}
 
 /* 팝업 디자인 */
 .account-popup {
@@ -884,9 +867,11 @@ body {
 
 /* 팝업 항목 */
 .account-popup-item {
-    padding: 15px;
+    padding: 10px;
     color: white;
+    cursor: pointer;
     text-align: center;
+    transition: background-color 0.3s;
 }
 
 .account-popup-item:hover {
