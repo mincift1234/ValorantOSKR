@@ -1013,7 +1013,7 @@ body {
 }
 
 /* 모바일 반응형 개선 */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
     .container {
         padding: 10px;
     }
@@ -1154,5 +1154,4 @@ body {
         width: 100%;
         font-size: 14px;
     }
-    
 }
