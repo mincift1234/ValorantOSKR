@@ -1071,6 +1071,7 @@ body {
     }
 
     .popup,
+    
     .favorites-popup,
     .shop-counter-popup,
     #notice-popup {
@@ -1086,6 +1087,12 @@ body {
         font-size: 13px;
     }
 
+    .filter-popup {
+        width: 65%;
+        padding: 16px;
+        max-height: 75vh;
+    }
+    
     #shop-history-btn,
     .shop-history-item button,
     #favorite-btn,
@@ -1117,6 +1124,12 @@ body {
         right: -7px;
     }
 
+    .filter-popup .close-btn{
+        position: absolute;
+        top: 1px;
+        right: 9px;
+    }
+    
     .close-favorites-popup {
         position: absolute;
         top: -34px;
