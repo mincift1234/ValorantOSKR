@@ -3136,16 +3136,34 @@ async function handleLogin() {
 
 // UI 업데이트 함수
 function updateUI(user) {
+    const loginContainer = document.getElementById("login-container");
+    const userContainer = document.getElementById("user-container");
+    const userInfoBtn = document.getElementById("user-info");
+
     if (user) {
-        console.log("로그인된 사용자:", user.user_metadata.full_name);
-        document.getElementById("user-info").innerText = user.user_metadata.full_name;
-        document.getElementById("login-button").style.display = "none";
-        document.getElementById("user-container").classList.remove("hidden");
+        console.log("로그인된 사용자:", user.user_metadata.full_name || user.email);
+
+        // 로그인 버튼 숨기기
+        loginContainer.classList.add("hidden");
+        userContainer.classList.remove("hidden");
+
+        // 사용자 이름 표시
+        userInfoBtn.innerText = user.user_metadata?.full_name || user.email;
+
+        // 팝업 토글 이벤트 추가 (중복 방지)
+        userInfoBtn.onclick = () => {
+            document.getElementById("account-popup").classList.toggle("hidden");
+        };
+
     } else {
         console.log("로그아웃 상태");
-        document.getElementById("user-info").innerText = "";
-        document.getElementById("login-button").style.display = "block";
-        document.getElementById("user-container").classList.add("hidden");
+
+        // 로그인 버튼 보이기
+        loginContainer.classList.remove("hidden");
+        userContainer.classList.add("hidden");
+
+        // 사용자 정보 초기화
+        userInfoBtn.innerText = "";
     }
 }
 
@@ -3161,7 +3179,7 @@ async function checkUser() {
     updateUI(user);
 }
 
-// 로그인 상태 변경 감지 (자동 업데이트)
+// 로그인 상태 변경 감지 (자동 UI 업데이트)
 supabase.auth.onAuthStateChange((event, session) => {
     updateUI(session?.user || null);
 });
@@ -3192,9 +3210,4 @@ document.getElementById("logout-btn")?.addEventListener("click", function () {
 // 페이지 로드 시 로그인 상태 확인
 document.addEventListener("DOMContentLoaded", function () {
     checkUser();
-});
-
-// 사용자 정보 클릭 시 팝업 표시
-document.getElementById("user-info")?.addEventListener("click", function () {
-    document.getElementById("account-popup").classList.toggle("hidden");
 });
