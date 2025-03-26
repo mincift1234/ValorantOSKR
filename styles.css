@@ -849,6 +849,7 @@ body {
     background-color: #e60000;
 }
 /* 팝업 스타일 */
+/* 팝업 스타일 */
 .account-popup {
     display: none; /* 처음엔 숨김 */
     position: fixed;
@@ -868,6 +869,34 @@ body {
     position: relative; /* 닫기 버튼이 팝업 내부에서 위치하도록 설정 */
 }
 
+/* 구분선 */
+.account-popup-divider {
+    height: 1px;
+    background-color: #444;
+    margin: 10px 0;
+}
+
+/* 팝업 항목 */
+.account-popup-item {
+    padding: 15px;
+    color: white;
+    text-align: center;
+}
+
+.account-popup-item:hover {
+    background-color: #444;
+}
+
+/* 로그아웃 버튼 스타일 */
+.logout-btn {
+    color: white; /* 글자 색을 흰색으로 변경 */
+}
+
+/* 숨김 처리 */
+.hidden {
+    display: none;
+}
+
 /* 닫기 버튼 스타일 */
 .close-account-popup {
     position: absolute; /* 팝업 내부에서 위치 조정 */
@@ -882,6 +911,11 @@ body {
 /* 닫기 버튼 호버 효과 */
 .close-account-popup:hover {
     transform: scale(1.2); /* 버튼 크기를 1.2배 확대 */
+}
+
+/* 닫기 버튼 클릭 효과 */
+.close-account-popup:active {
+    transform: scale(0.9); /* 클릭 시 살짝 축소 */
 }
 
 /* 닫기 버튼 클릭 효과 */
