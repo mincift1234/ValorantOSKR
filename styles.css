@@ -1018,7 +1018,7 @@ body {
         max-height: 70vh;
         overflow-y: auto;
     }
-    
+
     .popup,
     .favorites-popup,
     .shop-counter-popup,
@@ -1043,5 +1043,19 @@ body {
         font-size: 20px;
         top: 10px;
         right: 10px;
+    }
+
+    .filter-section {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 10px;
+    }
+
+    .filter-section select {
+        flex: 1 1 45%; /* 한 줄에 2개씩 */
+        min-width: 120px;
+        font-size: 13px;
+        padding: 6px 8px;
     }
 }
