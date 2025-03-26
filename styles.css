@@ -158,8 +158,8 @@ body {
 
 .filter-popup .close-btn {
     position: absolute;
-    top: 10px;
-    right: 14px;
+    top: 1px;
+    right: 10px;
     font-size: 20px;
     cursor: pointer;
     color: white;
@@ -354,8 +354,8 @@ body {
 
 .close-side-menu {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 1px;
+    right: 12px;
     font-size: 24px;
     color: #fff;
     cursor: pointer;
@@ -480,8 +480,8 @@ body {
 
 .close-shop-counter {
     position: absolute;
-    top: -30px;
-    right: 1px;
+    top: -40px;
+    right: -10px;
     font-size: 20px;
     cursor: pointer;
     color: white;
@@ -490,6 +490,7 @@ body {
 
 .close-shop-counter:hover {
     transform: scale(1.1);
+    color: #ff6666;
 }
 
 .close-shop-counter:active {
@@ -841,9 +842,9 @@ body {
 /* 공지사항 닫기 버튼 */
 #notice-popup .close-btn {
     position: absolute;
-    top: 12px;
+    top: 1px;
     right: 12px;
-    font-size: 24px;
+    font-size: 20px;
     color: #fff;
     cursor: pointer;
     transition: 0.3s;
