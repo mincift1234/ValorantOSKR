@@ -900,10 +900,9 @@ body {
 }
 
 /* 모바일 반응형 개선 */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
     .container {
-        margin: auto;
-        padding: 20px;
+        padding: 10px;
     }
 
     .search-section input {
