@@ -1,4 +1,4 @@
-const { createClient } = window.supabase;  // Supabase 라이브러리에서 createClient 가져옴
+const { createClient } = window.supabase; // Supabase 라이브러리에서 createClient 가져옴
 
 const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
 const SUPABASE_ANON_KEY =
@@ -3121,7 +3121,6 @@ function noticePopup() {
 function closeNoticePopup() {
     document.getElementById("notice-popup").style.display = "none";
 }
-
 // 로그인 처리
 async function handleLogin() {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -3139,37 +3138,52 @@ function updateUI(user) {
     const loginContainer = document.getElementById("login-container");
     const userContainer = document.getElementById("user-container");
     const userInfoBtn = document.getElementById("user-info");
+    const userAvatar = document.getElementById("user-avatar");
+    const accountPopup = document.getElementById("account-popup");
+
+    // 요소가 존재하지 않으면 함수 종료 (오류 방지)
+    if (!userContainer || !userInfoBtn) return;
 
     if (user) {
-        console.log("로그인된 사용자:", user.user_metadata.full_name || user.email);
+        console.log("로그인된 사용자:", user.user_metadata);
 
-        // 로그인 버튼 숨기기
+        // 로그인 상태일 때
         loginContainer.classList.add("hidden");
         userContainer.classList.remove("hidden");
 
-        // 사용자 이름 표시
-        userInfoBtn.innerText = user.user_metadata?.full_name || user.email;
+        // 프로필 사진 가져오기 (Supabase의 user_metadata 확인 필요)
+        const avatarUrl = user.user_metadata?.picture || user.user_metadata?.avatar_url || "default-avatar.png";
+
+        if (userAvatar) {
+            userAvatar.src = avatarUrl;
+            userAvatar.classList.remove("hidden"); // 이미지 표시
+        }
 
         // 팝업 토글 이벤트 추가 (중복 방지)
         userInfoBtn.onclick = () => {
-            document.getElementById("account-popup").classList.toggle("hidden");
+            accountPopup.classList.toggle("hidden");
         };
-
     } else {
         console.log("로그아웃 상태");
 
-        // 로그인 버튼 보이기
+        // 로그아웃 상태일 때
         loginContainer.classList.remove("hidden");
         userContainer.classList.add("hidden");
 
-        // 사용자 정보 초기화
-        userInfoBtn.innerText = "";
+        // 프로필 사진 초기화
+        if (userAvatar) {
+            userAvatar.src = "";
+            userAvatar.classList.add("hidden");
+        }
     }
 }
 
 // 로그인 상태 확인 (초기 로딩 시 실행)
 async function checkUser() {
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const {
+        data: { user },
+        error
+    } = await supabase.auth.getUser();
 
     if (error) {
         console.error("로그인 확인 실패:", error.message);
@@ -3192,13 +3206,13 @@ async function logout() {
         return;
     }
     console.log("로그아웃됨");
-    alert("로그아웃되었습니다."); // 🔹 로그아웃 알림 추가
-    updateUI(null); // UI 초기화
+    alert("로그아웃되었습니다.");
+    updateUI(null);
 }
 
 // 팝업 닫기
 function closeAccountPopup() {
-    document.getElementById("account-popup").classList.add("hidden");
+    document.getElementById("account-popup")?.classList.add("hidden");
 }
 
 // 로그아웃 버튼 클릭 시 로그아웃 처리
