@@ -1025,32 +1025,41 @@ body {
     margin: 3px 1; /* 위아래 여백 */
 }
 
-/* ✅ Galaxy S24 등 모바일 환경 최적화 */
 @media screen and (max-width: 430px) {
     .container {
-        padding: 10px;
+        padding: 16px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: 20px;
+        margin-bottom: 16px;
     }
 
     .search-filter-wrapper {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 10px;
         width: 100%;
+        margin-bottom: 16px;
     }
 
     #search-box {
         width: 100%;
-        font-size: 14px;
-        padding: 8px 10px;
+        font-size: 15px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        box-sizing: border-box;
     }
 
     #filter-toggle {
         width: 100%;
-        font-size: 14px;
-        padding: 8px 10px;
+        padding: 10px 12px;
+        font-size: 15px;
         text-align: center;
-        border-radius: 6px;
-        background-color: #333;
+        border-radius: 8px;
+        background-color: #2a2a2a;
         color: #fff;
         border: none;
     }
@@ -1058,12 +1067,17 @@ body {
     .skins-grid {
         display: flex;
         flex-direction: column;
+        gap: 18px;
         align-items: center;
-        gap: 12px;
     }
 
     .skin-card {
-        width: 95%;
+        width: 100%;
+        max-width: 380px;
+        background-color: #1e1e1e;
+        padding: 12px;
+        border-radius: 12px;
+        box-sizing: border-box;
     }
 
     .popup,
@@ -1072,11 +1086,13 @@ body {
     #notice-popup,
     .filter-popup {
         width: 90%;
-        max-width: 360px;
+        max-width: 380px;
         max-height: 75vh;
-        padding: 16px;
+        padding: 18px;
         font-size: 14px;
         overflow-y: auto;
+        box-sizing: border-box;
+        margin: auto;
     }
 
     .popup-content,
@@ -1084,6 +1100,7 @@ body {
     .shop-counter-content,
     .filter-popup-content {
         max-width: 100%;
+        box-sizing: border-box;
     }
 
     .popup-content button,
@@ -1092,46 +1109,31 @@ body {
     #shop-history-btn,
     .shop-history-item button,
     .shop-counter-stop-btn {
-        font-size: 13px;
-        padding: 6px 10px;
-    }
-
-    .close-btn,
-    .close-favorites-popup,
-    .close-shop-counter,
-    .filter-popup .close-btn {
-        font-size: 18px;
-        top: 10px;
-        right: 10px;
-    }
-
-    .filter-popup select,
-    .filter-popup label {
-        width: 100%;
-        font-size: 13px;
-        margin-top: 8px;
-    }
-
-    .filter-popup button {
         font-size: 14px;
         padding: 8px 12px;
-        margin-top: 12px;
-        width: 100%;
-        background: #444;
-        color: white;
-        border: none;
         border-radius: 6px;
+    }
+
+    .popup .close-btn,
+    .favorites-popup .close-favorites-popup,
+    .shop-counter-popup .close-shop-counter,
+    .filter-popup .close-btn {
+        font-size: 20px;
+        top: 10px;
+        right: 10px;
     }
 
     .shop-counter-row {
         flex-direction: column;
         align-items: flex-start;
-        gap: 6px;
+        gap: 8px;
+        width: 100%;
     }
 
     .taskbar {
         font-size: 12px;
         height: 30px;
+        margin-top: 20px;
     }
 
     .user-avatar {
@@ -1146,5 +1148,34 @@ body {
     .account-popup-item {
         padding: 10px;
         font-size: 13px;
+    }
+
+    .price-info {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 5px;
+    }
+
+    .skin-info {
+        justify-content: center;
+        margin-top: 12px;
+    }
+
+    #popup-title {
+        font-size: 16px;
+    }
+
+    .popup-skin-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #popup-img {
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        margin: auto;
     }
 }
