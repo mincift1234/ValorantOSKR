@@ -3137,30 +3137,26 @@ async function handleLogin() {
 function updateUI(user) {
     const loginContainer = document.getElementById("login-container");
     const userContainer = document.getElementById("user-container");
-    const userInfoBtn = document.getElementById("user-info");
     const userAvatar = document.getElementById("user-avatar");
     const accountPopup = document.getElementById("account-popup");
 
-    // 요소가 존재하지 않으면 함수 종료 (오류 방지)
-    if (!userContainer || !userInfoBtn) return;
-
     if (user) {
-        console.log("로그인된 사용자:", user.user_metadata);
+        console.log("로그인된 사용자:", user.user_metadata?.full_name || user.email);
 
         // 로그인 상태일 때
         loginContainer.classList.add("hidden");
         userContainer.classList.remove("hidden");
 
-        // 프로필 사진 가져오기 (Supabase의 user_metadata 확인 필요)
-        const avatarUrl = user.user_metadata?.picture || user.user_metadata?.avatar_url || "default-avatar.png";
+        // 프로필 사진 가져오기 (없으면 기본 아이콘 사용)
+        const avatarUrl = user.user_metadata?.avatar_url || "default-avatar.png";
+        userAvatar.src = avatarUrl;
+        userAvatar.classList.remove("hidden"); // 프로필 사진 표시
 
-        if (userAvatar) {
-            userAvatar.src = avatarUrl;
-            userAvatar.classList.remove("hidden"); // 이미지 표시
-        }
+        // 팝업 숨기고 시작
+        accountPopup.classList.add("hidden");
 
-        // 팝업 토글 이벤트 추가 (중복 방지)
-        userInfoBtn.onclick = () => {
+        // 팝업 토글 이벤트 추가
+        userAvatar.onclick = () => {
             accountPopup.classList.toggle("hidden");
         };
     } else {
@@ -3170,11 +3166,10 @@ function updateUI(user) {
         loginContainer.classList.remove("hidden");
         userContainer.classList.add("hidden");
 
-        // 프로필 사진 초기화
-        if (userAvatar) {
-            userAvatar.src = "";
-            userAvatar.classList.add("hidden");
-        }
+        // 프로필 사진 & 팝업 숨기기
+        userAvatar.src = "";
+        userAvatar.classList.add("hidden");
+        accountPopup.classList.add("hidden");
     }
 }
 
