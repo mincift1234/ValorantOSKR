@@ -3133,17 +3133,6 @@ async function handleLogin() {
         console.error("로그인 오류:", error);
     }
 }
-// 로그인 처리
-async function handleLogin() {
-    const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google"
-    });
-
-    if (error) {
-        alert("로그인 실패: " + error.message);
-        console.error("로그인 오류:", error);
-    }
-}
 
 // 로그인 상태 확인 및 UI 업데이트
 async function checkUser() {
@@ -3159,9 +3148,6 @@ async function checkUser() {
         document.getElementById("user-info").innerText = user.user_metadata.full_name;
         document.getElementById("login-button").style.display = "none"; // 로그인 버튼 숨김
         document.getElementById("user-container").classList.remove("hidden"); // 사용자 정보 표시
-
-        // 로그인 후 팝업이 자동으로 뜨지 않도록 수정
-        document.getElementById("account-popup").classList.add("hidden");
     } else {
         console.log("로그인되지 않은 사용자"); // 로그인이 안된 경우 콘솔 출력
         document.getElementById("user-info").innerText = "";
@@ -3173,25 +3159,22 @@ async function checkUser() {
 // 로그인 상태 변경 감지 (자동 업데이트)
 supabase.auth.onAuthStateChange((event, session) => {
     if (session?.user) {
-        console.log("로그인 상태 변경됨:", session.user.user_metadata.full_name);
+        console.log("로그인 상태 변경됨:", session.user.user_metadata.full_name); // 로그인 정보 콘솔 출력
         document.getElementById("user-info").innerText = session.user.user_metadata.full_name;
         document.getElementById("login-button").style.display = "none"; // 로그인 버튼 숨김
         document.getElementById("user-container").classList.remove("hidden"); // 사용자 정보 표시
-
-        // 로그인 후 팝업이 자동으로 뜨지 않도록 수정
-        document.getElementById("account-popup").classList.add("hidden");
     } else {
-        console.log("로그아웃 상태 변경됨");
+        console.log("로그아웃 상태 변경됨"); // 로그아웃된 경우 콘솔 출력
         document.getElementById("user-info").innerText = "";
         document.getElementById("login-button").style.display = "block"; // 로그인 버튼 표시
         document.getElementById("user-container").classList.add("hidden"); // 사용자 정보 숨김
     }
 });
 
-// 로그아웃 처리
+// 로그아웃 처리 (이전 코드로 수정)
 async function logout() {
     await supabase.auth.signOut();
-    console.log("로그아웃됨");
+    console.log("로그아웃됨"); // 로그아웃 성공 콘솔 출력
     document.getElementById("user-info").innerText = "";
     document.getElementById("login-button").style.display = "block"; // 로그인 버튼 표시
     document.getElementById("user-container").classList.add("hidden"); // 사용자 정보 숨김
@@ -3199,13 +3182,13 @@ async function logout() {
 
 // 팝업 닫기
 function closeAccountPopup() {
-    document.getElementById("account-popup").classList.add("hidden");
+    document.getElementById("account-popup").classList.add("hidden"); // 로그아웃 옵션 숨기기
 }
 
 // 로그아웃 버튼 클릭 시 로그아웃 처리
 document.getElementById("logout-btn")?.addEventListener("click", function () {
     logout();
-    closeAccountPopup();
+    closeAccountPopup(); // 로그아웃 후 팝업 닫기
 });
 
 // 페이지 로드 시 로그인 상태 확인
@@ -3215,6 +3198,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 사용자 정보 클릭 시 팝업 표시
 document.getElementById("user-info")?.addEventListener("click", function () {
-    const accountPopup = document.getElementById("account-popup");
-    accountPopup.classList.toggle("hidden");
+    const popup = document.getElementById("account-popup");
+    popup.classList.toggle("hidden"); // 팝업 표시/숨기기
 });
