@@ -83,7 +83,7 @@
         // ✅ [일반 로그인] 이메일 + 비밀번호 로그인
         loginForm.addEventListener("submit", async (e) => {
           e.preventDefault();
-          errorMessage.textContent = ""; // 오류 메시지 초기화
+          errorMessage.textContent = "";
           loginButton.disabled = true;
 
           const email = document.getElementById("email").value.trim();
@@ -96,118 +96,74 @@
           }
 
           try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-              email,
-              password
-            });
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
             if (error) {
-              console.error("로그인 오류:", error);
               errorMessage.textContent = `⚠️ ${error.message || "로그인에 실패했습니다."}`;
               loginButton.disabled = false;
               return;
             }
 
             const user = data.user;
-            const session = data.session; // 세션 데이터에서 토큰을 가져옴
+            const session = data.session;
 
             if (!user || !session) {
-              console.error("⚠️ 로그인 성공했지만 사용자 정보 또는 세션 정보 없음.");
               errorMessage.textContent = "로그인 중 오류가 발생했습니다.";
               loginButton.disabled = false;
               return;
             }
 
-            // 사용자 정보 가져오기 (닉네임 포함)
-            const { data: userData, error: userError } = await supabase
-              .from("users")
-              .select("nickname")
-              .eq("id", data.user.id)
-              .single();
+            // 사용자 정보를 users 테이블에 저장
+            await saveUserToDatabase(user);
 
-            if (userError) {
-              console.error("사용자 정보 불러오기 오류:", userError);
-            }
-
-            // 로그인 성공 후 로컬 스토리지에 저장
+            // 로컬 스토리지에 저장
             localStorage.setItem("user_id", user.id);
             localStorage.setItem("email", user.email);
-            localStorage.setItem("nickname", userData?.nickname || "");
+            localStorage.setItem("nickname", user.user_metadata?.full_name || "");
             localStorage.setItem("access_token", session.access_token);
 
-            console.log("✅ 로그인 성공:", user);
             alert("로그인에 성공했습니다!");
-
-            // 홈페이지로 리디렉션 (1초 후)
             setTimeout(() => {
               window.location.replace("/index.html");
             }, 1000);
           } catch (error) {
-            console.error("로그인 중 문제가 발생:", error);
             errorMessage.textContent = "로그인 중 문제가 발생했습니다.";
             loginButton.disabled = false;
           }
         });
 
-        // ✅ [구글 로그인] 버튼 클릭 시 실행
+        // ✅ [구글 로그인]
         googleSignupButton.addEventListener("click", async () => {
           try {
-            const { data, error } = await supabase.auth.signInWithOAuth({
-              provider: "google"
-            });
+            const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google" });
 
             if (error) {
-              console.error("Google 로그인 오류:", error);
               alert("Google 로그인 중 오류가 발생했습니다.");
               return;
             }
 
             console.log("✅ Google 로그인 요청 성공:", data);
           } catch (error) {
-            console.error("Google 로그인 중 오류 발생:", error);
             alert("로그인 중 문제가 발생했습니다.");
           }
         });
 
-        // ✅ [로그인 상태 확인] -> 구글 로그인 후 자동으로 `users` 테이블에 저장
-        const {
-          data: { user }
-        } = await supabase.auth.getUser();
+        // ✅ [로그인 상태 확인]
+        const { data: { user } } = await supabase.auth.getUser();
 
         if (user) {
-          await saveUserToDatabase(user); // 🛠️ 구글 로그인한 유저를 `users` 테이블에 저장
-
-          // 사용자 정보 가져오기
-          const { data: userData, error: userError } = await supabase
-            .from("users")
-            .select("nickname, profile_image")
-            .eq("id", user.id)
-            .single();
-
-          if (userError) {
-            console.error("사용자 정보 조회 오류:", userError);
-          }
-
-          // 로그인한 사용자 정보를 로컬 스토리지에 저장
-          localStorage.setItem("user_id", user.id);
-          localStorage.setItem("email", user.email);
-          localStorage.setItem("nickname", userData?.nickname || "");
-          localStorage.setItem("profile_image", userData?.profile_image || "");
-
-          console.log("✅ 구글 로그인 성공:", user);
-
-          // 1초 후 메인 페이지로 이동
+          await saveUserToDatabase(user);
+          console.log("✅ 로그인한 사용자:", user);
           setTimeout(() => {
             window.location.replace("/index.html");
           }, 1000);
         }
       });
 
-      // ✅ [구글 로그인 후] users 테이블에 저장하는 함수
+      // ✅ [사용자 정보를 users 테이블에 저장하는 함수]
       async function saveUserToDatabase(user) {
         const { id, email, user_metadata } = user;
 
-        // 기존 사용자 확인
         const { data: existingUser, error } = await supabase.from("users").select("id").eq("id", id).single();
 
         if (error && error.code !== "PGRST116") {
@@ -216,20 +172,19 @@
         }
 
         if (!existingUser) {
-          // 새 사용자 추가
           const { error: insertError } = await supabase.from("users").insert([
             {
-              id: id, // Supabase Auth의 사용자 ID
+              id: id,
               email: email,
-              nickname: user_metadata.full_name || "", // 구글 계정의 전체 이름 (없을 수도 있음)
-              profile_image: user_metadata.avatar_url || "" // 구글 프로필 이미지
+              nickname: user_metadata?.full_name || email.split("@")[0], // 기본 닉네임 처리
+              profile_image: user_metadata?.avatar_url || ""
             }
           ]);
 
           if (insertError) {
             console.error("사용자 저장 오류:", insertError.message);
           } else {
-            console.log("✅ 사용자 정보가 데이터베이스에 저장되었습니다.");
+            console.log("✅ 사용자 정보 저장 완료.");
           }
         } else {
           console.log("ℹ️ 이미 등록된 사용자입니다.");
