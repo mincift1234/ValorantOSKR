@@ -986,7 +986,7 @@ body {
 
     #menu-button {
         font-size: 20px;
-        top: 8px;
+        top: 10px;
         left: 8px;
     }
 
@@ -1014,6 +1014,11 @@ body {
         font-size: 13px;
     }
 
+    .popup-content {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    
     .popup,
     .favorites-popup,
     .shop-counter-popup,
