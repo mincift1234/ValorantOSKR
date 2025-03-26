@@ -1071,18 +1071,6 @@ body {
         padding: 16px;
         max-height: 75vh;
     }
-
-    .shop-counter-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-    }
-
-    .shop-counter-name::after,
-    .shop-counter-days::after {
-        display: none; /* 좁은 화면에서는 구분선 제거 */
-    }
-
     .shop-history-item {
         font-size: 13px;
     }
@@ -1107,25 +1095,32 @@ body {
     .close-btn,
     .close-favorites-popup,
     .close-shop-counter {
-        font-size: 22px;
+        font-size: 16px;
     }
 
-    .close-shop-counter{
+    .close-btn {
+        position: absolute;
+        top: 1px;
+        right: 7px;
+    }
+
+    .close-shop-counter {
         position: absolute;
         top: -37px;
-        right: -5px;
+        right: -7px;
     }
-    
-    .close-favorites-popup{
+
+    .close-favorites-popup {
         position: absolute;
-        top: -38px;
-        right: -6px;
+        top: -35px;
+        right: -8px;
     }
-    
+
     #notice-popup .close-btn {
         position: absolute;
         top: 1px;
-        right: 10px;
+        right: 8px;
+        font-size: 16px;
     }
 
     #menu-button {
@@ -1172,6 +1167,13 @@ body {
         padding: 10px 10px;
     }
 
+    .popup-skin-card {
+        background: #222;
+        padding: 18px;
+        border-radius: 12px;
+        box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.1);
+        margin-bottom: 12px;
+    }
     #search-box {
         flex: 1;
         font-size: 13px;
