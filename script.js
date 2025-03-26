@@ -3121,7 +3121,6 @@ function noticePopup() {
 function closeNoticePopup() {
     document.getElementById("notice-popup").style.display = "none";
 }
-
 // 로그인 처리
 async function handleLogin() {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -3171,7 +3170,7 @@ supabase.auth.onAuthStateChange((event, session) => {
     }
 });
 
-// 로그아웃 처리 (이전 코드로 수정)
+// 로그아웃 처리
 async function logout() {
     await supabase.auth.signOut();
     console.log("로그아웃됨"); // 로그아웃 성공 콘솔 출력
@@ -3193,7 +3192,7 @@ document.getElementById("logout-btn")?.addEventListener("click", function () {
 
 // 페이지 로드 시 로그인 상태 확인
 document.addEventListener("DOMContentLoaded", function () {
-    checkUser();
+    checkUser(); // 페이지 로드 시 사용자 정보 확인
 });
 
 // 사용자 정보 클릭 시 팝업 표시
