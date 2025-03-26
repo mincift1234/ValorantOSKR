@@ -3133,24 +3133,30 @@ async function handleLogin() {
     }
 }
 
-// UI 업데이트 함수
 function updateUI(user) {
     const loginContainer = document.getElementById("login-container");
     const userContainer = document.getElementById("user-container");
-    const userAvatar = document.getElementById("user-avatar");
+    const userAvatar = document.getElementById("user-avatar"); // 🔹 여기를 체크!
     const accountPopup = document.getElementById("account-popup");
 
-    if (user) {
-        console.log("로그인된 사용자:", user.user_metadata?.full_name || user.email);
+    console.log("🔍 userAvatar:", userAvatar); // ✅ 콘솔에서 null인지 확인
 
-        // 로그인 상태일 때
-        loginContainer.classList.add("hidden");
-        userContainer.classList.remove("hidden");
+    if (user) {
+        console.log("로그인된 사용자:", user.user_metadata);
+
+        if (!userAvatar) {
+            console.error("❌ userAvatar 요소를 찾을 수 없음!");
+            return; // 여기서 함수 종료 (오류 방지)
+        }
 
         // 프로필 사진 가져오기 (없으면 기본 아이콘 사용)
-        const avatarUrl = user.user_metadata?.avatar_url || "default-avatar.png";
+        const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture || "default-avatar.png";
         userAvatar.src = avatarUrl;
-        userAvatar.classList.remove("hidden"); // 프로필 사진 표시
+        userAvatar.classList.remove("hidden");
+
+        // 로그인 UI 업데이트
+        loginContainer.classList.add("hidden");
+        userContainer.classList.remove("hidden");
 
         // 팝업 숨기고 시작
         accountPopup.classList.add("hidden");
@@ -3167,8 +3173,10 @@ function updateUI(user) {
         userContainer.classList.add("hidden");
 
         // 프로필 사진 & 팝업 숨기기
-        userAvatar.src = "";
-        userAvatar.classList.add("hidden");
+        if (userAvatar) {
+            userAvatar.src = "";
+            userAvatar.classList.add("hidden");
+        }
         accountPopup.classList.add("hidden");
     }
 }
