@@ -2554,7 +2554,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 let filteredSkins = []; // 🔥 필터링된 데이터를 저장하는 전역 변수
-let skinsPerPage = 25; // 한 페이지당 표시할 스킨 개수
+let skinsPerPage = 26; // 한 페이지당 표시할 스킨 개수
 let currentPage = 1; // 현재 페이지
 let totalPages = 1; // 전체 페이지 수
 
