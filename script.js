@@ -3198,6 +3198,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 사용자 정보 클릭 시 팝업 표시
 document.getElementById("user-info")?.addEventListener("click", function () {
-    const popup = document.getElementById("account-popup");
-    popup.classList.toggle("hidden"); // 팝업 표시/숨기기
+    const closeAccuntPopup = document.getElementById("account-popup");
+    closeAccuntPopup.classList.toggle("hidden"); // 팝업 표시/숨기기
 });
