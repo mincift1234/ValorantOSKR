@@ -1019,6 +1019,8 @@ body {
     .shop-counter-popup,
     #notice-popup {
         width: 90%; /* 전체 화면의 90%로 줄임 */
+        max-height: 70vh;
+        overflow-y: auto; /* 내용이 넘치면 스크롤 */
         max-width: 340px; /* 최대 너비 제한 */
         padding: 15px; /* 안쪽 여백 줄이기 */
         font-size: 14px; /* 글자 크기도 조금 축소 */
