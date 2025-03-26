@@ -18,7 +18,11 @@
 
                 <!-- 로그인 후 사용자 정보 (로그인 상태일 경우 표시) -->
                 <div id="user-container" class="auth-item hidden">
-                    <img id="user-avatar" class="user-avatar hidden" src="/images/default-avatar.png" alt="프로필 사진">
+                    <img
+                        id="user-avatar"
+                        class="user-avatar hidden"
+                        src="/images/default-avatar.png"
+                        alt="프로필 사진" />
                     <div id="account-popup" class="account-popup hidden">
                         <div class="account-popup-item" id="my-profile">설정</div>
                         <div class="account-popup-divider"></div>
@@ -90,50 +94,92 @@
             </div>
 
             <h1>오늘부터 1일</h1>
-            <div class="search-section">
+            <!-- 🔍 검색창 + 필터 버튼 -->
+            <div class="search-filter-wrapper">
+                <button id="filter-toggle" onclick="openFilterPopup()">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="filter-icon"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M6 10.117V15.5a.5.5 0 0 0 .777.416l2-1.333A.5.5 0 0 0 9 14.167v-4.05l4.358-5.49A.5.5 0 0 0 13 3H3a.5.5 0 0 0-.358.827L6 10.117z" />
+                    </svg>
+                    필터
+                </button>
                 <input type="text" id="search-box" placeholder="스킨 이름 검색..." oninput="applyFilters()" />
             </div>
-            <div class="filter-section">
-                <select id="tier-filter" onchange="applyFilters()">
-                    <option value="all">모든 등급</option>
-                    <option value="select">셀렉트</option>
-                    <option value="deluxe">디럭스</option>
-                    <option value="premium">프리미엄</option>
-                    <option value="exclusive">익스클루시브</option>
-                    <option value="ultra">울트라</option>
-                </select>
-                <select id="type-filter" onchange="applyFilters()">
-                    <option value="all">모든 종류</option>
-                    <option value="phantom">팬텀</option>
-                    <option value="vandal">밴달</option>
-                    <option value="sheriff">셰리프</option>
-                    <option value="operator">오퍼레이터</option>
-                    <option value="stinger">스팅어</option>
-                    <option value="ghost">고스트</option>
-                    <option value="odin">오딘</option>
-                    <option value="marshal">마샬</option>
-                    <option value="bucky">버키</option>
-                    <option value="judge">져지</option>
-                    <option value="frenzy">프렌지</option>
-                    <option value="classic">클래식</option>
-                    <option value="shorty">쇼티</option>
-                    <option value="ares">아레스</option>
-                    <option value="bulldog">불독</option>
-                    <option value="knife">칼</option>
-                    <option value="guardian">가디언</option>
-                    <option value="outlaw">아웃로</option>
-                </select>
-                <select id="price-sort" onchange="applyFilters()">
-                    <option value="none">가격 순 정렬</option>
-                    <option value="high">가격 높은 순</option>
-                    <option value="low">가격 낮은 순</option>
-                </select>
-                <select id="sort-by-date" class="sort-dropdown" onchange="applyFilters()">
-                    <option value="none">출시 순 정렬</option>
-                    <option value="asc">오래된 순</option>
-                    <option value="desc">최신 순</option>
-                </select>
+            <div id="filter-popup" class="filter-popup hidden">
+                <div class="filter-popup-content">
+                    <!-- 닫기 버튼 -->
+                    <span class="close-btn" onclick="closeFilterPopup()">&times;</span>
+
+                    <!-- 필터: 스킨 등급 -->
+                    <div class="filter-group">
+                        <label for="tier-filter">스킨 등급</label>
+                        <select id="tier-filter">
+                            <option value="all">모든 등급</option>
+                            <option value="select">셀렉트</option>
+                            <option value="deluxe">디럭스</option>
+                            <option value="premium">프리미엄</option>
+                            <option value="exclusive">익스클루시브</option>
+                            <option value="ultra">울트라</option>
+                        </select>
+                    </div>
+
+                    <!-- 필터: 무기 종류 -->
+                    <div class="filter-group">
+                        <label for="type-filter">무기 종류</label>
+                        <select id="type-filter">
+                            <option value="all">모든 종류</option>
+                            <option value="phantom">팬텀</option>
+                            <option value="vandal">밴달</option>
+                            <option value="sheriff">셰리프</option>
+                            <option value="operator">오퍼레이터</option>
+                            <option value="stinger">스팅어</option>
+                            <option value="ghost">고스트</option>
+                            <option value="odin">오딘</option>
+                            <option value="marshal">마샬</option>
+                            <option value="bucky">버키</option>
+                            <option value="judge">져지</option>
+                            <option value="frenzy">프렌지</option>
+                            <option value="classic">클래식</option>
+                            <option value="shorty">쇼티</option>
+                            <option value="ares">아레스</option>
+                            <option value="bulldog">불독</option>
+                            <option value="knife">칼</option>
+                            <option value="guardian">가디언</option>
+                            <option value="outlaw">아웃로</option>
+                        </select>
+                    </div>
+
+                    <!-- 필터: 가격 정렬 -->
+                    <div class="filter-group">
+                        <label for="price-sort">가격 정렬</label>
+                        <select id="price-sort">
+                            <option value="none">정렬 안 함</option>
+                            <option value="high">가격 높은 순</option>
+                            <option value="low">가격 낮은 순</option>
+                        </select>
+                    </div>
+
+                    <!-- 필터: 출시일 정렬 -->
+                    <div class="filter-group">
+                        <label for="sort-by-date">출시 순 정렬</label>
+                        <select id="sort-by-date">
+                            <option value="none">정렬 안 함</option>
+                            <option value="asc">오래된 순</option>
+                            <option value="desc">최신 순</option>
+                        </select>
+                    </div>
+
+                    <!-- 적용 버튼 -->
+                    <button onclick="applyFilters(); closeFilterPopup();">적용하기</button>
+                </div>
             </div>
+
             <div class="skins-grid" id="skins-container"></div>
             <div class="pagination">
                 <button id="prevPage" onclick="changePage(currentPage - 1)">이전</button>
