@@ -1061,15 +1061,11 @@ body {
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     }
 
-    .popup {
-        width: 90%;
-        padding: 16px;
-    }
-
+    .popup,
     .favorites-popup,
     .shop-counter-popup,
     #notice-popup {
-        width: 90%;
+        width: 85%;
         padding: 16px;
         max-height: 75vh;
     }
@@ -1160,5 +1156,11 @@ body {
         flex: 1;
         font-size: 13px;
         padding:10px 5px;
+    }
+    
+    #notice-popup {
+        width: 80%;
+        padding: 16px;
+        max-height: 75vh;
     }
 }
