@@ -932,7 +932,7 @@ body {
         width: 90%;
         max-width: 350px;
     }
-    
+
     .popup {
         width: 90%;
         padding: 16px;
@@ -1012,5 +1012,29 @@ body {
     .account-popup-item {
         padding: 10px;
         font-size: 13px;
+    }
+
+    .popup,
+    .favorites-popup,
+    .shop-counter-popup,
+    #notice-popup {
+        width: 90%; /* 전체 화면의 90%로 줄임 */
+        max-width: 340px; /* 최대 너비 제한 */
+        padding: 15px; /* 안쪽 여백 줄이기 */
+        font-size: 14px; /* 글자 크기도 조금 축소 */
+    }
+
+    .popup-content,
+    .favorites-popup-content,
+    .shop-counter-content {
+        max-width: 100%;
+    }
+
+    .close-btn,
+    .close-favorites-popup,
+    .close-shop-counter {
+        font-size: 20px;
+        top: 10px;
+        right: 10px;
     }
 }
