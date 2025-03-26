@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: "ANDONG264";
     src: url("fonts/ANDONG264.ttf") format("truetype");
@@ -885,4 +886,11 @@ body {
 
 .hidden {
     display: none; /* 숨기기 */
+}
+
+.user-avatar {
+    width: 32px; /* 프로필 사진 크기 */
+    height: 32px;
+    border-radius: 50%; /* 원형 모양 */
+    object-fit: cover; /* 사진 꽉 차게 */
 }
