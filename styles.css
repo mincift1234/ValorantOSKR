@@ -848,8 +848,6 @@ body {
 .logout-btn:hover {
     background-color: #e60000;
 }
-/* 팝업 스타일 */
-/* 팝업 스타일 */
 .account-popup {
     display: none; /* 처음엔 숨김 */
     position: fixed;
@@ -866,7 +864,10 @@ body {
     text-align: center;
     z-index: 9998; /* 스킨 팝업이 9999라면, 그 아래나 위로 조정 가능 */
     animation: fadeIn 0.3s ease-in-out;
-    position: relative; /* 닫기 버튼이 팝업 내부에서 위치하도록 설정 */
+}
+
+.account-popup:not(.hidden) {
+    display: block; /* 팝업이 표시될 때 */
 }
 
 /* 구분선 */
@@ -892,33 +893,27 @@ body {
     color: white; /* 글자 색을 흰색으로 변경 */
 }
 
-/* 숨김 처리 */
 .hidden {
-    display: none;
+    display: none; /* 숨기기 */
 }
 
-/* 닫기 버튼 스타일 */
+/* .close-shop-counter: 팝업 닫기 버튼 스타일 */
 .close-account-popup {
-    position: absolute; /* 팝업 내부에서 위치 조정 */
-    top: 10px; /* 상단에서 10px 아래 */
-    right: 10px; /* 오른쪽에서 10px 왼쪽 */
-    font-size: 20px; /* 크기 조절 */
-    cursor: pointer; /* 마우스 오버 시 손 모양 */
-    color: white; /* 흰색 */
-    transition: transform 0.2s ease;
+    position: absolute; /* 절대 위치 설정 */
+    top: -30px; /* 팝업 상단에서 30px 위로 위치 */
+    right: 1px; /* 팝업 오른쪽에서 1px 위치 */
+    font-size: 24px; /* 글자 크기 설정 */
+    cursor: pointer; /* 커서를 손 모양으로 변경 */
+    color: white; /* 글자 색상 흰색 */
+    transition: transform 0.2s ease; /* 클릭 및 호버 애니메이션 효과 */
 }
 
-/* 닫기 버튼 호버 효과 */
+/* .close-shop-counter:hover: 버튼 위에 마우스가 올라갔을 때의 스타일 */
 .close-account-popup:hover {
-    transform: scale(1.2); /* 버튼 크기를 1.2배 확대 */
+    transform: scale(1.1); /* 버튼 크기를 1.1배 키움 */
 }
 
-/* 닫기 버튼 클릭 효과 */
+/* .close-shop-counter:active: 버튼을 클릭했을 때의 스타일 */
 .close-account-popup:active {
-    transform: scale(0.9); /* 클릭 시 살짝 축소 */
-}
-
-/* 닫기 버튼 클릭 효과 */
-.close-account-popup:active {
-    transform: scale(0.9); /* 클릭 시 살짝 축소 */
+    transform: scale(0.9); /* 버튼 크기를 0.9배 줄임 */
 }
