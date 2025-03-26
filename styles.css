@@ -808,67 +808,41 @@ body {
     color: white;
 }
 
-/* 로그인 후 사용자 정보 버튼 스타일 */
-.user-info-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    font-weight: bold;
-    padding: 8px 15px;
-    border-radius: 5px;
-    text-transform: uppercase;
-}
-
-.user-info-btn:hover {
-    color: #007bff;
-}
-
-/* 로그아웃 옵션 스타일 */
-.logout-options {
-    position: absolute;
-    top: 40px;
-    right: 0;
-    background-color: #fff;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: none;
-    border-radius: 5px;
-}
-
-.logout-btn {
-    background-color: #ff4d4d;
-    color: #fff;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.logout-btn:hover {
-    background-color: #e60000;
-}
-
 /* 팝업 디자인 */
+/* 계정 팝업 기본 스타일 */
 .account-popup {
-    display: none; /* 기본적으로 숨겨짐 */
+    position: absolute;
+    top: 45px; /* 프로필 사진 아래로 배치 */
+    right: 0;
+    width: 120px;
+    background-color: #222;
+    border: 1px solid #444;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-5px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+/* 팝업이 열릴 때 */
 .account-popup:not(.hidden) {
-    display: block; /* 팝업이 표시될 때 */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
-/* 구분선 */
+/* 팝업 안의 구분선 */
 .account-popup-divider {
     height: 1px;
     background-color: #444;
-    margin: 10px 0;
+    margin: 8px 0;
 }
 
-/* 팝업 항목 */
+/* 팝업 안의 항목 */
 .account-popup-item {
-    padding: 10px;
+    padding: 12px;
     color: white;
     cursor: pointer;
     text-align: center;
@@ -876,21 +850,39 @@ body {
 }
 
 .account-popup-item:hover {
-    background-color: #444;
+    background-color: #333;
 }
 
 /* 로그아웃 버튼 스타일 */
 .logout-btn {
-    color: white; /* 글자 색을 흰색으로 변경 */
+    color: #ff6666;
+    font-weight: bold;
 }
 
+/* 숨김 처리 */
 .hidden {
-    display: none; /* 숨기기 */
+    display: none;
 }
 
+/* 사용자 프로필 버튼 (프로필 사진) */
 .user-avatar {
-    width: 32px; /* 프로필 사진 크기 */
-    height: 32px;
-    border-radius: 50%; /* 원형 모양 */
-    object-fit: cover; /* 사진 꽉 차게 */
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border 0.2s ease;
+}
+
+/* 프로필 사진에 마우스를 올릴 때 */
+.user-avatar:hover {
+    border-color: #888;
+}
+
+/* 사용자 컨테이너 (프로필 사진 + 팝업) */
+#user-container {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
