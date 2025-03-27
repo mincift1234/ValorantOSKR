@@ -15,8 +15,13 @@ let currentUser = null;
 let postId = null;
 let isAdmin = false;
 
+document.addEventListener("DOMContentLoaded", async () => {
+    await checkLogin();
+    await loadPost();
+});
+
 /**
- * ✅ 로그인 확인 및 유저 정보 로딩
+ * ✅ 로그인 확인
  */
 async function checkLogin() {
     const { data, error } = await supabase.auth.getUser();
@@ -46,34 +51,31 @@ async function loadPost() {
         .update({ hits: (post.hits || 0) + 1 })
         .eq("id", postId);
 
-    // DOM 삽입
+    // 스킨 이미지 링크 연결
+    const matched = window.skins?.find((s) => s.name === post.skin_name);
+    document.getElementById("skin-image").src = matched?.img || "/images/default.png";
+
+    // 정보 표시
     document.getElementById("post-title").textContent = post.title;
     document.getElementById("post-author").textContent = post.author_nickname || "익명";
     document.getElementById("post-date").textContent = new Date(post.created_at).toLocaleDateString("ko-KR");
     document.getElementById("post-hits").textContent = (post.hits || 0) + 1;
     document.getElementById("post-memo").textContent = post.memo;
 
-    // ✅ 이미지 링크 자동 연결
-    const matched = window.skins?.find((s) => s.name === post.skin_name);
-    document.getElementById("skin-image").src = matched?.img || "/images/default.png";
-
-    // 본인 또는 관리자만 수정/삭제 가능
     if (post.user_id === currentUser.id || isAdmin) {
         document.getElementById("edit-post-btn").classList.remove("hidden");
         document.getElementById("delete-post-btn").classList.remove("hidden");
     }
 
-    // 좋아요 및 댓글 로딩
     loadLike(post.id);
     loadComments(post.id);
 
-    // 수정/삭제 버튼 이벤트
     document.getElementById("edit-post-btn").addEventListener("click", () => editPost(post));
     document.getElementById("delete-post-btn").addEventListener("click", () => deletePost(post.id));
 }
 
 /**
- * ✅ 좋아요 상태 로딩
+ * ✅ 좋아요 로딩
  */
 async function loadLike(postId) {
     const { data: likes } = await supabase.from("board_likes").select("*").eq("post_id", postId);
