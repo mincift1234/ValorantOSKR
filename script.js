@@ -3154,3 +3154,7 @@ document.getElementById("logout-btn")?.addEventListener("click", function () {
 document.addEventListener("DOMContentLoaded", function () {
     checkUser();
 });
+
+function goToBoard() {
+  window.location.href = "community/board.html"; // 게시판 페이지로 이동
+}
