@@ -1,0 +1,251 @@
+/* 기본 레이아웃 */
+body {
+  font-family: 'Pretendard', sans-serif;
+  background-color: #212529;
+  color: #f1f3f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* 상단 바 */
+.top-bar {
+  padding: 1rem 2rem;
+  background: #1c1f22;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* 알림 배지 */
+.notification-container {
+  position: relative;
+}
+
+.notification-container .icon {
+  font-size: 1.2rem;
+}
+
+.notification-container .badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #fa5252;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+/* 알림 팝업 */
+.notification-popup {
+  position: absolute;
+  right: 0;
+  top: 36px;
+  background-color: #2b3035;
+  color: white;
+  border: 1px solid #495057;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 250px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.notification-popup h4 {
+  margin-top: 0;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.notification-popup ul {
+  padding-left: 1rem;
+}
+
+.notification-popup.hidden {
+  display: none;
+}
+
+/* 게시판 전체 */
+.board-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 2rem auto;
+  background-color: #2b3035;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* 사이드바 */
+.sidebar {
+  width: 220px;
+  background-color: #1c1f22;
+  color: white;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.sidebar h2 {
+  margin-bottom: 1rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.sidebar li {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar button,
+.sidebar > button {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  background-color: #343a40;
+  color: white;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar button:hover,
+.sidebar > button:hover {
+  background-color: #495057;
+}
+
+/* 게시판 본문 */
+.content {
+  flex: 1;
+  padding: 2rem;
+  box-sizing: border-box;
+  min-height: 600px;
+  background-color: #2b3035;
+  color: #f1f3f5;
+}
+
+.board-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+/* 정렬 셀렉트 */
+#sort-select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  background-color: #343a40;
+  color: white;
+  border: 1px solid #495057;
+}
+
+/* 글 목록 */
+#post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-item {
+  background-color: #343a40;
+  color: white;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.post-item:hover {
+  background-color: #495057;
+}
+
+.post-top {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.post-bottom {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  align-items: center;
+}
+
+.bookmark-icon {
+  color: #fab005;
+}
+
+.warning {
+  color: red;
+  font-weight: bold;
+}
+
+/* 페이지네이션 */
+#pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 0.5rem;
+}
+
+#pagination button {
+  border: none;
+  background-color: #495057;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#pagination button.active {
+  background-color: #fab005;
+  color: black;
+}
+
+/* 팝업 공통 */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2b3035;
+  border-radius: 12px;
+  color: white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  padding: 1.5rem;
+  z-index: 1000;
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup-content input,
+.popup-content select,
+.popup-content textarea {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.6rem;
+  background-color: #343a40;
+  color: white;
+  border: 1px solid #495057;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}

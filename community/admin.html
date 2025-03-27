@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>관리자 페이지</title>
+  <link rel="stylesheet" href="admin.css" />
+  <script type="module" src="admin.js" defer></script>
+</head>
+<body>
+  <div class="admin-container">
+    <h1>🔐 관리자 페이지</h1>
+
+    <section>
+      <h2>👥 유저 목록</h2>
+      <ul id="user-list"></ul>
+    </section>
+
+    <section>
+      <h2>📊 통계 대시보드</h2>
+      <div id="stats">
+        <p>총 게시글 수: <span id="stat-posts">-</span></p>
+        <p>총 댓글 수: <span id="stat-comments">-</span></p>
+        <p>숨김된 댓글: <span id="stat-hidden-comments">-</span></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>🛠️ 숨김 댓글 복구 요청</h2>
+      <ul id="restore-requests"></ul>
+    </section>
+
+    <button onclick="location.href='board.html'">← 게시판으로 돌아가기</button>
+  </div>
+</body>
+</html>
