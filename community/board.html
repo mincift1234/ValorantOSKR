@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리헤어져 - 게시판</title>
+  <link rel="stylesheet" href="board.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header class="board-header">
+    <h1>우리헤어져</h1>
+    <!-- 게시글 작성 버튼 -->
+    <button class="write-post-btn" onclick="openPostPopup()">글쓰기</button>
+  </header>
+
+  <div class="board-container">
+    <!-- 사이드 메뉴 -->
+    <aside class="board-sidebar">
+      <ul>
+        <li class="category selected" data-category="counting">우리헤어져</li>
+        <li class="category" data-category="ended">우리헤어졌어요</li>
+      </ul>
+    </aside>
+
+    <!-- 메인 영역 -->
+    <main class="board-main">
+      <!-- 검색 영역 -->
+      <div class="board-search">
+        <input type="text" id="search-box" placeholder="검색..." />
+        <button id="search-btn">검색</button>
+      </div>
+
+      <!-- 게시글 목록 테이블 -->
+      <table class="board-list">
+        <thead>
+          <tr>
+            <th style="width:50px;">번호</th>
+            <th>제목</th>
+            <th style="width:120px;">작성자</th>
+            <th style="width:100px;">날짜</th>
+            <th style="width:60px;">조회</th>
+          </tr>
+        </thead>
+        <tbody id="post-list">
+          <!-- 게시글 목록이 동적으로 들어갑니다 -->
+        </tbody>
+      </table>
+    </main>
+  </div>
+
+  <!-- 게시글 작성 팝업 -->
+  <div id="post-popup" class="popup hidden">
+    <div class="popup-content">
+      <span class="close-btn" onclick="closePostPopup()">&times;</span>
+      <h2>게시글 작성</h2>
+
+      <label for="skin-select">날짜 세기 중인 스킨 선택</label>
+      <select id="skin-select"></select>
+
+      <label for="memo-input">메모</label>
+      <textarea id="memo-input" placeholder="간단한 메모를 작성하세요"></textarea>
+
+      <button onclick="submitPost()">등록하기</button>
+    </div>
+  </div>
+
+  <script src="board.js"></script>
+</body>
+</html>
