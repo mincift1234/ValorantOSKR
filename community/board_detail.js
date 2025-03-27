@@ -73,7 +73,7 @@ async function loadPost() {
 
     // 수정/삭제 버튼 표시 여부
     // - 작성자이거나 관리자이면 표시
-    if (post.user_id === currentUser.id || isAdmin) {
+    if (String(post.user_id) === String(currentUser.id) || isAdmin) {
         document.getElementById("edit-post-btn").classList.remove("hidden");
         document.getElementById("delete-post-btn").classList.remove("hidden");
     }
