@@ -6,26 +6,27 @@ const SUPABASE_ANON_KEY =
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 사용자 로그인 상태 확인
 let currentUser = null;
 checkUser();
 
 async function checkUser() {
-  const { data: { user } } = await supabase.auth.getUser();
-  currentUser = user;
-  if (!user) {
+  const { data: { user }, error } = await supabase.auth.getUser();
+  if (error || !user) {
     alert("로그인이 필요합니다.");
-    window.location.href = "/"; // 메인 페이지로 이동
-  } else {
-    fetchPosts("counting");
-    fillSkinSelect(); // 날짜 세기 중인 스킨 불러오기
+    window.location.href = "/login/login.html"; // 로그인 페이지로 리디렉션
+    return;
   }
+
+  currentUser = user;
+  fetchPosts("counting");
+  fillSkinSelect();
 }
 
 // 게시글 목록 불러오기
 async function fetchPosts(category = "counting") {
   const isCounting = category === "counting";
-  const { data: posts } = await supabase
+
+  const { data: posts, error } = await supabase
     .from("posts")
     .select("*")
     .eq("counting", isCounting)
@@ -34,9 +35,17 @@ async function fetchPosts(category = "counting") {
   const postList = document.getElementById("post-list");
   postList.innerHTML = "";
 
+  if (error || !posts || posts.length === 0) {
+    postList.innerHTML = "<p class='empty'>게시글이 없습니다.</p>";
+    return;
+  }
+
   posts.forEach(post => {
     const div = document.createElement("div");
     div.className = "post-item";
+    div.onclick = () => {
+      window.location.href = `board_detail.html?id=${post.id}`;
+    };
     div.innerHTML = `
       <h3>${post.skin_name}</h3>
       <small>D+${calculateDays(post.start_date)}</small>
@@ -51,24 +60,24 @@ document.getElementById("write-post-btn").onclick = () => {
   document.getElementById("post-popup").classList.remove("hidden");
 };
 
-// 팝업 닫기
+// 게시글 작성 팝업 닫기
 function closePostPopup() {
   document.getElementById("post-popup").classList.add("hidden");
 }
 
 // 날짜 세기 중인 스킨 목록 불러오기
 async function fillSkinSelect() {
-  const { data: userData } = await supabase
+  const { data, error } = await supabase
     .from("user_data")
     .select("shop_counters")
     .eq("user_id", currentUser.id)
     .single();
 
   const select = document.getElementById("skin-select");
-  select.innerHTML = "";
+  select.innerHTML = "<option value=''>스킨 선택</option>";
 
-  if (userData?.shop_counters) {
-    Object.entries(userData.shop_counters).forEach(([skin, info]) => {
+  if (!error && data?.shop_counters) {
+    Object.entries(data.shop_counters).forEach(([skin, info]) => {
       if (info.isCounting) {
         const option = document.createElement("option");
         option.value = skin;
