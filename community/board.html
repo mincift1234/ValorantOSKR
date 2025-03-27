@@ -1,76 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>우리헤어져 - 게시판</title>
-    <link rel="stylesheet" href="board.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  </head>
-  <body>
-    <header class="board-header">
-      <h1>우리헤어져</h1>
-      <!-- 게시글 작성 버튼 -->
-      <button class="write-post-btn" onclick="openPostPopup()">글쓰기</button>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>게시글 상세 보기</title>
+  <link rel="stylesheet" href="board.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="dark-mode">
+  <div class="board-detail-container">
+    <div class="board-detail-card">
+      <h2 class="detail-title" id="post-title"></h2>
 
-    <div class="board-container">
-      <!-- 사이드 메뉴 -->
-      <aside class="board-sidebar">
-        <ul>
-          <li class="category selected" data-category="counting">우리헤어져</li>
-          <li class="category" data-category="ended">우리헤어졌어요</li>
-        </ul>
-      </aside>
-
-      <!-- 메인 영역 -->
-      <main class="board-main">
-        <!-- 검색 영역 -->
-        <div class="board-search">
-          <input type="text" id="search-box" placeholder="검색..." />
-          <button id="search-btn">검색</button>
+      <div class="detail-meta">
+        <img id="skin-image" src="/images/default.png" alt="스킨 이미지" class="detail-skin-img" />
+        <div class="detail-info">
+          <p><strong>작성자:</strong> <span id="post-author"></span></p>
+          <p><strong>D+일:</strong> <span id="post-days"></span></p>
+          <p><strong>작성일:</strong> <span id="post-date"></span></p>
         </div>
-
-        <!-- 게시글 목록 테이블 -->
-        <table class="board-list">
-          <thead>
-            <tr>
-              <th style="width: 50px">번호</th>
-              <th>제목</th>
-              <th style="width: 120px">작성자</th>
-              <th style="width: 100px">날짜</th>
-              <th style="width: 60px">조회</th>
-            </tr>
-          </thead>
-          <tbody id="post-list">
-            <!-- 게시글 목록이 동적으로 들어갑니다 -->
-          </tbody>
-        </table>
-      </main>
-    </div>
-    <header class="board-header">
-      <h1>우리헤어져</h1>
-      <div class="board-header-actions">
-        <button onclick="location.href='index.html'">🏠 메인으로</button>
-        <button class="write-post-btn" onclick="openPostPopup()">게시글 작성</button>
       </div>
-    </header>
-    <!-- 게시글 작성 팝업 -->
-    <div id="post-popup" class="popup hidden">
-      <div class="popup-content">
-        <span class="close-btn" onclick="closePostPopup()">&times;</span>
-        <h2>게시글 작성</h2>
 
-        <label for="skin-select">날짜 세기 중인 스킨 선택</label>
-        <select id="skin-select"></select>
+      <div class="detail-memo">
+        <p id="post-memo"></p>
+      </div>
 
-        <label for="memo-input">메모</label>
-        <textarea id="memo-input" placeholder="간단한 메모를 작성하세요"></textarea>
+      <div class="detail-actions">
+        <button class="like-btn" id="like-btn">❤️ 좋아요 <span id="like-count">0</span></button>
+        <button class="edit-btn hidden" id="edit-post-btn">수정</button>
+        <button class="edit-btn hidden" id="delete-post-btn">삭제</button>
+      </div>
 
-        <button onclick="submitPost()">등록하기</button>
+      <div class="comment-section" id="comment-section">
+        <h3>댓글</h3>
+        <div id="comment-list" class="comment-list"></div>
+        <form id="comment-form" class="comment-form">
+          <input type="text" id="comment-input" placeholder="댓글을 입력하세요" />
+          <button type="submit">작성</button>
+        </form>
       </div>
     </div>
-
-    <script src="board.js"></script>
-  </body>
+  </div>
+  <script src="board_detail.js"></script>
+</body>
 </html>
