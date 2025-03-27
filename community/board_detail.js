@@ -1,28 +1,15 @@
-/*******************************************
- * board_detail.js
- * - "board_detail.html"와 연동
- * - 게시글 상세 정보, 좋아요, 댓글, 수정/삭제
- *******************************************/
+const { createClient } = window.supabase; // Supabase 라이브러리에서 createClient 가져옴
 
-// Supabase 설정
-const { createClient } = window.supabase;
 const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
 const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw"; /* 실제 키로 변경 */
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 let postId = null;
-let isAdmin = false;
 
-document.addEventListener("DOMContentLoaded", async () => {
-    await checkLogin();
-    await loadPost();
-});
-
-/**
- * ✅ 로그인 확인
- */
+// 로그인 확인 및 사용자 정보 저장
 async function checkLogin() {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) {
@@ -31,62 +18,43 @@ async function checkLogin() {
         return;
     }
     currentUser = data.user;
-    isAdmin = currentUser.user_metadata?.isAdmin || false;
 }
 
-/**
- * ✅ 게시글 로딩
- */
+// 게시글 로드
 async function loadPost() {
     const urlParams = new URLSearchParams(window.location.search);
     postId = urlParams.get("id");
-    if (!postId) return alert("잘못된 접근입니다.");
+    if (!postId) return;
 
-    const { data: post, error } = await supabase.from("board").select("*").eq("id", postId).single();
-    if (error || !post) return alert("게시글을 불러올 수 없습니다.");
+    const { data, error } = await supabase.from("board").select("*").eq("id", postId).single();
+    if (error) return alert("게시글을 불러오지 못했습니다.");
 
-    // 조회수 증가
-    await supabase
-        .from("board")
-        .update({ hits: (post.hits || 0) + 1 })
-        .eq("id", postId);
-
-    // 스킨 이미지 링크 연결
-    const matched = window.skins?.find((s) => s.name === post.skin_name);
-    document.getElementById("skin-image").src = matched?.img || "/images/default.png";
-
-    // 정보 표시
-    document.getElementById("post-title").textContent = post.title;
-    document.getElementById("post-author").textContent = post.author_nickname || "익명";
+    const post = data;
+    document.getElementById("post-title").textContent = post.skin_name;
+    document.getElementById("post-author").textContent = post.author_nickname;
+    document.getElementById("post-days").textContent = `D+${post.days}`;
     document.getElementById("post-date").textContent = new Date(post.created_at).toLocaleDateString("ko-KR");
-    document.getElementById("post-hits").textContent = (post.hits || 0) + 1;
     document.getElementById("post-memo").textContent = post.memo;
+    document.getElementById("skin-image").src = post.skin_img;
 
-    if (post.user_id === currentUser.id || isAdmin) {
+    if (post.user_id === currentUser.id) {
         document.getElementById("edit-post-btn").classList.remove("hidden");
-        document.getElementById("delete-post-btn").classList.remove("hidden");
     }
 
     loadLike(post.id);
     loadComments(post.id);
-
-    document.getElementById("edit-post-btn").addEventListener("click", () => editPost(post));
-    document.getElementById("delete-post-btn").addEventListener("click", () => deletePost(post.id));
 }
 
-/**
- * ✅ 좋아요 로딩
- */
+// 좋아요 상태 로드
 async function loadLike(postId) {
-    const { data: likes } = await supabase.from("board_likes").select("*").eq("post_id", postId);
-    const isLiked = likes?.some((like) => like.user_id === currentUser.id);
+    const { data: likes } = await supabase.from("board_likes").select("*", { count: "exact" }).eq("post_id", postId);
+
+    const isLiked = likes.some((like) => like.user_id === currentUser.id);
     document.getElementById("like-btn").classList.toggle("liked", isLiked);
-    document.getElementById("like-count").textContent = likes?.length || 0;
+    document.getElementById("like-count").textContent = likes.length;
 }
 
-/**
- * ✅ 좋아요 토글
- */
+// 좋아요 토글
 document.getElementById("like-btn").addEventListener("click", async () => {
     const { data: existing } = await supabase
         .from("board_likes")
@@ -98,14 +66,15 @@ document.getElementById("like-btn").addEventListener("click", async () => {
     if (existing) {
         await supabase.from("board_likes").delete().eq("id", existing.id);
     } else {
-        await supabase.from("board_likes").insert({ post_id: postId, user_id: currentUser.id });
+        await supabase.from("board_likes").insert({
+            post_id: postId,
+            user_id: currentUser.id
+        });
     }
     loadLike(postId);
 });
 
-/**
- * ✅ 댓글 작성
- */
+// 댓글 작성
 document.getElementById("comment-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const content = document.getElementById("comment-input").value.trim();
@@ -117,14 +86,11 @@ document.getElementById("comment-form").addEventListener("submit", async (e) => 
         author_nickname: currentUser.user_metadata.full_name || currentUser.email,
         content
     });
-
     document.getElementById("comment-input").value = "";
     loadComments(postId);
 });
 
-/**
- * ✅ 댓글 로딩
- */
+// 댓글 불러오기
 async function loadComments(postId) {
     const { data: comments } = await supabase
         .from("comments")
@@ -132,74 +98,26 @@ async function loadComments(postId) {
         .eq("post_id", postId)
         .order("created_at", { ascending: true });
 
-    const container = document.getElementById("comment-list");
-    container.innerHTML = "";
-
-    if (!comments || comments.length === 0) {
-        container.innerHTML = "<p style='color:#999'>댓글이 없습니다.</p>";
-        return;
-    }
-
+    const list = document.getElementById("comment-list");
+    list.innerHTML = "";
     comments.forEach((comment) => {
-        const item = document.createElement("div");
-        item.className = "comment-item";
-
-        const canDelete = comment.user_id === currentUser.id || isAdmin;
-
-        item.innerHTML = `
-      <div>
-        <div class="comment-header">
-          <span class="comment-author">${comment.author_nickname}</span>
-          <span class="comment-date">${new Date(comment.created_at).toLocaleDateString("ko-KR")}</span>
-        </div>
-        <div class="comment-content">${comment.content}</div>
-        ${canDelete ? `<button class="comment-delete-btn" onclick="deleteComment(${comment.id})">삭제</button>` : ""}
-      </div>`;
-        container.appendChild(item);
+        const div = document.createElement("div");
+        div.className = "comment";
+        div.innerHTML = `
+      <p><strong>${comment.author_nickname}</strong>: ${comment.content}</p>
+      ${comment.user_id === currentUser.id ? `<button onclick="deleteComment(${comment.id})">삭제</button>` : ""}
+    `;
+        list.appendChild(div);
     });
 }
 
-/**
- * ✅ 댓글 삭제
- */
+// 댓글 삭제
 async function deleteComment(commentId) {
-    if (!confirm("댓글을 삭제하시겠습니까?")) return;
     await supabase.from("comments").delete().eq("id", commentId);
     loadComments(postId);
 }
 
-/**
- * ✅ 게시글 수정
- */
-function editPost(post) {
-    const newMemo = prompt("메모를 수정하세요:", post.memo || "");
-    if (newMemo === null) return;
-
-    supabase
-        .from("board")
-        .update({ memo: newMemo })
-        .eq("id", post.id)
-        .then(({ error }) => {
-            if (error) {
-                alert("수정 실패");
-                return;
-            }
-            alert("수정 완료");
-            location.reload();
-        });
-}
-
-/**
- * ✅ 게시글 삭제
- */
-async function deletePost(id) {
-    if (!confirm("정말 삭제하시겠습니까?")) return;
-    await supabase.from("board").delete().eq("id", id);
-    alert("삭제 완료");
-    location.href = "board.html";
-}
-
-// ✅ 실행 시작
+// 시작
 document.addEventListener("DOMContentLoaded", async () => {
     await checkLogin();
     await loadPost();
