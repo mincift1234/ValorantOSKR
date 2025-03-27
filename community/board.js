@@ -1,22 +1,20 @@
-const { createClient } = window.supabase; // Supabase 라이브러리에서 createClient 가져옴
-
+const { createClient } = window.supabase;
 const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
 const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
-
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
-checkUser();
+let postId = null;
 
+checkUser();
 async function checkUser() {
   const { data: { user }, error } = await supabase.auth.getUser();
   if (error || !user) {
     alert("로그인이 필요합니다.");
-    window.location.href = "/login/login.html"; // 로그인 페이지로 리디렉션
+    window.location.href = "/login/login.html";
     return;
   }
-
   currentUser = user;
   fetchPosts("counting");
   fillSkinSelect();
@@ -25,7 +23,6 @@ async function checkUser() {
 // 게시글 목록 불러오기
 async function fetchPosts(category = "counting") {
   const isCounting = category === "counting";
-
   const { data: posts, error } = await supabase
     .from("posts")
     .select("*")
@@ -34,12 +31,10 @@ async function fetchPosts(category = "counting") {
 
   const postList = document.getElementById("post-list");
   postList.innerHTML = "";
-
   if (error || !posts || posts.length === 0) {
     postList.innerHTML = "<p class='empty'>게시글이 없습니다.</p>";
     return;
   }
-
   posts.forEach(post => {
     const div = document.createElement("div");
     div.className = "post-item";
@@ -55,12 +50,10 @@ async function fetchPosts(category = "counting") {
   });
 }
 
-// 게시글 작성 팝업 열기
-document.getElementById("write-post-btn").onclick = () => {
+// 게시글 작성 팝업 열기/닫기
+function openPostPopup() {
   document.getElementById("post-popup").classList.remove("hidden");
-};
-
-// 게시글 작성 팝업 닫기
+}
 function closePostPopup() {
   document.getElementById("post-popup").classList.add("hidden");
 }
@@ -75,7 +68,6 @@ async function fillSkinSelect() {
 
   const select = document.getElementById("skin-select");
   select.innerHTML = "<option value=''>스킨 선택</option>";
-
   if (!error && data?.shop_counters) {
     Object.entries(data.shop_counters).forEach(([skin, info]) => {
       if (info.isCounting) {
@@ -88,13 +80,14 @@ async function fillSkinSelect() {
   }
 }
 
-// 게시글 등록
+// 게시글 등록 (작성)
 async function submitPost() {
   const skinName = document.getElementById("skin-select").value;
   const memo = document.getElementById("memo-input").value;
-
-  if (!skinName) return alert("스킨을 선택하세요");
-
+  if (!skinName) {
+    alert("스킨을 선택하세요");
+    return;
+  }
   await supabase.from("posts").insert({
     user_id: currentUser.id,
     skin_name: skinName,
@@ -102,7 +95,6 @@ async function submitPost() {
     memo,
     counting: true
   });
-
   closePostPopup();
   fetchPosts("counting");
 }
@@ -122,4 +114,5 @@ document.querySelectorAll(".category").forEach(el => {
     el.classList.add("selected");
     fetchPosts(el.dataset.category);
   });
-});
+}
+);
