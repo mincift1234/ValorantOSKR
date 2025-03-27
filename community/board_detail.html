@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>게시글 상세 보기</title>
+  <link rel="stylesheet" href="board.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="board-detail-container">
+    <div class="post-header">
+      <h2 class="post-title">[D+7] 마검 프렌지 - 아직도 세고 있음!</h2>
+      <div class="post-meta">
+        <span class="author">작성자: 사용자123</span>
+        <span class="date">2025.03.27</span>
+      </div>
+    </div>
+
+    <div class="post-image">
+      <img src="https://example.com/frenzy.jpg" alt="프렌지 이미지" />
+    </div>
+
+    <div class="post-content">
+      <p>이제 일주일 넘었는데도 안 나왔어요 ㅠㅠ... 다들 며칠까지 세셨어요?</p>
+    </div>
+
+    <div class="post-actions">
+      <button class="like-btn">❤️ 좋아요 12</button>
+      <button class="comment-btn" onclick="scrollToComments()">💬 댓글</button>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="comment-section" id="comments">
+      <h3>댓글</h3>
+      <div class="comment-list">
+        <div class="comment">
+          <span class="comment-author">스킨러버</span> : 저도 지금 9일차...
+        </div>
+        <div class="comment">
+          <span class="comment-author">민수</span> : 힘내세요! 전 14일차에 떴어요
+        </div>
+      </div>
+
+      <div class="comment-form">
+        <input type="text" id="comment-input" placeholder="댓글을 입력하세요" />
+        <button onclick="postComment()">작성</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="board.js"></script>
+</body>
+</html>
