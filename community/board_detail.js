@@ -1,3 +1,16 @@
+/*******************************************
+ * board_detail.js
+ * - "board_detail.html"와 연동
+ * - 게시글 상세 정보, 좋아요, 댓글, 수정/삭제
+ *******************************************/
+
+// Supabase 설정
+const { createClient } = window.supabase;
+const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
+const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw"; /* 실제 키로 변경 */
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 let currentUser = null;
 let postId = null;
 let isAdmin = false;
@@ -28,7 +41,10 @@ async function loadPost() {
     if (error || !post) return alert("게시글을 불러올 수 없습니다.");
 
     // 조회수 증가
-    await supabase.from("board").update({ hits: (post.hits || 0) + 1 }).eq("id", postId);
+    await supabase
+        .from("board")
+        .update({ hits: (post.hits || 0) + 1 })
+        .eq("id", postId);
 
     // DOM 삽입
     document.getElementById("post-title").textContent = post.title;
@@ -135,11 +151,7 @@ async function loadComments(postId) {
           <span class="comment-date">${new Date(comment.created_at).toLocaleDateString("ko-KR")}</span>
         </div>
         <div class="comment-content">${comment.content}</div>
-        ${
-            canDelete
-                ? `<button class="comment-delete-btn" onclick="deleteComment(${comment.id})">삭제</button>`
-                : ""
-        }
+        ${canDelete ? `<button class="comment-delete-btn" onclick="deleteComment(${comment.id})">삭제</button>` : ""}
       </div>`;
         container.appendChild(item);
     });
