@@ -1,0 +1,15 @@
+{
+    "name": "오늘부터 1일 - 발로란트 스킨 앱",
+    "short_name": "1일차",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#121212",
+    "theme_color": "#ff4655",
+    "icons": [
+        {
+            "src": "icons/icon-192.png",
+            "sizes": "192x192 512x512",
+            "type": "image/png"
+        }
+    ]
+}
