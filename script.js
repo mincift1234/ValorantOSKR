@@ -735,11 +735,13 @@ function showSharePopup(skinName, dCount, startDate, endDate) {
         left: "50%",
         transform: "translate(-50%, -50%)",
         background: "#1e1e1e",
-        padding: "20px",
+        padding: "24px",
         borderRadius: "12px",
         zIndex: 10001,
         textAlign: "center",
-        boxShadow: "0px 0px 15px rgba(255, 255, 255, 0.3)"
+        boxShadow: "0px 0px 15px rgba(255, 255, 255, 0.3)",
+        width: "360px", // ✅ 고정 너비
+        maxWidth: "90vw"
     });
 
     const closeBtn = document.createElement("div");
