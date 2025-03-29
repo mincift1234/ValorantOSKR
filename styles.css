@@ -1251,8 +1251,9 @@ body {
         padding: 10px 5px;
     }
 
-    #notice-popup {
-        width: 80%;
+    .favorites-popup,
+    .shop-counter-popup {
+        width: 85%;
         padding: 16px;
         max-height: 75vh;
     }
