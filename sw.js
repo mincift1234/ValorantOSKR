@@ -1,9 +1,9 @@
-const CACHE_NAME = "valorant-skin-app-cache-v1";
+const CACHE_NAME = "valorant-skin-app-cache-v2";
 const urlsToCache = [
   "/",
   "/index.html?",
-  "/styles.css",
-  "/script.js",
+  "/styles.css?v=2",
+  "/script.js?v=2s",
   "/skins.js",
   "/manifest.json",
   "/icons/icon-192.png"
