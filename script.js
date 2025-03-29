@@ -830,14 +830,20 @@ function showSharePopup(skinName, dCount, startDate, endDate) {
     shareNativeBtn.onmouseover = () => (shareNativeBtn.style.opacity = "0.85");
     shareNativeBtn.onmouseout = () => (shareNativeBtn.style.opacity = "1");
     shareNativeBtn.onclick = () => {
-        html2canvas(card).then((canvas) => {
+        html2canvas(card, { useCORS: true, backgroundColor: null }).then((canvas) => {
             canvas.toBlob((blob) => {
-                if (
-                    navigator.canShare &&
-                    navigator.canShare({ files: [new File([blob], "skin-card.png", { type: blob.type })] })
-                ) {
-                    const file = new File([blob], "skin-card.png", { type: blob.type });
-                    navigator.share({ files: [file], title: "Valorant 스킨 기록 공유" });
+                if (!blob) {
+                    alert("이미지를 공유할 수 없어요. 이미지 저장 후 직접 공유해주세요.");
+                    return;
+                }
+
+                const file = new File([blob], "skin-card.png", { type: blob.type });
+
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    navigator.share({
+                        files: [file],
+                        title: "Valorant 스킨 기록 공유"
+                    });
                 } else {
                     alert("이 브라우저에서는 공유 기능을 지원하지 않아요 😥\n이미지 저장 후 직접 공유해 주세요.");
                 }
