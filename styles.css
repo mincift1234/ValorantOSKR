@@ -1133,7 +1133,9 @@ body {
         padding: 16px;
         max-height: 75vh;
     }
-
+    
+    .share-popup,
+    #notice-popup,
     .popup,
     .favorites-popup,
     .shop-counter-popup {
