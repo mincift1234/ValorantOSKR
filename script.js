@@ -741,7 +741,8 @@ function showSharePopup(skinName, dCount, startDate, endDate) {
         textAlign: "center",
         boxShadow: "0px 0px 15px rgba(255, 255, 255, 0.3)",
         width: "360px", // ✅ 고정 너비
-        maxWidth: "90vw"
+        maxWidth: "90vw",
+        boxSizing: "border-box"
     });
 
     const closeBtn = document.createElement("div");
