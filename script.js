@@ -735,7 +735,7 @@ function showSharePopup(skinName, dCount, startDate, endDate) {
         left: "50%",
         transform: "translate(-50%, -50%)",
         background: "#1e1e1e",
-        padding: "24px",
+        padding: "20px",
         borderRadius: "12px",
         zIndex: 10001,
         textAlign: "center",
