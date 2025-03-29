@@ -771,7 +771,7 @@ function showSharePopup(skinName, dCount, startDate, endDate) {
                 <div>D+${dCount}</div>
                 <div>${formatDate(startDate)} ~ ${formatDate(endDate)}</div>
             </div>
-            <img src="${skin.img}" alt="${skin.name}" style="background: transparent; margin: 10px 0;">
+            <img src="${skin.img}" alt="${skin.name}" crossorigin="anonymous" style="background: transparent; margin: 10px 0;">
             <div class="skin-name">${skin.name}</div>
         `;
     }
