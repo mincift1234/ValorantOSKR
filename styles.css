@@ -1073,7 +1073,7 @@ body {
 /* 모바일 반응형 개선 */
 @media screen and (max-width: 768px) {
     .container {
-        padding: 0 16px; /* 좌우 여백만 살짝 줘도 좋아 */
+        padding: 10px;
     }
 
     .search-section input {
@@ -1134,11 +1134,13 @@ body {
         max-height: 75vh;
     }
 
+    .popup,
     .favorites-popup,
     .shop-counter-popup {
-        width: 75%;
+        width: 90vw;
+        max-width: 360px;
+        box-sizing: border-box;
         padding: 16px;
-        max-height: 75vh;
     }
 
     #shop-history-btn,
@@ -1222,15 +1224,12 @@ body {
     .account-popup {
         width: 100px;
     }
-    s .account-popup-item {
+    
+    .account-popup-item {
         padding: 10px;
         font-size: 13px;
     }
 
-    .popup {
-        width: 80vw;
-        max-width: 350px;
-    }
     .search-filter-wrapper {
         display: flex;
         flex-direction: row; /* ✅ 가로 정렬 유지 */
