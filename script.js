@@ -763,6 +763,9 @@ function showSharePopup(skinName, dCount, startDate, endDate) {
     card.id = "shareable-card";
     card.className = "shareable-card";
     card.style.display = "block";
+    card.style.width = "100%";
+    card.style.maxWidth = "100%";
+    card.style.boxSizing = "border-box";
 
     const skin = skins.find((s) => s.name === skinName);
     if (skin) {
