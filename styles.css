@@ -1072,6 +1072,9 @@ body {
 
 /* 모바일 반응형 개선 */
 @media screen and (max-width: 768px) {
+    .container {
+        padding: 0 16px; /* 좌우 여백만 살짝 줘도 좋아 */
+    }
 
     .search-section input {
         width: 100%;
