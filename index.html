@@ -6,6 +6,9 @@
         <title>오늘부터 1일</title>
         <link rel="manifest" href="manifest.json" />
         <meta name="theme-color" content="#ff4655" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
         <link rel="stylesheet" href="styles.css" />
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     </head>
@@ -55,6 +58,12 @@
                         <button onclick="toggleShopHistory()" id="shop-history-btn">기록 보기</button>
                         <div id="shop-history" class="shop-history" style="display: none"></div>
                     </div>
+                    <div id="shareable-card" class="shareable-card" style="display: none"></div>
+
+                    <!-- 이미지 저장 버튼 -->
+                    <button id="download-share-card" style="display: none" onclick="captureShareableCard()">
+                        이미지 저장
+                    </button>
                 </div>
             </div>
             <!-- 즐겨찾기 목록 팝업 -->
