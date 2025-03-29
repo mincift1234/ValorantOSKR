@@ -1072,9 +1072,6 @@ body {
 
 /* 모바일 반응형 개선 */
 @media screen and (max-width: 768px) {
-    .container {
-        padding: 10px;
-    }
 
     .search-section input {
         width: 100%;
