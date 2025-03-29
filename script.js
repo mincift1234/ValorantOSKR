@@ -621,5 +621,252 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function goToBoard() {
-  window.location.href = "community/board.html"; // 게시판 페이지로 이동
+    window.location.href = "community/board.html"; // 게시판 페이지로 이동
 }
+
+// 🔽 공유용 카드 생성 및 소셜 공유 기능 통합
+
+function generateAndShowShareCard() {
+    const allOptions = [];
+
+    for (const [skinName, counter] of Object.entries(shopCounters)) {
+        if (counter.isCounting) {
+            const now = new Date();
+            const today9 = new Date();
+            today9.setHours(9, 0, 0, 0);
+            if (now < today9) today9.setDate(today9.getDate() - 1);
+            const days = Math.floor((today9 - new Date(counter.startDate)) / (1000 * 60 * 60 * 24)) + 1;
+            allOptions.push({ skinName, startDate: counter.startDate, endDate: today9, days });
+        }
+    }
+
+    for (const item of shopHistory) {
+        allOptions.push({ skinName: item.skinName, startDate: item.startDate, endDate: item.endDate, days: item.days });
+    }
+
+    if (allOptions.length === 0) {
+        alert("공유할 수 있는 기록이 없습니다.");
+        return;
+    }
+
+    showShareSelector(allOptions);
+}
+
+function showShareSelector(options) {
+    const existing = document.getElementById("share-select-modal");
+    if (existing) existing.remove();
+
+    const modal = document.createElement("div");
+    modal.id = "share-select-modal";
+    Object.assign(modal.style, {
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        background: "#222",
+        color: "white",
+        padding: "20px",
+        borderRadius: "12px",
+        zIndex: 10000,
+        maxHeight: "70vh",
+        overflowY: "auto",
+        width: "300px",
+        boxShadow: "0 0 15px rgba(255, 255, 255, 0.2)"
+    });
+
+    const title = document.createElement("h3");
+    title.textContent = "공유할 기록 선택";
+    title.style.marginBottom = "10px";
+    modal.appendChild(title);
+
+    options.forEach((item) => {
+        const btn = document.createElement("button");
+        btn.textContent = `${item.skinName} (D+${item.days})`;
+        Object.assign(btn.style, {
+            display: "block",
+            width: "100%",
+            marginBottom: "8px",
+            padding: "8px",
+            background: "#ff4655",
+            color: "white",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer"
+        });
+        btn.onclick = () => {
+            modal.remove();
+            showSharePopup(item.skinName, item.days, item.startDate, item.endDate);
+        };
+        modal.appendChild(btn);
+    });
+
+    const cancel = document.createElement("button");
+    cancel.textContent = "닫기";
+    Object.assign(cancel.style, {
+        marginTop: "10px",
+        padding: "6px 14px",
+        fontSize: "14px",
+        backgroundColor: "#666",
+        color: "white",
+        border: "none",
+        borderRadius: "6px",
+        cursor: "pointer",
+        fontWeight: "bold",
+        boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+        transition: "all 0.2s"
+    });
+    cancel.onmouseover = () => (cancel.style.opacity = "0.85");
+    cancel.onmouseout = () => (cancel.style.opacity = "1");
+    cancel.onclick = () => modal.remove();
+    modal.appendChild(cancel);
+
+    document.body.appendChild(modal);
+}
+
+function showSharePopup(skinName, dCount, startDate, endDate) {
+    const existing = document.getElementById("share-popup");
+    if (existing) existing.remove();
+
+    const popup = document.createElement("div");
+    popup.id = "share-popup";
+    Object.assign(popup.style, {
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        background: "#1e1e1e",
+        padding: "24px",
+        borderRadius: "12px",
+        zIndex: 10001,
+        textAlign: "center",
+        boxShadow: "0px 0px 15px rgba(255, 255, 255, 0.3)"
+    });
+
+    const closeBtn = document.createElement("div");
+    closeBtn.textContent = "×";
+    Object.assign(closeBtn.style, {
+        position: "absolute",
+        top: "8px",
+        right: "10px",
+        fontSize: "18px",
+        fontWeight: "bold",
+        color: "white",
+        cursor: "pointer",
+        zIndex: 10002
+    });
+    closeBtn.onclick = () => popup.remove();
+
+    const card = document.createElement("div");
+    card.id = "shareable-card";
+    card.className = "shareable-card";
+    card.style.display = "block";
+
+    const skin = skins.find((s) => s.name === skinName);
+    if (skin) {
+        card.innerHTML = `
+            <div class="header">
+                <div>D+${dCount}</div>
+                <div>${formatDate(startDate)} ~ ${formatDate(endDate)}</div>
+            </div>
+            <img src="${skin.img}" alt="${skin.name}" style="background: transparent; margin: 10px 0;">
+            <div class="skin-name">${skin.name}</div>
+        `;
+    }
+
+    const saveBtn = document.createElement("button");
+    saveBtn.textContent = "이미지 저장";
+    Object.assign(saveBtn.style, {
+        margin: "10px 6px",
+        padding: "10px 20px",
+        backgroundColor: "#ff4655",
+        color: "white",
+        border: "none",
+        borderRadius: "6px",
+        cursor: "pointer",
+        fontWeight: "bold",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+        transition: "all 0.2s"
+    });
+    saveBtn.onmouseover = () => (saveBtn.style.opacity = "0.85");
+    saveBtn.onmouseout = () => (saveBtn.style.opacity = "1");
+    saveBtn.onclick = () => {
+        html2canvas(card, { useCORS: true, backgroundColor: null })
+            .then((canvas) => {
+                canvas.toBlob((blob) => {
+                    const link = document.createElement("a");
+                    link.download = "shop-skin-card.png";
+                    link.href = URL.createObjectURL(blob);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+            })
+            .catch((err) => {
+                console.error("html2canvas 오류:", err);
+                alert("이미지를 저장하는 데 문제가 발생했어요.");
+            });
+    };
+
+    const shareNativeBtn = document.createElement("button");
+    shareNativeBtn.textContent = "공유하기";
+    Object.assign(shareNativeBtn.style, {
+        margin: "10px 6px",
+        padding: "10px 20px",
+        backgroundColor: "#3a8fff",
+        color: "white",
+        border: "none",
+        borderRadius: "6px",
+        cursor: "pointer",
+        fontWeight: "bold",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+        transition: "all 0.2s"
+    });
+    shareNativeBtn.onmouseover = () => (shareNativeBtn.style.opacity = "0.85");
+    shareNativeBtn.onmouseout = () => (shareNativeBtn.style.opacity = "1");
+    shareNativeBtn.onclick = () => {
+        html2canvas(card).then((canvas) => {
+            canvas.toBlob((blob) => {
+                if (
+                    navigator.canShare &&
+                    navigator.canShare({ files: [new File([blob], "skin-card.png", { type: blob.type })] })
+                ) {
+                    const file = new File([blob], "skin-card.png", { type: blob.type });
+                    navigator.share({ files: [file], title: "Valorant 스킨 기록 공유" });
+                } else {
+                    alert("이 브라우저에서는 공유 기능을 지원하지 않아요 😥\n이미지 저장 후 직접 공유해 주세요.");
+                }
+            });
+        });
+    };
+
+    popup.appendChild(closeBtn);
+    popup.appendChild(card);
+    popup.appendChild(saveBtn);
+    popup.appendChild(shareNativeBtn);
+    document.body.appendChild(popup);
+}
+
+function formatDate(date) {
+    const d = new Date(date);
+    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const popup = document.getElementById("shop-counter-popup");
+    const iconWrapper = document.createElement("div");
+    iconWrapper.style.position = "absolute";
+    iconWrapper.style.top = "10px";
+    iconWrapper.style.left = "10px";
+
+    const shareBtn = document.createElement("button");
+    shareBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
+            <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7a3.006 3.006 0 000-1.39l7.05-4.11A2.986 2.986 0 0018 7.91c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .23.03.45.08.66L7.03 9.69A2.986 2.986 0 006 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.5 0 .96-.13 1.37-.35l7.05 4.11c-.05.2-.08.42-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/>
+        </svg>
+    `;
+    shareBtn.className = "icon-button";
+    shareBtn.onclick = generateAndShowShareCard;
+
+    iconWrapper.appendChild(shareBtn);
+    popup.appendChild(iconWrapper);
+});
