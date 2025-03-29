@@ -1253,7 +1253,7 @@ body {
 
     .favorites-popup,
     .shop-counter-popup {
-        width: 85%;
+        width: 75%;
         padding: 16px;
         max-height: 75vh;
     }
