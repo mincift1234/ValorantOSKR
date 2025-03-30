@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko">
     <head>
+        <meta name="google-site-verification" content="rp7UdOuFkyEEgELp6Gw3HR7NlBDWzppub-uHA04URdY" />
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>오늘부터 1일</title>
@@ -9,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-        <link rel="stylesheet" href="styles.css?v=2" />
+        <link rel="stylesheet" href="styles.css" />
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     </head>
     <body>
@@ -43,6 +44,7 @@
                     <li onclick="openFavorites()">즐겨찾기</li>
                     <li onclick="openShopCounterPopup()">오늘의 상점 날짜 세기</li>
                     <li onclick="noticePopup()">공지사항 & 패치노트</li>
+                    <li onclick="teamPopup()">파티 찾기</li>
                 </ul>
             </div>
             <div id="shop-counter-popup" class="shop-counter-popup">
@@ -206,7 +208,7 @@
         </footer>
         <!-- 메인 스크립트 실행 -->
         <script src="skins.js"></script>
-        <script src="script.js?v=2"></script>
+        <script src="script.js"></script>
         <script>
             if ("serviceWorker" in navigator) {
                 window.addEventListener("load", () => {
