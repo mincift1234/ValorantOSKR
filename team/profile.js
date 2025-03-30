@@ -6,16 +6,20 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 document.addEventListener("DOMContentLoaded", async () => {
+    // Supabase로부터 로그인한 사용자 정보 가져오기
     const { data: user, error: authError } = await supabase.auth.getUser();
     
+    // 로그인되지 않은 경우
     if (authError || !user) {
         alert("로그인 후 프로필을 등록할 수 있습니다.");
+        window.location.href = "login.html"; // 로그인 페이지로 리디렉션 (필요시 로그인 페이지 생성)
         return;
     }
 
-    // user.id 값 확인
+    // 사용자의 ID가 없으면 오류 메시지 출력
     if (!user.id) {
         console.error("사용자의 ID가 없습니다.");
+        alert("사용자의 ID를 찾을 수 없습니다. 다시 로그인해주세요.");
         return;
     }
 
