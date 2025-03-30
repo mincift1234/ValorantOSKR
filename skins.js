@@ -2530,7 +2530,7 @@ const skins = [
     {
         name: "프로토콜 781-A 셰리프",
         img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Sheriff.webp",
-        tier: "Ultra",
+        tier: "ultra",
         type: "sheriff",
         price: 2475,
         episode: 4.0
@@ -2538,7 +2538,7 @@ const skins = [
     {
         name: "프로토콜 781-A 스펙터",
         img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Spectre.webp",
-        tier: "Ultra",
+        tier: "ultra",
         type: "spectre",
         price: 2475,
         episode: 4.0
@@ -2546,7 +2546,7 @@ const skins = [
     {
         name: "프로토콜 781-A 불독",
         img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Bulldog.webp",
-        tier: "Ultra",
+        tier: "ultra",
         type: "bulldog",
         price: 2475,
         episode: 4.0
@@ -2554,7 +2554,7 @@ const skins = [
     {
         name: "프로토콜 781-A 팬텀",
         img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Phantom.webp",
-        tier: "Ultra",
+        tier: "ultra",
         type: "phantom",
         price: 2475,
         episode: 4.0
