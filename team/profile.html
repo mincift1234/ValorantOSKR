@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>프로필 등록</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+        <link rel="stylesheet" href="profile.css" />
+    </head>
+    <body>
+        <!-- 홈 아이콘 링크 추가 -->
+        <a href="/index.html" class="home-link">
+            <i class="fas fa-home"></i>
+            <!-- 홈 아이콘 -->
+        </a>
+
+        <h1>프로필 등록</h1>
+        <form id="profile-form">
+            <label for="nickname">닉네임:</label>
+            <input type="text" id="nickname" name="nickname" required />
+
+            <label for="rank">랭크:</label>
+            <select id="rank" name="rank">
+                <option value="Bronze">브론즈</option>
+                <option value="Silver">실버</option>
+                <option value="Gold">골드</option>
+                <option value="Platinum">플래티넘</option>
+                <option value="Diamond">다이아</option>
+                <option value="Ascendant">초월자</option>
+                <option value="Immortal">불멸</option>
+                <option value="Radiant">레디언트</option>
+            </select>
+
+            <label for="position">선호 포지션:</label>
+            <select id="position" name="position">
+                <option value="Duelist">타격대</option>
+                <option value="Sentinel">감시자</option>
+                <option value="Controller">전력가</option>
+                <option value="Initiator">척후대</option>
+            </select>
+
+            <label for="game-type">게임 종류:</label>
+            <select id="game-type" name="game-type">
+                <option value="unrated">일반전</option>
+                <option value="swiftplay">신속플레이</option>
+                <option value="competitive">경쟁전</option>
+                <option value="spike-rush">스파이크 돌격</option>
+                <option value="escalation">에스컬레이션</option>
+                <option value="costom-game">사용자 게임 설정</option>
+            </select>
+
+            <label for="microphone">마이크 여부:</label>
+            <input type="checkbox" id="microphone" name="microphone" />
+
+            <label for="activity-time">활동 시간대:</label>
+            <input type="text" id="activity-time" name="activity-time" placeholder="예: 18:00 - 22:00" />
+
+            <label for="team-requirements">원하는 팀원 조건:</label>
+            <textarea
+                id="team-requirements"
+                name="team-requirements"
+                placeholder="예: 협동적이고 전략적인 플레이어"
+                rows="4"></textarea>
+
+            <button type="submit">프로필 등록</button>
+        </form>
+
+        <script src="profile.js"></script>
+    </body>
+</html>

@@ -1,0 +1,141 @@
+/* 팀원 찾기 페이지 스타일 */
+body {
+    font-family: "Arial", sans-serif;
+    background-color: #121212;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+#filters {
+    margin: 20px auto;
+    max-width: 600px;
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+label {
+    font-size: 14px;
+    margin-top: 10px;
+    color: #bbb;
+    display: block;  /* 라벨을 블록 요소로 만들어서 입력란과 줄바꿈을 하도록 */
+    margin-bottom: 5px;
+}
+
+select, input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    background-color: #333;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 5px;
+    box-sizing: border-box;  /* padding과 border를 포함한 너비 계산 */
+}
+
+input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+/* 자신 프로필 카드 스타일 */
+#own-profile {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #444;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+/* 슬라이드 영역 */
+#teammates-list-container {
+    margin-top: 20px;
+    position: relative;
+}
+
+#teammates-list {
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+}
+
+.teammate-card {
+    background-color: #444;
+    color: white;
+    padding: 15px;
+    margin: 0 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 1s ease-in-out;
+    min-width: 300px;
+    max-width: 300px;
+}
+
+/* 슬라이드 카드 스타일 */
+.teammate-card {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+/* 슬라이드 이동 효과 */
+#teammates-list {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+button {
+    background-color: #ff4655;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e03b4f;
+}
+
+/* 슬라이드 버튼 위치 */
+#prev-slide, #next-slide {
+    background-color: #ff4655;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+#prev-slide:hover, #next-slide:hover {
+    background-color: #e03b4f;
+}
+
+/* 홈 아이콘 링크 스타일 */
+.home-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px; /* 아이콘 크기 조정 */
+    color: #ff4655;
+    text-decoration: none;
+}
+
+.home-link:hover {
+    text-decoration: none; /* 호버시 밑줄 제거 */
+    color: #e03b4f; /* 호버시 색상 변경 */
+}
+
+.home-link i {
+    font-size: 30px; /* 아이콘의 크기를 키우기 위한 추가 스타일 */
+}

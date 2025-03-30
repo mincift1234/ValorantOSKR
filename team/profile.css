@@ -1,0 +1,82 @@
+/* 프로필 등록 페이지 스타일 */
+body {
+    font-family: "Arial", sans-serif;
+    background-color: #121212;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+form {
+    max-width: 500px;
+    margin: auto;
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+label {
+    font-size: 14px;
+    margin-top: 10px;
+    color: #bbb;
+    display: block; /* 수평 정렬 문제 해결 */
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    background-color: #333;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 5px;
+    box-sizing: border-box;  /* padding, border를 포함하여 정확한 너비 계산 */
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background-color: #ff4655;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #e03b4f;
+}
+
+input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+/* 홈 링크 스타일 */
+.home-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;  /* 아이콘 크기 조정 */
+    color: #ff4655;
+    text-decoration: none;
+}
+
+.home-link:hover {
+    text-decoration: none;  /* 호버시 밑줄 제거 */
+    color: #e03b4f;  /* 호버시 색상 변경 */
+}
+
+.home-link i {
+    font-size: 30px;  /* 아이콘의 크기를 키우기 위한 추가 스타일 */
+}
