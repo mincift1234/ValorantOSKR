@@ -2607,6 +2607,86 @@ const skins = [
         price: 4950,
         episode: 9.0
     },
+    {
+        name: "엘더플레임 프렌지",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%98%EB%8D%94%ED%94%8C%EB%A0%88%EC%9E%84/Elderflame_Frenzy.webp",
+        tier: "ultra",
+        type: "frenzy",
+        price: 2475,
+        episode: 1.03
+    },
+    {
+        name: "엘더플레임 져지",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%98%EB%8D%94%ED%94%8C%EB%A0%88%EC%9E%84/Elderflame_Judge.webp",
+        tier: "ultra",
+        type: "judge",
+        price: 2475,
+        episode: 1.03
+    },
+    {
+        name: "엘더플레임 오퍼레이터",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%98%EB%8D%94%ED%94%8C%EB%A0%88%EC%9E%84/Elderflame_Operator.webp",
+        tier: "ultra",
+        type: "operator",
+        price: 2475,
+        episode: 1.03
+    },
+    {
+        name: "엘더플레임 밴달",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%98%EB%8D%94%ED%94%8C%EB%A0%88%EC%9E%84/Elderflame_Vandal.webp",
+        tier: "ultra",
+        type: "vandal",
+        price: 2475,
+        episode: 1.03
+    },
+    {
+        name: "엘더플레임 단검",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%98%EB%8D%94%ED%94%8C%EB%A0%88%EC%9E%84/Elderflame_Dagger.webp",
+        tier: "exclusive",
+        type: "knife",
+        price: 4950,
+        episode: 1.03
+    },
+    {
+        name: "레디언트 엔터테인먼트 시스템 불독",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EB%A0%88%EB%94%94%EC%96%B8%ED%8A%B8%20%EC%97%94%ED%84%B0%ED%85%8C%EC%9D%B8%EB%A8%BC%ED%8A%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C/Radiant_Entertainment_System_Bulldog.webp",
+        tier: "ultra",
+        type: "bulldog",
+        price: 2975,
+        episode: 6.08
+    },
+    {
+        name: "레디언트 엔터테인먼트 시스템 고스트",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EB%A0%88%EB%94%94%EC%96%B8%ED%8A%B8%20%EC%97%94%ED%84%B0%ED%85%8C%EC%9D%B8%EB%A8%BC%ED%8A%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C/Radiant_Entertainment_System_Ghost.webp",
+        tier: "ultra",
+        type: "ghost",
+        price: 2975,
+        episode: 6.08
+    },
+    {
+        name: "레디언트 엔터테인먼트 시스템 오퍼레이터",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EB%A0%88%EB%94%94%EC%96%B8%ED%8A%B8%20%EC%97%94%ED%84%B0%ED%85%8C%EC%9D%B8%EB%A8%BC%ED%8A%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C/Radiant_Entertainment_System_Operator.webp",
+        tier: "ultra",
+        type: "operator",
+        price: 2975,
+        episode: 6.08
+    },
+    {
+        name: "레디언트 엔터테인먼트 시스템 팬텀",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EB%A0%88%EB%94%94%EC%96%B8%ED%8A%B8%20%EC%97%94%ED%84%B0%ED%85%8C%EC%9D%B8%EB%A8%BC%ED%8A%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C/Radiant_Entertainment_System_Phantom.webp",
+        tier: "ultra",
+        type: "phantom",
+        price: 2975,
+        episode: 6.08
+    },
+    {
+        name: "파워 피스트",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EB%A0%88%EB%94%94%EC%96%B8%ED%8A%B8%20%EC%97%94%ED%84%B0%ED%85%8C%EC%9D%B8%EB%A8%BC%ED%8A%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C/Power_Fist.webp",
+        tier: "exclusive",
+        type: "knife",
+        price: 5950,
+        episode: 6.08
+    },
 ];
 
 document.addEventListener("DOMContentLoaded", function () {
