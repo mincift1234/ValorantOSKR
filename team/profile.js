@@ -1,12 +1,10 @@
 const { createClient } = window.supabase; // Supabase 라이브러리에서 createClient 가져옴
 
 const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 페이지 로드 시, 로그인한 사용자와 프로필 정보를 확인하여 파티 찾기 페이지로 이동하도록 설정
 document.addEventListener("DOMContentLoaded", async () => {
     const { data: user, error: authError } = await supabase.auth.getUser();
     
