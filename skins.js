@@ -2529,7 +2529,7 @@ const skins = [
     },
     {
         name: "프로토콜 781-A 셰리프",
-        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Sheriff.webp",
         tier: "Ultra",
         type: "sheriff",
         price: 2475,
@@ -2537,7 +2537,7 @@ const skins = [
     },
     {
         name: "프로토콜 781-A 스펙터",
-        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Spectre.webp",
         tier: "Ultra",
         type: "spectre",
         price: 2475,
@@ -2545,7 +2545,7 @@ const skins = [
     },
     {
         name: "프로토콜 781-A 불독",
-        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Bulldog.webp",
         tier: "Ultra",
         type: "bulldog",
         price: 2475,
@@ -2553,7 +2553,7 @@ const skins = [
     },
     {
         name: "프로토콜 781-A 팬텀",
-        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Phantom.webp",
         tier: "Ultra",
         type: "phantom",
         price: 2475,
@@ -2561,7 +2561,7 @@ const skins = [
     },
     {
         name: "관리자용 개인 근접 무기 유닛",
-        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Waveform.webp",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Personal_Administrative_Melee_Unit.webp",
         tier: "exclusive",
         type: "knife",
         price: 4950,
