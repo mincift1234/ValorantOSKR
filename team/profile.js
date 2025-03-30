@@ -13,6 +13,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    // user.id 값 확인
+    if (!user.id) {
+        console.error("사용자의 ID가 없습니다.");
+        return;
+    }
+
     // 이미 등록된 프로필이 있는지 확인
     const { data: profileData, error: profileError } = await supabase
         .from("profiles")
@@ -26,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 이미 등록된 프로필이 있을 경우 파티 찾기 페이지로 이동
     if (profileData) {
-        window.location.href = "./find-teammates.html"; // 파티 찾기 페이지로 자동 이동
+        window.location.href = "find-teammates.html"; // 파티 찾기 페이지로 자동 이동
     }
 
     // 프로필 등록 이벤트 리스너
@@ -41,13 +47,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         const activityTime = document.getElementById("activity-time").value;
         const teamRequirements = document.getElementById("team-requirements").value;
 
-        // 로그인한 사용자의 ID를 가져와서 프로필에 추가
         const userId = user.id;
 
         // 유저 프로필을 데이터베이스에 저장
         const { data, error } = await supabase.from("profiles").upsert([
             {
-                user_id: userId,  // 로그인한 사용자 ID 추가
+                user_id: userId,  // user_id 필드에 로그인한 사용자의 user.id 값을 추가
                 nickname,
                 rank,
                 position,
@@ -62,7 +67,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("프로필 등록 실패:", error);
         } else {
             alert("프로필이 등록되었습니다.");
-            window.location.href = "./find-teammates.html"; // 등록 후 파티 찾기 페이지로 이동
+            window.location.href = "find-teammates.html"; // 등록 후 파티 찾기 페이지로 이동
         }
     });
 });
