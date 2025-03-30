@@ -18,51 +18,6 @@ const tierImages = {
     ultra: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/Ultra-edition-icon.png"
 };
 
-// 로그인 및 세션 처리 코드
-document.addEventListener("DOMContentLoaded", () => {
-    const loginForm = document.getElementById("login-form");
-
-    loginForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        // 로그인 요청
-        const { user, error } = await supabase.auth.signInWithPassword({
-            email,
-            password
-        });
-
-        if (error) {
-            console.error("로그인 실패:", error);
-            alert("로그인 실패");
-            return;
-        }
-
-        // 로그인 성공 후 세션 정보 저장
-        const session = supabase.auth.session();
-        if (session) {
-            localStorage.setItem("user_session", JSON.stringify(session)); // 세션 정보를 localStorage에 저장
-            window.location.href = "index.html"; // 로그인 후 index.html로 이동
-        }
-    });
-
-    // 페이지 로드 시 세션 확인
-    const session = localStorage.getItem("user_session");
-
-    if (session) {
-        const userSession = JSON.parse(session);
-        const user = userSession.user;
-
-        // 로그인된 사용자 정보 처리
-        console.log("로그인 상태로 페이지 접근:", user);
-    } else {
-        // 로그인되지 않은 상태일 경우 로그인 페이지로 리디렉션
-        window.location.href = "login.html";
-    }
-});
-
 let filteredSkins = []; // 🔥 필터링된 데이터를 저장하는 전역 변수
 let skinsPerPage = 25; // 한 페이지당 표시할 스킨 개수
 let currentPage = 1; // 현재 페이지
@@ -929,5 +884,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function goToProfilePage() {
-    window.location.href = "team/profile.html"; // 등록 페이지로 이동
-}
+        window.location.href = "team/profile.html";  // 등록 페이지로 이동
+    }
