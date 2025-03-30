@@ -2,3 +2,7 @@
   from = "/api/verify-email"
   to = "/login/verify-email.html"
   status = 200
+
+[build]
+  functions = "netlify/functions"  # Netlify Functions 디렉토리 경로 설정
+  publish = ""  # 루트 디렉토리에서 정적 파일을 직접 배포
