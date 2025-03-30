@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 이미 등록된 프로필이 있을 경우 파티 찾기 페이지로 이동
     if (profileData) {
-        window.location.href = "find-teammates.html"; // 파티 찾기 페이지로 자동 이동
+        window.location.href = "/find-teammates.html"; // 파티 찾기 페이지로 자동 이동
     }
 
     // 프로필 등록 이벤트 리스너
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("프로필 등록 실패:", error);
         } else {
             alert("프로필이 등록되었습니다.");
-            window.location.href = "team/find-teammates.html"; // 등록 후 파티 찾기 페이지로 이동
+            window.location.href = "/find-teammates.html"; // 등록 후 파티 찾기 페이지로 이동
         }
     });
 });
