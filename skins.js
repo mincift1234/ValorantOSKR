@@ -2529,43 +2529,83 @@ const skins = [
     },
     {
         name: "프로토콜 781-A 셰리프",
-        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Sheriff.webp",
-        tier: "ultra",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        tier: "Ultra",
         type: "sheriff",
         price: 2475,
         episode: 4.0
     },
     {
         name: "프로토콜 781-A 스펙터",
-        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Spectre.webp",
-        tier: "ultra",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        tier: "Ultra",
         type: "spectre",
         price: 2475,
         episode: 4.0
     },
     {
         name: "프로토콜 781-A 불독",
-        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Bulldog.webp",
-        tier: "ultra",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        tier: "Ultra",
         type: "bulldog",
         price: 2475,
         episode: 4.0
     },
     {
         name: "프로토콜 781-A 팬텀",
-        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Protocol_781-A_Phantom.webp",
-        tier: "ultra",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        tier: "Ultra",
         type: "phantom",
         price: 2475,
         episode: 4.0
     },
     {
         name: "관리자용 개인 근접 무기 유닛",
-        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%20781-A/Personal_Administrative_Melee_Unit.webp",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Waveform.webp",
         tier: "exclusive",
         type: "knife",
         price: 4950,
         episode: 4.0
+    },
+    {
+        name: "에보리 꿈날개 고스트",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%90%EB%B3%B4%EB%A6%AC%20%EA%BF%88%EB%82%A0%EA%B0%9C/Evori_Dreamwings_Ghost.webp",
+        tier: "ultra",
+        type: "ghost",
+        price: 2475,
+        episode: 9.0
+    },
+    {
+        name: "에보리 꿈날개 오딘",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%90%EB%B3%B4%EB%A6%AC%20%EA%BF%88%EB%82%A0%EA%B0%9C/Evori_Dreamwings_Odin.webp",
+        tier: "ultra",
+        type: "odin",
+        price: 2475,
+        episode: 9.0
+    },
+    {
+        name: "에보리 꿈날개 스펙터",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%90%EB%B3%B4%EB%A6%AC%20%EA%BF%88%EB%82%A0%EA%B0%9C/Evori_Dreamwings_Spectre.webp",
+        tier: "ultra",
+        type: "spectre",
+        price: 2475,
+        episode: 9.0
+    },
+    {
+        name: "에보리 꿈날개 밴달",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%90%EB%B3%B4%EB%A6%AC%20%EA%BF%88%EB%82%A0%EA%B0%9C/Evori_Dreamwings_Vandal.webp",
+        tier: "ultra",
+        type: "vandal",
+        price: 2475,
+        episode: 9.0
+    },
+    {
+        name: "에보리의 마법봉",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%97%90%EB%B3%B4%EB%A6%AC%20%EA%BF%88%EB%82%A0%EA%B0%9C/Evori%2527s_Spellcaster.webp",
+        tier: "exclusive",
+        type: "knife",
+        price: 4950,
+        episode: 9.0
     },
 ];
 
