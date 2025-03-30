@@ -2526,7 +2526,47 @@ const skins = [
         type: "knife",
         price: 5350,
         episode: 3.05
-    }
+    },
+    {
+        name: "프로토콜 781-A 셰리프",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        tier: "Ultra",
+        type: "sheriff",
+        price: 2475,
+        episode: 4.0
+    },
+    {
+        name: "프로토콜 781-A 스펙터",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        tier: "Ultra",
+        type: "spectre",
+        price: 2475,
+        episode: 4.0
+    },
+    {
+        name: "프로토콜 781-A 불독",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        tier: "Ultra",
+        type: "bulldog",
+        price: 2475,
+        episode: 4.0
+    },
+    {
+        name: "프로토콜 781-A 팬텀",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Spectrum_Phantom.webp",
+        tier: "Ultra",
+        type: "phantom",
+        price: 2475,
+        episode: 4.0
+    },
+    {
+        name: "관리자용 개인 근접 무기 유닛",
+        img: "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/%EC%8A%A4%ED%8E%99%ED%8A%B8%EB%9F%BC/Waveform.webp",
+        tier: "exclusive",
+        type: "knife",
+        price: 4950,
+        episode: 4.0
+    },
 ];
 
 document.addEventListener("DOMContentLoaded", function () {
