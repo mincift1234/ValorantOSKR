@@ -65,14 +65,14 @@
       }
     </style>
     <script type="module">
-      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-      // Supabase 설정
-      const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-      const SUPABASE_ANON_KEY =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
-
-      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      fetch("/.netlify/functions/fetchSupabaseData") // Netlify Functions 호출
+        .then((response) => response.json()) // JSON 형태로 응답 처리
+        .then((data) => {
+          console.log(data); // 서버에서 반환된 데이터 출력
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
 
       document.addEventListener("DOMContentLoaded", async () => {
         const loginForm = document.getElementById("loginForm");
@@ -149,7 +149,9 @@
         });
 
         // ✅ [로그인 상태 확인]
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user }
+        } = await supabase.auth.getUser();
 
         if (user) {
           await saveUserToDatabase(user);
@@ -202,7 +204,7 @@
         <p id="errorMessage" class="error"></p>
       </form>
       <div class="auth-link">
-        <p>계정이 없으신가요? <a href="signup.html"></a></p>
+        <p>계정이 없으신가요? <a href="signup.html">회원가입</a></p>
         <button type="button" id="googleSignupButton">Google 계정 로그인</button>
       </div>
     </div>
