@@ -1,10 +1,11 @@
-const { createClient } = window.supabase; // Supabase 라이브러리에서 createClient 가져옴
-
-const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+fetch("/.netlify/functions/fetchSupabaseData") // Netlify Functions 호출
+    .then((response) => response.json()) // JSON 형태로 응답 처리
+    .then((data) => {
+        console.log(data); // 서버에서 반환된 데이터 출력
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+    });
 
 const vpIcon = "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/Valorant_Points.png";
 
