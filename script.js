@@ -882,4 +882,3 @@ document.addEventListener("DOMContentLoaded", () => {
     iconWrapper.appendChild(shareBtn);
     popup.appendChild(iconWrapper);
 });
-
