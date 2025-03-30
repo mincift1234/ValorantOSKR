@@ -882,3 +882,7 @@ document.addEventListener("DOMContentLoaded", () => {
     iconWrapper.appendChild(shareBtn);
     popup.appendChild(iconWrapper);
 });
+
+function goToProfilePage() {
+        window.location.href = "team/profile.html";  // 등록 페이지로 이동
+    }
