@@ -1,4 +1,4 @@
-const CACHE_NAME = "valorant-skin-app-cache-v6";
+const CACHE_NAME = "valorant-skin-app-cache-v7";
 const urlsToCache = [
   "/",
   "/index.html",
@@ -25,14 +25,12 @@ self.addEventListener("fetch", (event) => {
     caches.match(event.request).then((cachedResponse) => {
       // 네트워크 요청을 먼저 시도하고, 성공하면 캐시를 갱신
       const fetchPromise = fetch(event.request).then((networkResponse) => {
-        // 네트워크 응답이 성공적일 경우, 이를 캐시로 저장
         if (networkResponse && networkResponse.status === 200) {
-          // 응답을 클론해서 캐시에 저장
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, networkResponse.clone()); // 캐시 갱신
+            cache.put(event.request, networkResponse.clone()); // clone()을 사용해서 응답 복제
           });
         }
-        return networkResponse; // 원본 응답 반환
+        return networkResponse;
       });
 
       // 캐시가 있으면 이를 반환하고, 없으면 네트워크 요청
