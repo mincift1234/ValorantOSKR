@@ -1,14 +1,31 @@
 const { createClient } = window.supabase; // Supabase 라이브러리에서 createClient 가져옴
 
 const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
+const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// 로그인 후 사용자 데이터 로드 및 초기화
+async function loadUserData() {
+    const {
+        data: { user },
+        error
+    } = await supabase.auth.getUser();
+    if (error || !user) return;
+
+    // 로그인한 사용자의 정보를 localStorage에 저장
+    localStorage.setItem("user", JSON.stringify(user)); // 여기 추가
+
+    userId = user.id;
+
+    // 나머지 코드...
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
     // Supabase로부터 로그인한 사용자 정보 가져오기
     const { data: user, error: authError } = await supabase.auth.getUser();
-    
+
     // 로그인되지 않은 경우
     if (authError || !user) {
         alert("로그인 후 프로필을 등록할 수 있습니다.");
@@ -56,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // 유저 프로필을 데이터베이스에 저장
         const { data, error } = await supabase.from("profiles").upsert([
             {
-                user_id: userId,  // user_id 필드에 로그인한 사용자의 user.id 값을 추가
+                user_id: userId, // user_id 필드에 로그인한 사용자의 user.id 값을 추가
                 nickname,
                 rank,
                 position,
