@@ -6,13 +6,16 @@ const SUPABASE_ANON_KEY =
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-let currentIndex = 0;  // 현재 표시된 카드의 인덱스
+let currentIndex = 0; // 현재 표시된 카드의 인덱스
 
 async function loadTeammates() {
-    const { data: user, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
+    // localStorage에서 사용자 정보 가져오기
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
         alert("로그인 후 팀원 찾기를 사용할 수 있습니다.");
-        return; // 로그인하지 않은 사용자라면 팀원 찾기를 하지 않음
+        window.location.href = "login.html"; // 로그인 페이지로 리디렉션
+        return; // 로그인하지 않은 경우
     }
 
     const rankFilter = document.getElementById("rank-filter").value;
@@ -30,7 +33,7 @@ async function loadTeammates() {
     }
 
     // 자신은 하단 좌측에 고정된 카드로 표시
-    const ownProfile = data.find(profile => profile.user_id === user.id);
+    const ownProfile = data.find((profile) => profile.user_id === user.id);
     if (ownProfile) {
         displayOwnProfile(ownProfile);
     }
@@ -95,9 +98,9 @@ function displayTeammates(teammates) {
 // 슬라이드 이동 함수
 function moveSlide(direction) {
     const slides = document.querySelectorAll(".teammate-card");
-    if (direction === 'next') {
+    if (direction === "next") {
         currentIndex = (currentIndex + 1) % slides.length;
-    } else if (direction === 'prev') {
+    } else if (direction === "prev") {
         currentIndex = (currentIndex - 1 + slides.length) % slides.length;
     }
     updateSlidePosition();
@@ -108,9 +111,9 @@ function updateSlidePosition() {
     const slides = document.querySelectorAll(".teammate-card");
     slides.forEach((slide, index) => {
         if (index === currentIndex) {
-            slide.style.transform = "translateX(0)";  // 보이도록 설정
+            slide.style.transform = "translateX(0)"; // 보이도록 설정
         } else {
-            slide.style.transform = "translateX(100%)";  // 숨김
+            slide.style.transform = "translateX(100%)"; // 숨김
         }
     });
 }
