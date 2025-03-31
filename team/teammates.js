@@ -141,32 +141,6 @@ function displayTeammates(teammates) {
             </div>
         `;
     });
-
-    // 슬라이드 버튼과 카드 위치 초기화
-    updateSlidePosition();
-}
-
-// 슬라이드 이동 함수
-function moveSlide(direction) {
-    const slides = document.querySelectorAll(".teammate-card");
-    if (direction === "next") {
-        currentIndex = (currentIndex + 1) % slides.length;
-    } else if (direction === "prev") {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-    }
-    updateSlidePosition();
-}
-
-// 슬라이드 위치 업데이트
-function updateSlidePosition() {
-    const slides = document.querySelectorAll(".teammate-card");
-    slides.forEach((slide, index) => {
-        if (index === currentIndex) {
-            slide.style.transform = "translateX(0)"; // 보이도록 설정
-        } else {
-            slide.style.transform = "translateX(100%)"; // 숨김
-        }
-    });
 }
 
 // 내 카드 접기/펼치기 기능
