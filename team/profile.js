@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!user) {
         alert("로그인 후 프로필을 등록할 수 있습니다.");
-        window.location.href = "login.html"; // 로그인 페이지로 리디렉션
+        window.location.href = "login/login.html"; // 로그인 페이지로 리디렉션
         return; // 로그인하지 않은 경우
     }
 
