@@ -68,11 +68,15 @@ input[type="checkbox"] {
     gap: 10px;
 }
 
-.collapsed { display: none; }
-
 .teammate-card {
       flex: 0 1 300px;
     }
+
+#my-profile {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 20px; /* 내 카드와 필터 사이에 공간 추가 */
+}
 
 .card,
 .teammate-card {
@@ -120,18 +124,19 @@ button:hover {
 }
 
 #own-profile {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
     background-color: #444;
     color: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    z-index: 10;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    margin-top: 10px;
     width: 100%;
     max-width: 320px;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* 애니메이션 효과 */
+}
+
+#own-profile.collapsed {
+    display: none;
 }
 
 /* 홈 아이콘 링크 스타일 */
