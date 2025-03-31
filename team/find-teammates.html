@@ -9,69 +9,67 @@
         <link rel="stylesheet" href="find-teammates.css" />
     </head>
     <body>
-        <!-- 홈 아이콘 링크 추가 -->
         <a href="/index.html" class="home-link">
             <i class="fas fa-home"></i>
-            <!-- 홈 아이콘 -->
         </a>
 
         <h1>팀원 찾기</h1>
 
+        <div id="filters">
+            <label for="rank-filter">랭크 필터:</label>
+            <select id="rank-filter">
+                <option value="all">전체</option>
+                <option value="브론즈">브론즈</option>
+                <option value="실버">실버</option>
+                <option value="골드">골드</option>
+                <option value="플래티넘">플래티넘</option>
+                <option value="다이아">다이아</option>
+                <option value="초월자">초월자</option>
+                <option value="불멸">불멸</option>
+                <option value="레디언트">레디언트</option>
+            </select>
+
+            <label for="position-filter">포지션 필터:</label>
+            <select id="position-filter">
+                <option value="all">전체</option>
+                <option value="타격대">타격대</option>
+                <option value="감시자">감시자</option>
+                <option value="전력가">전력가</option>
+                <option value="척후대">척후대</option>
+            </select>
+
+            <label for="game-type">게임 종류:</label>
+            <select id="game-type" name="game-type">
+                <option value="all">전체</option>
+                <option value="일반전">일반전</option>
+                <option value="신속플레이">신속플레이</option>
+                <option value="경쟁전">경쟁전</option>
+                <option value="스파이크 돌격">스파이크 돌격</option>
+                <option value="에스컬레이션">에스컬레이션</option>
+                <option value="사용자 게임 설정">사용자 게임 설정</option>
+            </select>
+
+            <label for="activity-time-filter">활동 시간대:</label>
+            <input type="text" id="activity-time-filter" placeholder="예: 18:00 - 22:00" />
+
+            <button onclick="applyFilters()">필터 적용</button>
+        </div>
+
+        <!-- 내 카드 -->
         <div id="my-profile" class="card-container">
             <button onclick="toggleProfile()">내 카드 접기/펼치기</button>
             <div id="own-profile"></div>
-            <!-- 추가된 own-profile 요소 -->
+        </div>
 
-            <!-- 필터 부분 -->
-            <div id="filters">
-                <label for="rank-filter">랭크 필터:</label>
-                <select id="rank-filter">
-                    <option value="all">전체</option>
-                    <option value="브론즈">브론즈</option>
-                    <option value="실버">실버</option>
-                    <option value="골드">골드</option>
-                    <option value="플래티넘">플래티넘</option>
-                    <option value="다이아">다이아</option>
-                    <option value="초월자">초월자</option>
-                    <option value="불멸">불멸</option>
-                    <option value="레디언트">레디언트</option>
-                </select>
-
-                <label for="position-filter">포지션 필터:</label>
-                <select id="position-filter">
-                    <option value="all">전체</option>
-                    <option value="Duelist">타격대</option>
-                    <option value="Sentinel">감시자</option>
-                    <option value="Controller">전력가</option>
-                    <option value="Initiator">척후대</option>
-                </select>
-
-                <label for="game-type">게임 종류:</label>
-                <select id="game-type" name="game-type">
-                    <option value="all">전체</option>
-                    <!-- "전체" 옵션 추가 -->
-                    <option value="일반전">일반전</option>
-                    <option value="신속플레이">신속플레이</option>
-                    <option value="경쟁전">경쟁전</option>
-                    <option value="스파이크 돌격">스파이크 돌격</option>
-                    <option value="에스컬레이션">에스컬레이션</option>
-                    <option value="사용자 게임 설정">사용자 게임 설정</option>
-                </select>
-
-                <label for="activity-time-filter">활동 시간대:</label>
-                <input type="text" id="activity-time-filter" placeholder="예: 18:00 - 22:00" />
-            </div>
-
-            <!-- 팀원 목록 슬라이드 영역 -->
-            <div id="teammates-list-container">
-                <div id="teammates-list" class="card-grid">
-                    <!-- 팀원 카드들이 이곳에 동적으로 들어갑니다 -->
-                </div>
-                <!-- 슬라이드 제어 버튼 -->
+        <!-- 팀원 목록 -->
+        <div id="teammates-list-container">
+            <div id="teammates-list" class="card-grid"></div>
+            <div id="pagination">
                 <button id="prev-slide" onclick="moveSlide('prev')">◀</button>
                 <button id="next-slide" onclick="moveSlide('next')">▶</button>
             </div>
         </div>
+
         <script src="teammates.js"></script>
     </body>
 </html>
