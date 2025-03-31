@@ -26,8 +26,10 @@ self.addEventListener("fetch", (event) => {
       // 네트워크 요청을 먼저 시도하고, 성공하면 캐시를 갱신
       const fetchPromise = fetch(event.request).then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
+          // 네트워크 응답을 캐시에 저장하기 전에 복제
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, networkResponse.clone()); // clone()을 사용해서 응답 복제
+            // networkResponse.clone()을 사용하여 복제본을 캐시
+            cache.put(event.request, networkResponse.clone());
           });
         }
         return networkResponse;
