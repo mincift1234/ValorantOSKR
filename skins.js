@@ -2689,20 +2689,6 @@ const skins = [
     },
 ];
 
-function displaySkins(skins) {
-  const container = document.getElementById("skins-container");
-  container.innerHTML = "";
-  
-  skins.forEach((skin) => {
-    container.innerHTML += `
-      <div class="skin-card">
-        <img src="${skin.img}" alt="${skin.name}" />
-        <p>${skin.name}</p>
-      </div>
-    `;
-  });
-}
-
 document.addEventListener("DOMContentLoaded", function () {
     displaySkins(skins);
 });
