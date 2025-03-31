@@ -10,7 +10,10 @@ let currentIndex = 0; // 현재 표시된 카드의 인덱스
 
 // 사용자 데이터 로드 함수 정의
 async function loadUserData() {
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const {
+        data: { user },
+        error
+    } = await supabase.auth.getUser();
     if (error || !user) return;
 
     // 로그인한 사용자의 정보를 localStorage에 저장
@@ -33,8 +36,7 @@ async function loadTeammates() {
     const rankFilter = document.getElementById("rank-filter").value;
     const positionFilter = document.getElementById("position-filter").value;
     const gameTypeFilter = document.getElementById("game-type").value;
-    const microphoneFilter = document.getElementById("microphone").checked;
-    const activityTimeFilter = document.getElementById("activity-time-filter").value.trim().toLowerCase();
+    const activityTimeFilter = document.getElementById("activity-time-filter").value.trim().toLowerCase(); // 활동 시간대 필터
 
     // Supabase에서 프로필 정보 가져오기
     const { data, error } = await supabase.from("profiles").select("*");
@@ -55,17 +57,16 @@ async function loadTeammates() {
         const matchesRank = rankFilter === "all" || profile.rank === rankFilter;
         const matchesPosition = positionFilter === "all" || profile.position === positionFilter;
         const matchesGameType = gameTypeFilter === "all" || profile.game_type === gameTypeFilter;
-        const matchesMicrophone = !microphoneFilter || profile.microphone === microphoneFilter;
+
+        // 활동 시간대 필터 처리: 필드가 비어있으면 전체 보기
         const matchesTime =
             activityTimeFilter === "" || profile.activity_time.toLowerCase().includes(activityTimeFilter);
 
-        return matchesRank && matchesPosition && matchesGameType && matchesMicrophone && matchesTime;
+        return matchesRank && matchesPosition && matchesGameType && matchesTime;
     });
 
     // 자기 프로필 제외한 팀원들만 표시
-    const teammatesWithoutOwnProfile = filteredTeammates.filter(
-        (teammate) => teammate.user_id !== user.id
-    );
+    const teammatesWithoutOwnProfile = filteredTeammates.filter((teammate) => teammate.user_id !== user.id);
 
     // 필터링된 팀원들 표시
     displayTeammates(teammatesWithoutOwnProfile);
@@ -82,6 +83,9 @@ function displayOwnProfile(profile) {
                 <p><strong>랭크:</strong> ${profile.rank}</p>
                 <p><strong>선호 포지션:</strong> ${profile.position}</p>
                 <p><strong>게임 종류:</strong> ${profile.game_type}</p>
+                <p><strong>마이크:</strong> ${profile.microphone ? "O" : "X"}</p>
+                <p><strong>활동 시간:</strong> ${profile.activity_time}</p>
+                <p><strong>팀원에게 바라는 점:</strong> ${profile.team_requirements || "없음"}</p>
                 <button onclick="contactTeammate('${profile.nickname}')">연락하기</button>
             </div>
         `;
@@ -108,6 +112,9 @@ function displayTeammates(teammates) {
                 <p><strong>랭크:</strong> ${teammate.rank}</p>
                 <p><strong>선호 포지션:</strong> ${teammate.position}</p>
                 <p><strong>게임 종류:</strong> ${teammate.game_type}</p>
+                <p><strong>마이크:</strong> ${teammate.microphone ? "O" : "X"}</p>
+                <p><strong>활동 시간:</strong> ${teammate.activity_time}</p>
+                <p><strong>팀원에게 바라는 점:</strong> ${teammate.team_requirements || "없음"}</p>
                 <button onclick="contactTeammate('${teammate.nickname}')">연락하기</button>
             </div>
         `;
