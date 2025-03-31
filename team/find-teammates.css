@@ -75,7 +75,9 @@ input[type="checkbox"] {
 #my-profile {
     background-color: transparent; /* 배경색 제거 */
     padding: 0; /* 여백 제거 */
-    margin-top: 20px; /* 내 카드가 위쪽으로 떨어지도록 여백 추가 */
+    width: 100%;
+    max-width: 100%;
+    margin-top: 10px; /* 내 카드가 위쪽으로 떨어지도록 여백 추가 */
     padding-bottom: 20px; /* 카드와 필터 사이에 여백 */
 }
 
@@ -126,11 +128,11 @@ button:hover {
 
 #own-profile {
     background-color: transparent; /* 배경색을 투명하게 설정 */
-    padding: 20px;
+    padding: 15px;
     border-radius: 12px;
     box-shadow: none; /* 그림자 제거 */
     margin-top: 10px;
-    width: 100%;
+    width: 280px;
     max-width: 320px;
     transition: all 0.3s ease;
     margin-left: auto;
