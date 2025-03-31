@@ -73,9 +73,8 @@ input[type="checkbox"] {
     }
 
 #my-profile {
-    position: relative;
-    margin-bottom: 20px;
-    padding-bottom: 20px; /* 내 카드와 필터 사이에 공간 추가 */
+    margin-top: 20px; /* 내 카드가 위쪽으로 떨어지도록 여백 추가 */
+    padding-bottom: 20px; /* 카드와 필터 사이에 여백 */
 }
 
 .card,
@@ -132,7 +131,9 @@ button:hover {
     margin-top: 10px;
     width: 100%;
     max-width: 320px;
-    transition: all 0.3s ease; /* 애니메이션 효과 */
+    transition: all 0.3s ease;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #own-profile.collapsed {
