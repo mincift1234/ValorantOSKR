@@ -16,6 +16,7 @@
         <h1>팀원 찾기</h1>
 
         <div id="filters">
+            <!-- 필터 영역 -->
             <label for="rank-filter">랭크 필터:</label>
             <select id="rank-filter">
                 <option value="all">전체</option>
@@ -55,10 +56,10 @@
             <button onclick="applyFilters()">필터 적용</button>
         </div>
 
-        <!-- 내 카드 -->
+        <!-- 내 카드 (필요한 경우만 표시) -->
         <div id="my-profile" class="card-container">
             <button onclick="toggleProfile()">내 카드 접기/펼치기</button>
-            <div id="own-profile"></div>
+            <div id="own-profile"></div> <!-- 이 부분은 내 카드가 있을 때만 표시 -->
         </div>
 
         <!-- 팀원 목록 -->
