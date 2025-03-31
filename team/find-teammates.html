@@ -18,21 +18,22 @@
         <h1>팀원 찾기</h1>
 
         <!-- 자신 프로필을 표시할 영역 -->
-        <div id="own-profile"></div> <!-- 추가된 own-profile 요소 -->
+        <div id="own-profile"></div>
+        <!-- 추가된 own-profile 요소 -->
 
         <!-- 필터 부분 -->
         <div id="filters">
             <label for="rank-filter">랭크 필터:</label>
             <select id="rank-filter">
                 <option value="all">전체</option>
-                <option value="Bronze">브론즈</option>
-                <option value="Silver">실버</option>
-                <option value="Gold">골드</option>
-                <option value="Platinum">플래티넘</option>
-                <option value="Diamond">다이아</option>
-                <option value="Ascendant">초월자</option>
-                <option value="Immortal">불멸</option>
-                <option value="Radiant">레디언트</option>
+                <option value="브론즈">브론즈</option>
+                <option value="실버">실버</option>
+                <option value="골드">골드</option>
+                <option value="플래티넘">플래티넘</option>
+                <option value="다이아">다이아</option>
+                <option value="초월자">초월자</option>
+                <option value="불멸">불멸</option>
+                <option value="레디언트">레디언트</option>
             </select>
 
             <label for="position-filter">포지션 필터:</label>
@@ -44,17 +45,16 @@
                 <option value="Initiator">척후대</option>
             </select>
 
-            <label for="microphone">마이크 여부:</label>
-            <input type="checkbox" id="microphone" name="microphone" />
-
             <label for="game-type">게임 종류:</label>
             <select id="game-type" name="game-type">
-                <option value="unrated">일반전</option>
-                <option value="swiftplay">신속플레이</option>
-                <option value="competitive">경쟁전</option>
-                <option value="spike-rush">스파이크 돌격</option>
-                <option value="escalation">에스컬레이션</option>
-                <option value="costom-game">사용자 게임 설정</option>
+                <option value="all">전체</option>
+                <!-- "전체" 옵션 추가 -->
+                <option value="일반전">일반전</option>
+                <option value="신속플레이">신속플레이</option>
+                <option value="경쟁전">경쟁전</option>
+                <option value="스파이크 돌격">스파이크 돌격</option>
+                <option value="에스컬레이션">에스컬레이션</option>
+                <option value="사용자 게임 설정">사용자 게임 설정</option>
             </select>
 
             <label for="activity-time-filter">활동 시간대:</label>
@@ -67,8 +67,8 @@
                 <!-- 팀원 카드들이 이곳에 동적으로 들어갑니다 -->
             </div>
             <!-- 슬라이드 제어 버튼 -->
-            <button id="prev-slide" onclick="moveSlide('prev')">◀ </button>
-            <button id="next-slide" onclick="moveSlide('next')"> ▶</button>
+            <button id="prev-slide" onclick="moveSlide('prev')">◀</button>
+            <button id="next-slide" onclick="moveSlide('next')">▶</button>
         </div>
 
         <script src="teammates.js"></script>
