@@ -69,8 +69,8 @@ input[type="checkbox"] {
 }
 
 .teammate-card {
-      flex: 0 1 300px;
-    }
+    flex: 0 1 300px;
+}
 
 #my-profile {
     background-color: transparent; /* 배경색 제거 */
@@ -158,4 +158,41 @@ button:hover {
 
 .home-link i {
     font-size: 30px; /* 아이콘의 크기를 키우기 위한 추가 스타일 */
+}
+
+/* 모바일 반응형 */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    #filters {
+        width: 100%;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    .card-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .teammate-card,
+    #own-profile {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    button {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    #my-profile {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 10px;
+    }
 }
