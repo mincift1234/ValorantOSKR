@@ -1,10 +1,24 @@
-const { createClient } = window.supabase; // Supabase 라이브러리에서 createClient 가져옴
+// Firebase 초기화 코드
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
-const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
-const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydndpaHZob3VjdHV2cnVsenRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3NDM4MjQsImV4cCI6MjA1ODMxOTgyNH0.EwPF04rcpdxShyFtcwFzxo4QIe7uwmGPCvPYZTgPDJw";
+// Firebase 설정 정보
+const firebaseConfig = {
+  apiKey: "AIzaSyAVGwxuQn7eNr32TvuVNkk3JLXDZwfbqho",
+  authDomain: "todaydp1.firebaseapp.com",
+  projectId: "todaydp1",
+  storageBucket: "todaydp1.firebasestorage.app",
+  messagingSenderId: "432700991760",
+  appId: "1:432700991760:web:aec39bf1e714323e601d95",
+  measurementId: "G-H1R9J49446"
+};
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Firebase 초기화
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+// Firebase 인증, Firestore 등 필요한 다른 서비스 사용
+
 
 const vpIcon = "https://raw.githubusercontent.com/mincift1234/valorantospng/refs/heads/main/images/Valorant_Points.png";
 
@@ -175,72 +189,93 @@ document.addEventListener("DOMContentLoaded", () => {
     updateFilteredData(); // 첫 번째 페이지의 데이터만 표시
 });
 
+// Firebase 인증 및 Firestore 초기화
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let user = null;
+let userDataId = null;
 let favorites = new Set();
 let shopCounters = {};
 let shopHistory = [];
 
-let userId = null; // 로그인된 사용자 ID
-let userDataId = null; // user_data 테이블의 id (uuid)
+document.addEventListener("DOMContentLoaded", () => {
+    auth.onAuthStateChanged(async (firebaseUser) => {
+        if (firebaseUser) {
+            user = firebaseUser;
+            await loadUserData();
+            updateAuthUI(true);
+        } else {
+            user = null;
+            updateAuthUI(false);
+        }
+        applyFilters();
+    });
+});
+
+function updateAuthUI(isLoggedIn) {
+    document.getElementById("login-container").classList.toggle("hidden", isLoggedIn);
+    document.getElementById("user-container").classList.toggle("hidden", !isLoggedIn);
+    if (isLoggedIn) {
+        document.getElementById("user-avatar").src = user.photoURL || "/images/default-avatar.png";
+    }
+}
+
+// 로그인 버튼 연결 (index.html에서 a태그 대신 JS 호출하도록 수정 필요)
+async function signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await auth.signInWithPopup(provider);
+}
+
+async function signOut() {
+    await auth.signOut();
+    alert("로그아웃 되었습니다.");
+}
 
 // ✅ 로그인 후 사용자 데이터 로드 및 초기화
 async function loadUserData() {
-    const {
-        data: { user },
-        error
-    } = await supabase.auth.getUser();
-    if (error || !user) return;
+    const docRef = db.collection("user_data").doc(user.uid);
+    const doc = await docRef.get();
 
-    userId = user.id;
-
-    const { data, error: fetchError } = await supabase.from("user_data").select("*").eq("user_id", userId).single();
-
-    if (fetchError && fetchError.code === "PGRST116") {
-        // ❗ 데이터가 없으면 새로 생성
-        const { data: newData, error: insertError } = await supabase
-            .from("user_data")
-            .insert([{ user_id: userId, favorites: [], shop_counters: {}, shop_history: [] }])
-            .select()
-            .single();
-
-        if (!insertError) {
-            userDataId = newData.id;
-            favorites = new Set();
-            shopCounters = {};
-            shopHistory = [];
-        }
-    } else if (!fetchError) {
-        userDataId = data.id;
+    if (!doc.exists) {
+        await docRef.set({
+            favorites: [],
+            shop_counters: {},
+            shop_history: []
+        });
+        favorites = new Set();
+        shopCounters = {};
+        shopHistory = [];
+    } else {
+        const data = doc.data();
         favorites = new Set(data.favorites || []);
         shopCounters = data.shop_counters || {};
         shopHistory = data.shop_history || [];
 
-        // 날짜 포맷 복원
+        // 날짜 복원
         Object.values(shopCounters).forEach((counter) => {
-            if (counter.startDate) {
-                counter.startDate = new Date(counter.startDate);
-            }
+            if (counter.startDate) counter.startDate = new Date(counter.startDate);
         });
-        shopHistory.forEach((record) => {
-            record.startDate = new Date(record.startDate);
-            record.endDate = new Date(record.endDate);
+        shopHistory.forEach((item) => {
+            item.startDate = new Date(item.startDate);
+            item.endDate = new Date(item.endDate);
         });
     }
 
-    applyFilters(); // 필터 적용
-    fillFavoritesList(); // 즐겨찾기 목록 채우기
+    fillFavoritesList();
 }
 
 // ✅ Supabase에 변경된 user_data 저장
 async function saveUserData() {
-    if (!userDataId) return;
-    await supabase
-        .from("user_data")
+    if (!user) return;
+    await db
+        .collection("user_data")
+        .doc(user.uid)
         .update({
             favorites: Array.from(favorites),
             shop_counters: shopCounters,
             shop_history: shopHistory
-        })
-        .eq("id", userDataId);
+        });
 }
 
 // ✅ 즐겨찾기 토글
@@ -255,13 +290,13 @@ function toggleFavorite() {
         document.getElementById("favorite-btn").textContent = "즐겨찾기 취소";
     }
 
-    saveUserData(); // Supabase에 저장
+    saveUserData();
 }
 
 // ✅ 날짜 세기 시작 / 종료
 function toggleShopCounting() {
     const skinName = document.getElementById("popup-title").textContent;
-    const counter = getShopCounter(skinName);
+    const counter = shopCounters[skinName] || { isCounting: false };
 
     if (!counter.isCounting) {
         const now = new Date();
@@ -271,7 +306,9 @@ function toggleShopCounting() {
 
         counter.isCounting = true;
         counter.startDate = startDate;
-        alert(`"${skinName}" 날짜 세기를 시작합니다 (D+1).`);
+        shopCounters[skinName] = counter;
+
+        alert(`"${skinName}" 날짜 세기를 시작합니다.`);
         document.getElementById("shop-counter-btn").textContent = "날짜 세기 중...";
     } else {
         stopShopCounting(skinName);
@@ -281,27 +318,22 @@ function toggleShopCounting() {
 }
 
 function stopShopCounting(skinName) {
-    const counter = getShopCounter(skinName);
-    if (!counter.isCounting) return;
+    const counter = shopCounters[skinName];
+    if (!counter || !counter.isCounting) return;
 
+    const endDate = new Date();
     const startDate = new Date(counter.startDate);
-    startDate.setHours(9, 0, 0, 0);
-    const now = new Date();
-    const today9AM = new Date(now);
-    today9AM.setHours(9, 0, 0, 0);
-    if (now < today9AM) today9AM.setDate(today9AM.getDate() - 1);
 
-    const days = Math.floor((today9AM - startDate) / 86400000) + 1;
+    shopHistory.push({
+        skin: skinName,
+        startDate,
+        endDate
+    });
 
-    shopHistory.push({ skinName, startDate, endDate: now, days });
+    delete shopCounters[skinName];
 
-    counter.isCounting = false;
-    counter.startDate = null;
-
-    alert(`"${skinName}" 날짜 세기를 종료합니다.\n총 ${days}일 소요!`);
+    alert(`"${skinName}" 날짜 세기를 종료했습니다.`);
     document.getElementById("shop-counter-btn").textContent = "날짜 세기";
-
-    fillShopHistory(); // UI 갱신
     saveUserData();
 }
 
@@ -884,5 +916,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function goToProfilePage() {
-        window.location.href = "team/profile.html";  // 등록 페이지로 이동
-    }
+    window.location.href = "team/profile.html"; // 등록 페이지로 이동
+}
