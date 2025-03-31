@@ -169,4 +169,21 @@ function updateSlidePosition() {
     });
 }
 
+// 내 카드 접기/펼치기 기능
+function toggleProfile() {
+    const profile = document.getElementById("own-profile");
+    profile.classList.toggle("collapsed");
+
+    // 접힘 상태에 따라 버튼 텍스트 변경
+    const toggleButton = document.querySelector("#my-profile button");
+    if (profile.classList.contains("collapsed")) {
+        toggleButton.innerHTML = "내 카드 펼치기"; // 접었을 때 텍스트
+    } else {
+        toggleButton.innerHTML = "내 카드 접기"; // 펼쳤을 때 텍스트
+    }
+}
+
+// 내 카드가 접히거나 펼쳐질 때의 효과
+document.querySelector("#own-profile").classList.add("collapsed");
+
 document.addEventListener("DOMContentLoaded", loadTeammates);
