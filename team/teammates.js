@@ -9,12 +9,13 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let currentIndex = 0; // 현재 표시된 카드의 인덱스
 
 async function loadTeammates() {
+    await loadUserData();
     // localStorage에서 사용자 정보 가져오기
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
         alert("로그인 후 팀원 찾기를 사용할 수 있습니다.");
-        window.location.href = "login.html"; // 로그인 페이지로 리디렉션
+        window.location.href = "./login.html"; // 로그인 페이지로 리디렉션
         return; // 로그인하지 않은 경우
     }
 
