@@ -110,37 +110,29 @@ input[type="checkbox"] {
 button {
     background-color: #ff4655;
     color: white;
-    padding: 12px 20px;
+    padding: 8px 12px; /* 버튼 크기 조정 */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px; /* 폰트 크기 조정 */
     transition: background-color 0.3s ease;
-    width: 100%;
-    margin-top: 15px;
 }
 
 button:hover {
-    background-color: #e03b4f; /* 버튼 호버 색상 */
+    background-color: #e03b4f;
 }
 
 /* 슬라이드 버튼 위치 */
 #prev-slide,
 #next-slide {
-    background-color: #ff4655;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    padding: 8px 12px; /* 슬라이드 버튼 크기 조정 */
+    font-size: 14px;
     margin: 10px;
 }
 
 #prev-slide:hover,
 #next-slide:hover {
-    background-color: #e03b4f; /* 버튼 호버 색상 */
+    background-color: #e03b4f;
 }
 
 #own-profile {
@@ -149,13 +141,13 @@ button:hover {
     left: 20px;
     background-color: #444;
     color: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 10;
     width: 100%;
     max-width: 320px;
-    margin-top: 20px;
+    transition: all 0.3s ease;
 }
 
 /* 홈 아이콘 링크 스타일 */
