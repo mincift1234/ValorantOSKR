@@ -8,8 +8,19 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentIndex = 0; // 현재 표시된 카드의 인덱스
 
+// 사용자 데이터 로드 함수 정의
+async function loadUserData() {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error || !user) return;
+
+    // 로그인한 사용자의 정보를 localStorage에 저장
+    localStorage.setItem("user", JSON.stringify(user)); // 여기 추가
+}
+
+// 팀원 목록 로드 함수
 async function loadTeammates() {
-    await loadUserData();
+    await loadUserData(); // loadUserData 함수 호출하여 사용자 데이터 로드
+
     // localStorage에서 사용자 정보 가져오기
     const user = JSON.parse(localStorage.getItem("user"));
 
