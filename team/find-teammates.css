@@ -1,3 +1,17 @@
+@font-face {
+    font-family: "DaeguCatholicUniversity";
+    src: url("fonts/DaeguCatholicUniversity.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+select,
+option,
+input,
+button {
+    font-family: "DaeguCatholicUniversity", sans-serif;
+}
+
 /* 팀원 찾기 페이지 스타일 */
 body {
     font-family: "Arial", sans-serif;
