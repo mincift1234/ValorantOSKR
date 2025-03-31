@@ -19,7 +19,7 @@ async function loadUserData() {
 
 // 팀원 목록 로드 함수
 async function loadTeammates() {
-    await loadUserData(); // loadUserData 함수 호출하여 사용자 데이터 로드
+    await loadUserData(); // 사용자 데이터 로드
 
     // localStorage에서 사용자 정보 가져오기
     const user = JSON.parse(localStorage.getItem("user"));
@@ -47,7 +47,7 @@ async function loadTeammates() {
     // 자신은 하단 좌측에 고정된 카드로 표시
     const ownProfile = data.find((profile) => profile.user_id === user.id);
     if (ownProfile) {
-        displayOwnProfile(ownProfile);
+        displayOwnProfile(ownProfile); // 자기 프로필을 표시
     }
 
     // 필터링된 팀원 목록 생성
@@ -62,22 +62,32 @@ async function loadTeammates() {
         return matchesRank && matchesPosition && matchesGameType && matchesMicrophone && matchesTime;
     });
 
+    // 자기 프로필 제외한 팀원들만 표시
+    const teammatesWithoutOwnProfile = filteredTeammates.filter(
+        (teammate) => teammate.user_id !== user.id
+    );
+
     // 필터링된 팀원들 표시
-    displayTeammates(filteredTeammates);
+    displayTeammates(teammatesWithoutOwnProfile);
 }
 
 // 자신 프로필 카드 표시
 function displayOwnProfile(profile) {
     const profileContainer = document.getElementById("own-profile");
-    profileContainer.innerHTML = `
-        <div class="teammate-card">
-            <p><strong>닉네임:</strong> ${profile.nickname}</p>
-            <p><strong>랭크:</strong> ${profile.rank}</p>
-            <p><strong>선호 포지션:</strong> ${profile.position}</p>
-            <p><strong>게임 종류:</strong> ${profile.game_type}</p>
-            <button onclick="contactTeammate('${profile.nickname}')">연락하기</button>
-        </div>
-    `;
+
+    if (profileContainer) {
+        profileContainer.innerHTML = `
+            <div class="teammate-card">
+                <p><strong>닉네임:</strong> ${profile.nickname}</p>
+                <p><strong>랭크:</strong> ${profile.rank}</p>
+                <p><strong>선호 포지션:</strong> ${profile.position}</p>
+                <p><strong>게임 종류:</strong> ${profile.game_type}</p>
+                <button onclick="contactTeammate('${profile.nickname}')">연락하기</button>
+            </div>
+        `;
+    } else {
+        console.error("own-profile 요소가 존재하지 않습니다.");
+    }
 }
 
 // 다른 사용자들 프로필 카드 표시
