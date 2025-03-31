@@ -62,11 +62,17 @@ input[type="checkbox"] {
 }
 
 .card-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2x2 그리드 */
-    gap: 20px;
-    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
 }
+
+.collapsed { display: none; }
+
+.teammate-card {
+      flex: 0 1 300px;
+    }
 
 .card,
 .teammate-card {
