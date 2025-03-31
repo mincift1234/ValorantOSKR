@@ -20,25 +20,21 @@ async function loadUserData() {
     localStorage.setItem("user", JSON.stringify(user)); // 여기 추가
 }
 
+let currentPage = 1;
+const cardsPerPage = 4;
+let allTeammates = []; // 모든 팀원 데이터를 저장
+
 // 팀원 목록 로드 함수
 async function loadTeammates() {
     await loadUserData(); // 사용자 데이터 로드
 
-    // localStorage에서 사용자 정보 가져오기
     const user = JSON.parse(localStorage.getItem("user"));
-
     if (!user) {
         alert("로그인 후 팀원 찾기를 사용할 수 있습니다.");
-        window.location.href = "./login.html"; // 로그인 페이지로 리디렉션
-        return; // 로그인하지 않은 경우
+        window.location.href = "./login.html";
+        return;
     }
 
-    const rankFilter = document.getElementById("rank-filter").value;
-    const positionFilter = document.getElementById("position-filter").value;
-    const gameTypeFilter = document.getElementById("game-type").value;
-    const activityTimeFilter = document.getElementById("activity-time-filter").value.trim().toLowerCase(); // 활동 시간대 필터
-
-    // Supabase에서 프로필 정보 가져오기
     const { data, error } = await supabase.from("profiles").select("*");
 
     if (error) {
@@ -46,30 +42,28 @@ async function loadTeammates() {
         return;
     }
 
-    // 자신은 하단 좌측에 고정된 카드로 표시
-    const ownProfile = data.find((profile) => profile.user_id === user.id);
-    if (ownProfile) {
-        displayOwnProfile(ownProfile); // 자기 프로필을 표시
-    }
+    allTeammates = data;
 
-    // 필터링된 팀원 목록 생성
-    const filteredTeammates = data.filter((profile) => {
+    const filteredTeammates = applyFilters(data); // 필터 적용된 팀원들
+
+    displayTeammates(filteredTeammates); // 첫 페이지 표시
+}
+
+function applyFilters(data) {
+    const rankFilter = document.getElementById("rank-filter").value;
+    const positionFilter = document.getElementById("position-filter").value;
+    const gameTypeFilter = document.getElementById("game-type").value;
+    const activityTimeFilter = document.getElementById("activity-time-filter").value.trim().toLowerCase();
+
+    return data.filter((profile) => {
         const matchesRank = rankFilter === "all" || profile.rank === rankFilter;
         const matchesPosition = positionFilter === "all" || profile.position === positionFilter;
         const matchesGameType = gameTypeFilter === "all" || profile.game_type === gameTypeFilter;
-
-        // 활동 시간대 필터 처리: 필드가 비어있으면 전체 보기
         const matchesTime =
             activityTimeFilter === "" || profile.activity_time.toLowerCase().includes(activityTimeFilter);
 
         return matchesRank && matchesPosition && matchesGameType && matchesTime;
     });
-
-    // 자기 프로필 제외한 팀원들만 표시
-    const teammatesWithoutOwnProfile = filteredTeammates.filter((teammate) => teammate.user_id !== user.id);
-
-    // 필터링된 팀원들 표시 (최대 4개 카드)
-    displayTeammates(teammatesWithoutOwnProfile);
 }
 
 // 팀원 카드 표시
