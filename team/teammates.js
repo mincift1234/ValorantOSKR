@@ -68,26 +68,54 @@ async function loadTeammates() {
     // 자기 프로필 제외한 팀원들만 표시
     const teammatesWithoutOwnProfile = filteredTeammates.filter((teammate) => teammate.user_id !== user.id);
 
-    // 필터링된 팀원들 표시
+    // 필터링된 팀원들 표시 (최대 4개 카드)
     displayTeammates(teammatesWithoutOwnProfile);
 }
 
-// 자신 프로필 카드 표시
+// 팀원 카드 표시
+function displayTeammates(teammates) {
+    const teammatesList = document.getElementById("teammates-list");
+    teammatesList.innerHTML = ""; // 기존 내용 초기화
+
+    if (teammates.length === 0) {
+        teammatesList.innerHTML = "<p>검색된 팀원이 없습니다.</p>";
+        return;
+    }
+
+    // 4개 카드까지만 표시
+    const teammatesToDisplay = teammates.slice(0, 4);
+
+    // 각 팀원 카드 동적으로 추가
+    teammatesToDisplay.forEach((teammate) => {
+        const card = document.createElement("div");
+        card.classList.add("teammate-card");
+
+        card.innerHTML = `
+            <p><strong>닉네임:</strong> ${teammate.nickname}</p>
+            <p><strong>랭크:</strong> ${teammate.rank}</p>
+            <p><strong>선호 포지션:</strong> ${teammate.position}</p>
+            <p><strong>게임 종류:</strong> ${teammate.game_type}</p>
+            <button>연락하기</button>
+        `;
+
+        teammatesList.appendChild(card);
+    });
+}
+
+// 내 프로필 카드 표시
 function displayOwnProfile(profile) {
     const profileContainer = document.getElementById("own-profile");
 
     if (profileContainer) {
         profileContainer.innerHTML = `
-            <div class="teammate-card">
-                <p><strong>닉네임:</strong> ${profile.nickname}</p>
-                <p><strong>랭크:</strong> ${profile.rank}</p>
-                <p><strong>선호 포지션:</strong> ${profile.position}</p>
-                <p><strong>게임 종류:</strong> ${profile.game_type}</p>
-                <p><strong>마이크:</strong> ${profile.microphone ? "O" : "X"}</p>
-                <p><strong>활동 시간:</strong> ${profile.activity_time}</p>
-                <p><strong>팀원에게 바라는 점:</strong> ${profile.team_requirements || "없음"}</p>
-                <button onclick="contactTeammate('${profile.nickname}')">연락하기</button>
-            </div>
+            <p><strong>닉네임:</strong> ${profile.nickname}</p>
+            <p><strong>랭크:</strong> ${profile.rank}</p>
+            <p><strong>선호 포지션:</strong> ${profile.position}</p>
+            <p><strong>게임 종류:</strong> ${profile.game_type}</p>
+            <p><strong>마이크:</strong> ${profile.microphone ? "있음 🎤" : "없음 ❌"}</p>
+            <p><strong>활동 시간:</strong> ${profile.activity_time}</p>
+            <p><strong>팀원에게 바라는 점:</strong> ${profile.team_requirements || "없음"}</p>
+            <button>연락하기</button>
         `;
     } else {
         console.error("own-profile 요소가 존재하지 않습니다.");
