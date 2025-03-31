@@ -77,34 +77,51 @@ input[type="checkbox"] {
     margin-top: 20px;
 }
 
-.card {
-    padding: 15px;
-    background-color: #444;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+.card,
+.teammate-card {
+    background-color: #333; /* 어두운 배경 */
+    color: white;
+    padding: 20px;
+    border-radius: 12px; /* 더 둥근 모서리 */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* 더 부드럽고 강한 그림자 */
     text-align: left;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 300px; /* 카드 크기 제한 */
+    margin: 0 auto;
+    overflow: hidden;
 }
 
-/* 다른 카드와 동일한 스타일 */
-.teammate-card {
-    background-color: #444;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    text-align: left;
+/* 카드 hover 효과 */
+.card:hover,
+.teammate-card:hover {
+    transform: translateY(-10px); /* 카드 위로 살짝 이동 */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); /* 그림자 강하게 */
+}
+
+/* 카드 내용 */
+.card p,
+.teammate-card p {
+    margin-bottom: 10px; /* 각 항목 간 간격 */
 }
 
 button {
     background-color: #ff4655;
     color: white;
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 15px;
 }
 
 button:hover {
-    background-color: #e03b4f;
+    background-color: #e03b4f; /* 버튼 호버 색상 */
 }
 
 /* 슬라이드 버튼 위치 */
@@ -112,16 +129,33 @@ button:hover {
 #next-slide {
     background-color: #ff4655;
     color: white;
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
     margin: 10px;
 }
 
 #prev-slide:hover,
 #next-slide:hover {
-    background-color: #e03b4f;
+    background-color: #e03b4f; /* 버튼 호버 색상 */
+}
+
+#own-profile {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #444;
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+    width: 100%;
+    max-width: 320px;
+    margin-top: 20px;
 }
 
 /* 홈 아이콘 링크 스타일 */
