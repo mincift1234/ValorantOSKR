@@ -49,11 +49,13 @@ function applyFilters(data, userId) {
 
     return data.filter((profile) => {
         if (profile.user_id === userId) return false;
+
         const matchesRank = rankFilter === "all" || profile.rank === rankFilter;
         const matchesPosition = positionFilter === "all" || profile.position === positionFilter;
         const matchesGameType = gameTypeFilter === "all" || profile.game_type === gameTypeFilter;
         const matchesTime =
             activityTimeFilter === "" || profile.activity_time.toLowerCase().includes(activityTimeFilter);
+
         return matchesRank && matchesPosition && matchesGameType && matchesTime;
     });
 }
@@ -117,3 +119,14 @@ function applyFiltersAndDisplay() {
 }
 
 document.addEventListener("DOMContentLoaded", loadTeammates);
+
+function applyFiltersAndDisplay() {
+    if (!allTeammates || !Array.isArray(allTeammates)) {
+        console.error("allTeammates가 아직 로드되지 않았습니다.");
+        return;
+    }
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const filtered = applyFilters(allTeammates, user?.id || "");
+    displayTeammates(filtered);
+}
