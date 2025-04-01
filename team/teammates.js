@@ -110,7 +110,7 @@ function toggleProfile() {
     }
 }
 
-function applyFilters() {
+function applyFiltersAndDisplay() {
     const user = JSON.parse(localStorage.getItem("user"));
     const filtered = applyFilters(allTeammates, user?.id || "");
     displayTeammates(filtered);
