@@ -1,4 +1,4 @@
-const { createClient } = window.supabase;
+const { createClient } = window.supabase; // Supabase 라이브러리에서 createClient 가져옴
 
 const SUPABASE_URL = "https://frvwihvhouctuvrulzte.supabase.co";
 const SUPABASE_ANON_KEY =
@@ -110,12 +110,6 @@ function toggleProfile() {
         profile.classList.add("collapsed");
         btn.textContent = "내 카드 펼치기";
     }
-}
-
-function applyFiltersAndDisplay() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const filtered = applyFilters(allTeammates, user?.id || "");
-    displayTeammates(filtered);
 }
 
 document.addEventListener("DOMContentLoaded", loadTeammates);
